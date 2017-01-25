@@ -18,8 +18,14 @@ namespace CaesHelp
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            if (env.IsDevelopment())
+            {
+                builder.AddJsonFile("secrets.json");
+            }
+
+            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -31,11 +37,11 @@ namespace CaesHelp
             // Add framework services.
             services.AddMvc();
 
-            //services.AddRecaptcha(new RecaptchaOptions
-            //{
-            //    SiteKey = Configuration["Recaptcha:SiteKey"],
-            //    SecretKey = Configuration["Recaptcha:SecretKey"]
-            //});
+            services.AddRecaptcha(new RecaptchaOptions
+            {
+                SiteKey = Configuration["Recaptcha:SiteKey"],
+                SecretKey = Configuration["Recaptcha:SecretKey"]
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
