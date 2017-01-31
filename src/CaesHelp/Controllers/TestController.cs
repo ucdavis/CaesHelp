@@ -49,41 +49,7 @@ namespace CaesHelp.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Compact()
-        {
-            return View();
-        }
 
-        [ValidateRecaptcha]
-        [HttpPost]
-        public IActionResult Compact(TestEmailNewsletterViewModel viewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction(nameof(ThankYou), new { name = viewModel.Name });
-            }
-
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult Audio()
-        {
-            return View();
-        }
-
-        [ValidateRecaptcha]
-        [HttpPost]
-        public IActionResult Audio(TestEmailNewsletterViewModel viewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction(nameof(ThankYou), new { name = viewModel.Name });
-            }
-
-            return View();
-        }
 
         [HttpGet]
         public IActionResult ThankYou(string name)

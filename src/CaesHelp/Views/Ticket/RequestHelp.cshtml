@@ -1,0 +1,96 @@
+﻿@using System.Security.Cryptography.X509Certificates
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CaesHelp.Models.TicketViewModel
+
+@{
+    ViewBag.Title = "Request Help";
+    Layout = "_Layout";
+}
+
+<h2>Request Help</h2>
+
+@using (Html.BeginForm("RequestHelp", "Ticket"))
+{
+    <div>
+        <div>
+            <h2>Urgency Level</h2>
+            <div>
+                @Html.DropDownListFor(a => a.Ticket.UrgencyLevel, Model.Urgency.Select(x => new SelectListItem(){Text = x.ToString()} ),new{ @class="form-control"})
+            </div>
+        </div>
+        <div>
+            <h2>Support Department</h2>
+            <div>
+                @Html.DropDownListFor(a => a.Ticket.SupportDepartment, Model.SupportDepartment.Select(x => new SelectListItem() { Text = x.ToString() }), new { @class = "form-control" })
+            </div>
+        </div>
+        
+        <div>
+            <h2>Your Phone Number</h2>
+            <div>
+                @Html.TextBoxFor(a => a.Ticket.YourPhoneNumber, new{ @class="form-control" })
+            </div>
+        </div>
+        
+        <div>
+            <h2>Location</h2>
+            <div>
+                @Html.TextBoxFor(a => a.Ticket.LocationOfProblem, new { @class = "form-control" })
+            </div>
+        </div>
+        
+        <div>
+            <h2>Web Site Address</h2>
+            <div>
+                @Html.TextBoxFor(a => a.Ticket.ForWebSite, new { @class = "form-control" })
+            </div>
+        </div>
+        
+        <div>
+            <h2>For Application</h2>
+            <div>
+                @Html.DropDownListFor(a => a.Ticket.ForApplication, Model.AvailableApps.Select(x => new SelectListItem() { Text = x.Value, Value = x.Key}), new { @class = "form-control" })
+            </div>
+        </div>
+        
+        <div>
+            <h2>Your Available Dates and Times</h2>
+            <div>
+                
+            </div>
+        </div>
+        
+        <div>
+            <h2>Carbon Copies</h2>
+            <div>
+                
+            </div>
+        </div>
+        
+        <div>
+            <h2>Add Attachment</h2>
+            <div>
+
+            </div>
+        </div>
+        
+        <div>
+            <h2>Subject</h2>
+            <div>
+                @Html.TextBoxFor(a => a.Ticket.Subject, new { @class = "form-control" })
+            </div>
+        </div>
+        
+        <div>
+            <h2>MessageBody</h2>
+            <div>
+                @Html.TextAreaFor(a => a.Ticket.MessageBody, new { @class = "form-control" })
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn">Send Ticket</button>
+        </div>
+    </div>
+}
+
+
