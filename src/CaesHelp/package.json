@@ -1,0 +1,55 @@
+{
+  "name": "caeshelp",
+  "version": "2.0.0",
+  "description": "CAES Help Requests",
+  "scripts": {
+    "debug": "ASPNETCORE_ENVIRONMENT=Development dotnet watch run",
+    "webpack": "node node_modules/webpack/bin/webpack.js --env.dev --watch",
+    "test": "karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ucdavis/CaesHelp.git"
+  },
+  "author": "Jason Sylvestre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ucdavis/CaesHelp/issues"
+  },
+  "homepage": "https://github.com/ucdavis/CaesHelp#readme",
+  "dependencies": {
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.3.29",
+    "@types/react": "^16.4.1",
+    "@types/react-dom": "^16.0.6",
+    "@types/react-hot-loader": "^4.1.0",
+    "@types/webpack-env": "1.13.9",
+    "aspnet-webpack": "^3.0.0",
+    "aspnet-webpack-react": "^4.0.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "css-loader": "^3.0.0",
+    "file-loader": "^4.0.0",
+    "isomorphic-fetch": "2.2.1",
+    "json-loader": "0.5.7",
+    "mini-css-extract-plugin": "^0.7.0",
+    "node-sass": "^4.11.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "react-hot-loader": "^4.6.5",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.17.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.3.1",
+    "uglifyjs-webpack-plugin": "^2.1.1",
+    "url-loader": "^2.0.1",
+    "webpack": "^4.29.0",
+    "webpack-bundle-analyzer": "^3.0.3",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-middleware": "^3.5.1",
+    "webpack-hot-middleware": "^2.24.3"
+  }
+}
