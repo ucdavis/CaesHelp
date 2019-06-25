@@ -1,16 +1,20 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-config-prettier"
+  ],
   "jsRules": {},
   "rules": {
-    "indent": [true, "spaces", 4],
     "variable-name": [
       true,
       "ban-keywords",
       "check-format",
       "allow-leading-underscore"
     ],
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "interface-name": false
   },
   "rulesDirectory": []
 }
