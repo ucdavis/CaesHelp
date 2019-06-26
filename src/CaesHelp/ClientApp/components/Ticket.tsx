@@ -35,7 +35,7 @@ export default class Ticket extends React.Component<{}, ITicketState> {
         return(
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                    <label className="control-label">Urgency <i className="far fa-question-circle "/></label>
+                    <label className="control-label">Urgency <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="<div><b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person.</div>"/></label>
                     <select name="UrgencyLevel" className="form-control">
                         <option value="Non-Critical Issue">Non-Critical Issue</option>
                         <option value="Scheduled Requests">Scheduled Requests</option>
@@ -44,8 +44,9 @@ export default class Ticket extends React.Component<{}, ITicketState> {
                         <option value="Critical">Critical</option>
                     </select>
                 </div>
+                //TODO: Serve up a different control and tooltip if an app name is supplied
                 <div className="form-group">
-                    <label className="control-label">Support Department</label>
+                    <label className="control-label">Support Department <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="<b>Computer Support:</b> (Shuka Smith, Steven Barkey, Jacqueline Emerson, Darrell Joe, Student Assistants)<br/><b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/><b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)"/></label>
                     <select name="SupportDepartment" className="form-control" onChange={this.handleChange}>
                         <option value="">--Select a Support Department--</option>
                         <option value="Computer Support">Computer Support</option>
@@ -74,9 +75,10 @@ export default class Ticket extends React.Component<{}, ITicketState> {
                         <input type="text" name="Available" className="form-control" />
                     </div>  
                 }
+
                 {this.state.supportDepartment === "Web Site Support" &&
                     <div className="form-group">
-                        <label className="control-label">For Website</label>
+                        <label className="control-label">For Website <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="<div>Copy the URL of the site and paste here. For example <u>https://www.ucdavis.edu/index.html</u></div>"/></label>
                         <input type="text" name="ForWebSite" className="form-control" />
                     </div>
                 }
@@ -112,6 +114,7 @@ export default class Ticket extends React.Component<{}, ITicketState> {
                     <label className="control-label">Carbon Copies</label>
                     <input type="text" name="Available" className="form-control" />
                 </div> 
+                //TODO: Attachment
                 <div className="form-group">
                     <label className="control-label">Subject</label>
                     <input type="text" name="Subject" className="form-control" />
@@ -125,7 +128,9 @@ export default class Ticket extends React.Component<{}, ITicketState> {
                     </div>   
                 </div>
                 }
+
             </form>
         );
     }
 }
+

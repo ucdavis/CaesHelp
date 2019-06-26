@@ -1,9 +1,27 @@
 ﻿@{
     ViewData["Title"] = "Submit Page";
 }
+<style>
+    .tooltip-inner {
+        max-width: 550px;
+        text-align: left;
+    }
+</style>
 
 <div class="text-center">
     <h1 class="display-4">Request Help</h1>
 </div>
 
+
+
 <div id="react-app"></div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+    </script>
+}
+
