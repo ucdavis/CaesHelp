@@ -35,7 +35,7 @@ export default class Ticket extends React.Component<{}, ITicketState> {
         return(
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                    <label className="control-label">Urgency</label>
+                    <label className="control-label">Urgency <i className="far fa-question-circle "/></label>
                     <select name="UrgencyLevel" className="form-control">
                         <option value="Non-Critical Issue">Non-Critical Issue</option>
                         <option value="Scheduled Requests">Scheduled Requests</option>
