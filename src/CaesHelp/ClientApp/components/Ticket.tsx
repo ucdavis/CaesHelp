@@ -80,6 +80,34 @@ export default class Ticket extends React.Component<{}, ITicketState> {
                         <input type="text" name="ForWebSite" className="form-control" />
                     </div>
                 }
+                    {this.state.supportDepartment === "Programming Support" &&
+                        <div className="form-group">
+                        <label className="control-label">For Application</label>
+                        <select name="ForApplication" className="form-control">
+                            <option value="">--Select a Program--</option>
+                            <option value="Academic Course Evaluations">Academic Course Evaluations</option>
+                            <option value="AD419">AD419</option>
+                            <option value="CatBert">CatBert</option>
+                            <option value="Commencement">Commencement</option>
+                            <option value="Conference Registration And Payments">Conference Registration And Payments</option>
+                            <option value="Dogbert">Dogbert</option>
+                            <option value="Eat Fit">Eat Fit</option>
+                            <option value="Eligibility List">Eligibility List</option>
+                            <option value="Employee Salary Review Analysis">Employee Salary Review Analysis</option>
+                            <option value="FSNEP Records">FSNEP Records</option>
+                            <option value="Grants Management">Grants Management</option>
+                            <option value="Messaging and Appointment System">Messaging and Appointment System</option>
+                            <option value="Payments">Payments</option>
+                            <option value="Peaks">Peaks</option>
+                            <option value="PrePurchasing">PrePurchasing</option>
+                            <option value="PTF">PTF</option>
+                            <option value="Recruitment">Recruitment</option>
+                            <option value="Student Information Management System">Student Information Management System</option>
+                            <option value="Subject To Dismissal">Subject To Dismissal</option>
+                            <option value="TPS3">TPS3</option>
+                        </select>
+                        </div>
+                    }
                 <div className="form-group"> {/*TODO: Replace with multiples*/}
                     <label className="control-label">Carbon Copies</label>
                     <input type="text" name="Available" className="form-control" />
