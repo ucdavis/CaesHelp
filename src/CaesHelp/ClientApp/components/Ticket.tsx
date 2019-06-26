@@ -60,11 +60,11 @@ export default class Ticket extends React.Component<{}, ITicketState> {
                 {this.state.supportDepartment === "Computer Support" &&
                     <div>
                     <div className="form-group">
-                        <label className="control-label">Your Phone Number</label>
+                            <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
                         <input type="text" name="Phone" className="form-control" />
                     </div>
                     <div className="form-group">
-                        <label className="control-label">Location</label>
+                            <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
                         <input type="text" name="Location" className="form-control" />
                     </div>
                     </div>
@@ -78,8 +78,8 @@ export default class Ticket extends React.Component<{}, ITicketState> {
 
                 {this.state.supportDepartment === "Web Site Support" &&
                     <div className="form-group">
-                        <label className="control-label">For Website <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="<div>Copy the URL of the site and paste here. For example <u>https://www.ucdavis.edu/index.html</u></div>"/></label>
-                        <input type="text" name="ForWebSite" className="form-control" />
+                        <label className="control-label">For Website <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="Copy the URL of the site and paste here. For example:<br/><u>https://www.ucdavis.edu/index.html</u>"/></label>
+                        <input type="text" name="ForWebSite" className="form-control" placeholder="https://somesite.example.com"/>
                     </div>
                 }
                     {this.state.supportDepartment === "Programming Support" &&
