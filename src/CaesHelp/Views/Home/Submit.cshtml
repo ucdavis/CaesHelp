@@ -1,7 +1,12 @@
-﻿@{
+﻿@model TicketDefaultsModel
+
+@{
     ViewData["Title"] = "Submit Page";
 }
-
+<script>
+    window.App = {};
+    window.App.model = @Json.Serialize(Model);
+</script>
 
 <div class="text-center">
     <h1 class="display-4">Request Help</h1>
@@ -23,6 +28,9 @@
 
 @section Scripts
 {
+
+
+
     <script type="text/javascript">
         $('body').tooltip({
             selector: '[data-toggle="tooltip"]'

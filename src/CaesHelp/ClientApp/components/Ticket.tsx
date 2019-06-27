@@ -7,8 +7,14 @@ interface ITicketState {
     phone: string;
 }
 
+export interface ITicketProps {
+    appName: string;
+    subject: string;
+    onlyShowAppSupport: boolean;
+}
 
-export default class Ticket extends React.Component<{}, ITicketState> {
+
+export default class Ticket extends React.Component<ITicketProps, ITicketState> {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -34,6 +40,9 @@ export default class Ticket extends React.Component<{}, ITicketState> {
     public  render() {
         return(
             <form onSubmit={this.handleSubmit}>
+                {this.props.onlyShowAppSupport &&
+                    <div>{this.props.appName}</div>
+                }
                 <div className="form-group">
                     <label className="control-label">Urgency <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="<div><b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person.</div>"/></label>
                     <select name="UrgencyLevel" className="form-control">
