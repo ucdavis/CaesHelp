@@ -22,7 +22,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
         const initialState: ITicketState = {
             urgencyLevel: "",
-            supportDepartment: "",
+            supportDepartment: this.props.onlyShowAppSupport ? "Programming Support" : "",
             phone: "",
         };
 
@@ -53,10 +53,9 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         <option value="Critical">Critical</option>
                     </select>
                 </div>
-                //TODO: Serve up a different control and tooltip if an app name is supplied
                 <div className="form-group">
-                    <label className="control-label">Support Department <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="<b>Computer Support:</b> (Shuka Smith, Steven Barkey, Jacqueline Emerson, Darrell Joe, Student Assistants)<br/><b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/><b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)"/></label>
-                    <select name="SupportDepartment" className="form-control" onChange={this.handleChange}>
+                    <label className="control-label">Support Department <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title={this.props.onlyShowAppSupport ? "Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)" : "<b>Computer Support:</b> (Shuka Smith, Steven Barkey, Jacqueline Emerson, Darrell Joe, Student Assistants)<br/><b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/><b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)"}/></label>
+                    <select name="SupportDepartment" className="form-control" value={this.props.onlyShowAppSupport ? "Programming Support" : ""} onChange={this.handleChange} disabled={this.props.onlyShowAppSupport} >
                         <option value="">--Select a Support Department--</option>
                         <option value="Computer Support">Computer Support</option>
                         <option value="Web Site Support">Web Site Support</option>
