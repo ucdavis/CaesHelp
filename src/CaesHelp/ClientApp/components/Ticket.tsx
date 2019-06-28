@@ -5,6 +5,13 @@ interface ITicketState {
     urgencyLevel: string;
     supportDepartment: string;
     phone: string;
+    location: string;
+    available: string; //TODO: Replace this with array control thing
+    carbonCopies: string; //TODO: Replace this with array control thing
+    forWebSite: string;
+    forApplication: string;
+    subject: string;
+    message: string;
 }
 
 export interface ITicketProps {
@@ -17,14 +24,21 @@ export interface ITicketProps {
 export default class Ticket extends React.Component<ITicketProps, ITicketState> {
     constructor(props) {
         super(props);
-        this.handleChange = this.handleChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
         const initialState: ITicketState = {
-            urgencyLevel: "",
+            urgencyLevel: "Non-Critical Issue",
             supportDepartment: this.props.onlyShowAppSupport ? "Programming Support" : "",
             phone: "",
-        };
+            location: "",
+            available: "", //TODO: Replace
+            carbonCopies: "", //TODO:Replace
+            forWebSite: "",
+            forApplication: "",
+            subject: "", //TODO: Check if passed parameter
+            message: "",
+    };
 
         this.state = { ...initialState };
 
@@ -33,8 +47,14 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
 
 
-    handleChange(event) {
-        this.setState({ supportDepartment: event.target.value });
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+    });
     }
 
     handleSubmit(event) {
@@ -54,7 +74,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                 }
                 <div className="form-group">
                     <label className="control-label">Urgency <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="<div><b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person.</div>"/></label>
-                    <select name="UrgencyLevel" className="form-control">
+                    <select name="urgencyLevel" className="form-control" value={this.state.urgencyLevel} onChange={this.handleInputChange}>
                         <option value="Non-Critical Issue">Non-Critical Issue</option>
                         <option value="Scheduled Requests">Scheduled Requests</option>
                         <option value="Workaround Available">Workaround Available</option>
@@ -64,7 +84,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                 </div>
                 <div className="form-group">
                     <label className="control-label">Support Department <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title={titleToUse}/></label>
-                    <select name="SupportDepartment" className="form-control" value={this.state.supportDepartment} onChange={this.handleChange} disabled={this.props.onlyShowAppSupport} >
+                    <select name="supportDepartment" className="form-control" value={this.state.supportDepartment} onChange={this.handleInputChange} disabled={this.props.onlyShowAppSupport} >
                         <option value="">--Select a Support Department--</option>
                         <option value="Computer Support">Computer Support</option>
                         <option value="Web Site Support">Web Site Support</option>
@@ -78,31 +98,31 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     <div>
                     <div className="form-group">
                             <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
-                        <input type="text" name="Phone" className="form-control" />
+                            <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange}/>
                     </div>
                     <div className="form-group">
                             <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
-                        <input type="text" name="Location" className="form-control" />
+                            <input type="text" name="location" className="form-control" value={this.state.location} onChange={this.handleInputChange}/>
                     </div>
                     </div>
                 }
                 {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
                     <div className="form-group"> {/*TODO: Replace with multiples*/}
                         <label className="control-label">Available Dates and Times</label>
-                        <input type="text" name="Available" className="form-control" />
+                        <input type="text" name="available" className="form-control" value={this.state.available} onChange={this.handleInputChange}/>
                     </div>  
                 }
 
                 {this.state.supportDepartment === "Web Site Support" &&
                     <div className="form-group">
                         <label className="control-label">For Website <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="Copy the URL of the site and paste here. For example:<br/><u>https://www.ucdavis.edu/index.html</u>"/></label>
-                        <input type="text" name="ForWebSite" className="form-control" placeholder="https://somesite.example.com"/>
+                        <input type="text" name="forWebSite" className="form-control" placeholder="https://somesite.example.com" value={this.state.forWebSite} onChange={this.handleInputChange}/>
                     </div>
                 }
                     {this.state.supportDepartment === "Programming Support" &&
                         <div className="form-group">
                         <label className="control-label">For Application</label>
-                        <select name="ForApplication" className="form-control">
+                        <select name="forApplication" className="form-control" value={this.state.forApplication} onChange={this.handleInputChange}>
                             <option value="">--Select a Program--</option>
                             <option value="Academic Course Evaluations">Academic Course Evaluations</option>
                             <option value="AD419">AD419</option>
@@ -129,16 +149,16 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     }
                 <div className="form-group"> {/*TODO: Replace with multiples*/}
                     <label className="control-label">Carbon Copies</label>
-                    <input type="text" name="Available" className="form-control" />
+                        <input type="text" name="carbonCopies" className="form-control" value={this.state.carbonCopies} onChange={this.handleInputChange}/>
                 </div> 
                 //TODO: Attachment
                 <div className="form-group">
                     <label className="control-label">Subject</label>
-                    <input type="text" name="Subject" className="form-control" />
+                        <input type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange}/>
                 </div>   
                 <div className="form-group">
                     <label className="control-label">Message</label>
-                    <textarea name="Message" className="form-control" />
+                        <textarea name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange}/>
                 </div>   
                 <div className="form-group">
                     <input type="submit" name="Submit" className="form-control" />
