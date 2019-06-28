@@ -26,8 +26,12 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             phone: "",
         };
 
-        this.state = { ...initialState};
+        this.state = { ...initialState };
+
+
     }
+
+
 
     handleChange(event) {
         this.setState({ supportDepartment: event.target.value });
@@ -37,9 +41,13 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         alert('Choice was: ' + this.state.supportDepartment);
         event.preventDefault();
     }
-    public  render() {
+    public render() {
+        const appSupportTitle = "<div><b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)</div>";
+        const everyoneTitle = "<b>Computer Support:</b> (Shuka Smith, Steven Barkey, Jacqueline Emerson, Darrell Joe, Student Assistants)<br/><b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/><b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
+        const titleToUse = this.props.onlyShowAppSupport ? appSupportTitle : everyoneTitle;
         return(
             <form onSubmit={this.handleSubmit}>
+
                 {this.props.onlyShowAppSupport &&
                     <div>{this.props.appName}</div>
                 }
@@ -54,7 +62,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     </select>
                 </div>
                 <div className="form-group">
-                    <label className="control-label">Support Department <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title={this.props.onlyShowAppSupport ? "Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)" : "<b>Computer Support:</b> (Shuka Smith, Steven Barkey, Jacqueline Emerson, Darrell Joe, Student Assistants)<br/><b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/><b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)"}/></label>
+                    <label className="control-label">Support Department <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title={titleToUse}/></label>
                     <select name="SupportDepartment" className="form-control" value={this.props.onlyShowAppSupport ? "Programming Support" : ""} onChange={this.handleChange} disabled={this.props.onlyShowAppSupport} >
                         <option value="">--Select a Support Department--</option>
                         <option value="Computer Support">Computer Support</option>
