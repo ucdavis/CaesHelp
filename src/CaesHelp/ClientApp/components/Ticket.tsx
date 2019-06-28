@@ -49,7 +49,6 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return(
             <form onSubmit={this.handleSubmit}>
-
                 {this.props.onlyShowAppSupport &&
                     <div>{this.props.appName}</div>
                 }
@@ -65,7 +64,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                 </div>
                 <div className="form-group">
                     <label className="control-label">Support Department <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title={titleToUse}/></label>
-                    <select name="SupportDepartment" className="form-control" value={this.props.onlyShowAppSupport ? "Programming Support" : this.state.supportDepartment} onChange={this.handleChange} disabled={this.props.onlyShowAppSupport} >
+                    <select name="SupportDepartment" className="form-control" value={this.state.supportDepartment} onChange={this.handleChange} disabled={this.props.onlyShowAppSupport} >
                         <option value="">--Select a Support Department--</option>
                         <option value="Computer Support">Computer Support</option>
                         <option value="Web Site Support">Web Site Support</option>
