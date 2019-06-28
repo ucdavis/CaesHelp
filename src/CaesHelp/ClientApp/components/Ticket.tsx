@@ -42,9 +42,11 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         event.preventDefault();
     }
     public render() {
-        const appSupportTitle = "<div><b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)</div>";
-        const everyoneTitle = "<b>Computer Support:</b> (Shuka Smith, Steven Barkey, Jacqueline Emerson, Darrell Joe, Student Assistants)<br/><b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/><b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
-        const titleToUse = this.props.onlyShowAppSupport ? appSupportTitle : everyoneTitle;
+        const programmingSupportTitle = "<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
+        const webSupportTitle = "<b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/>";
+        const computerSupportTitle = "<b>Computer Support:</b> (Shuka Smith, Steven Barkey, Jacqueline Emerson, Darrell Joe, Student Assistants)<br/>";
+        const everyoneTitle = computerSupportTitle + webSupportTitle + programmingSupportTitle;
+        const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return(
             <form onSubmit={this.handleSubmit}>
 
