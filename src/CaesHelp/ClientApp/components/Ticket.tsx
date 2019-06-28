@@ -52,9 +52,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
-        this.setState({
-            [name]: value
-    });
+        this.setState(({[name]: value}) as any); //TODO: Do I need as any here?
     }
 
     handleSubmit(event) {
