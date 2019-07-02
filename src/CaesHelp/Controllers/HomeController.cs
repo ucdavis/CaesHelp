@@ -28,6 +28,13 @@ namespace CaesHelp.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public IActionResult Submit([FromForm] TicketPostModel model)
+        {
+
+            return RedirectToAction("Submit");
+        }
+
         public IActionResult Privacy()
         {
             return View();

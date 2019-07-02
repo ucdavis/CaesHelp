@@ -43,7 +43,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             message: "",
             error: "Some Fake Error",
             submitting: false,
-            validState: false
+            validState: true
     };
 
         this.state = { ...initialState };
@@ -62,16 +62,20 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
     }
 
     handleSubmit(event) {
-        alert('Choice was: ' + this.state.supportDepartment);
         event.preventDefault();
 
-        //event.preventDefault();
-        //const data = new FormData(event.target);
+        if (!this.state.validState || this.state.submitting) {
+            return;
+        }
+        this.setState(state => ({
+            submitting: true
+        }));
+        const data = new FormData(event.target);
 
-        //fetch('/api/form-submit-url', {
-        //    method: 'POST',
-        //    body: data,
-        //});
+        fetch('/home/submit', {
+            method: 'POST',
+            body: data,
+        });
     }
     public render() {
         const programmingSupportTitle = "<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
@@ -86,7 +90,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         <div>{this.props.appName}</div>
                     }
                     <div className="form-group">
-                        <label className="control-label">Urgency <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="<div><b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person.</div>"/></label>
+                        <label className="control-label">Urgency <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title="<div><b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person.</div>"/></label>
                         <select name="urgencyLevel" className="form-control" value={this.state.urgencyLevel} onChange={this.handleInputChange}>
                             <option value="Non-Critical Issue">Non-Critical Issue</option>
                             <option value="Scheduled Requests">Scheduled Requests</option>
@@ -97,7 +101,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     </div>
                     <div className="form-group">
                         <label className="control-label">Support Department <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title={titleToUse}/></label>
-                        <select name="supportDepartment" className="form-control" value={this.state.supportDepartment} onChange={this.handleInputChange} disabled={this.props.onlyShowAppSupport} >
+                        <select name="supportDepartment" className="form-control" value={this.state.supportDepartment} onChange={this.handleInputChange} disabled={this.props.onlyShowAppSupport}>
                             <option value="">--Select a Support Department--</option>
                             <option value="Computer Support">Computer Support</option>
                             <option value="Web Site Support">Web Site Support</option>
@@ -174,13 +178,13 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <textarea name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange}/>
                         </div>   
                     <div className="validation-summary-errors">{this.state.error}</div>
-                    <div className="form-group">
-                                <input disabled={!this.state.validState || this.state.submitting} type="submit" name="Submit" className="form-control" />
+                        <div className="form-group">
+                            <input disabled={!this.state.validState || this.state.submitting} type="submit" name="Submit" className="form-control" />
                         </div>   
                     </div>
                     }
 
-                    </form>
+                </form>
             </div>
         );
     }
