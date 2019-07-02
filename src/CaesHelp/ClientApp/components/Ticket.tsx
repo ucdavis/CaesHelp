@@ -61,21 +61,30 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         this.setState(({[name]: value}) as any); //TODO: Do I need as any here?
     }
 
+    private _validateState = () => {
+        let valid = true;
+        let error = "";
+
+
+    };
+
     handleSubmit(event) {
-        event.preventDefault();
+        
 
-        if (!this.state.validState || this.state.submitting) {
-            return;
-        }
-        this.setState(state => ({
-            submitting: true
-        }));
-        const data = new FormData(event.target);
+        //if (!this.state.validState || this.state.submitting) {
+        //    event.preventDefault();
+        //    return;
+        //}
+        //this.setState(state => ({
+        //    submitting: true
+        //}));
+        
+        //const data = new FormData(event.target);
 
-        fetch('/home/submit', {
-            method: 'POST',
-            body: data,
-        });
+        //fetch('/home/submit', {
+        //    method: 'POST',
+        //    body: data,
+        //});
     }
     public render() {
         const programmingSupportTitle = "<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
@@ -85,7 +94,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit} action="Submit" method="post">
                     {this.props.onlyShowAppSupport &&
                         <div>{this.props.appName}</div>
                     }

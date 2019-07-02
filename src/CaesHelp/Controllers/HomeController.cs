@@ -32,7 +32,7 @@ namespace CaesHelp.Controllers
         public IActionResult Submit([FromForm] TicketPostModel model)
         {
 
-            return RedirectToAction("Submit");
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()
