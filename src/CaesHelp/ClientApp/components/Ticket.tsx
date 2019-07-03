@@ -41,7 +41,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             forApplication: "",
             subject: "", //TODO: Check if passed parameter
             message: "",
-            error: "Some Fake Error",
+            error: "",
             submitting: false,
             validState: true
     };
@@ -58,26 +58,39 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
-        this.setState(({[name]: value}) as any); //TODO: Do I need as any here?
+        this.setState({
+            [name]: value
+        } as any, this._validateState);
+
+        //this.setState(({ [name]: value }) as any); //TODO: Do I need as any here?
+        //this._validateState();
     }
 
     private _validateState = () => {
         let valid = true;
         let error = "";
 
+        if (!this.state.supportDepartment || this.state.supportDepartment === "") {
+            valid = false;
+            error = "You must select a Support Department";
+        }
+
+        this.setState(state => ({
+            validState: valid, error
+        }));
 
     };
 
     handleSubmit(event) {
         
-
-        //if (!this.state.validState || this.state.submitting) {
-        //    event.preventDefault();
-        //    return;
-        //}
-        //this.setState(state => ({
-        //    submitting: true
-        //}));
+        this._validateState();
+        if (!this.state.validState || this.state.submitting) {
+            event.preventDefault();
+            return;
+        }
+        this.setState(state => ({
+            submitting: true
+        }));
         
         //const data = new FormData(event.target);
 
@@ -186,13 +199,13 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         <label className="control-label">Message</label>
                             <textarea name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange}/>
                         </div>   
-                    <div className="validation-summary-errors">{this.state.error}</div>
-                        <div className="form-group">
-                            <input disabled={!this.state.validState || this.state.submitting} type="submit" name="Submit" className="form-control" />
-                        </div>   
+  
                     </div>
                     }
-
+                    {!this.state.validState && <div className="validation-summary-errors">{this.state.error}</div>}
+                    <div className="form-group">
+                        <input disabled={!this.state.validState || this.state.submitting} type="submit" name="Submit" className="form-control" />
+                    </div> 
                 </form>
             </div>
         );
