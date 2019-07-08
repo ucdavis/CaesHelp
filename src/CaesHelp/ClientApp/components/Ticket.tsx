@@ -1,5 +1,6 @@
 ﻿import * as React from "react";
 import * as ReactDOM from "react-dom";
+import {ErrorList} from "../components/ErrorList";
 
 interface ITicketState {
     urgencyLevel: string;
@@ -12,10 +13,10 @@ interface ITicketState {
     forApplication: string;
     subject: string;
     message: string;
-    error: string;
     submitting: boolean;
     validState: boolean;
     showErrors: boolean;
+    errorArray: [string];
 }
 
 export interface ITicketProps {
@@ -42,10 +43,10 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             forApplication: "",
             subject: "", //TODO: Check if passed parameter
             message: "",
-            error: "",
             submitting: false,
             validState: false,
-            showErrors: false
+            showErrors: false,
+            errorArray: [""]
     };
 
         this.state = { ...initialState };
@@ -70,38 +71,45 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
     private _validateState = () => {
         let valid = true;
-        let error = "";
+        let errList = [];
 
+        if (!this.state.message || !this.state.message.trim()) {
+            valid = false;
+            errList.push("Message is required.");
+        }
 
         if (!this.state.subject || !this.state.subject.trim()) {
             valid = false;
-            error = "Subject is required.";
+            errList.push("Subject is required.");
         }
-        if (!this.state.message || !this.state.message.trim()) {
-            valid = false;
-            error = "Message is required.";
-        }
+
 
         switch (this.state.supportDepartment) {
             case "Computer Support":
                 break;
             case "Web Site Support":
+                if (!this.state.forWebSite || !this.state.forWebSite.trim()) {
+                    valid = false;
+                    errList.push("You must specify the URL for the website.");
+                }
                 break;
             case "Programming Support":
                 if (!this.state.forApplication || !this.state.forApplication) {
                     valid = false;
-                    error = "For Programming support, you must select an application for this list.";
+                    errList.push("For Programming support, you must select an application for this list.");
                 }
                 break;
             default:
                 valid = false;
-                error = "You must select a Support Department";
+                errList.push("You must select a Support Department.");
                 break;
         }
 
-        this.setState(state => ({
-            validState: valid, error
-        }));
+        this.setState((state => ({
+            validState: valid,
+            errorArray: errList
+        })) as any);
+
 
     };
 
@@ -230,7 +238,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
   
                     </div>
                     }
-                    {this.state.showErrors && !this.state.validState && <div className="validation-summary-errors">{this.state.error}</div>}
+                    {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray}/>}
                     <div className="form-group">
                         <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control" />
                     </div> 

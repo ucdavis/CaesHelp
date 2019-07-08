@@ -2,7 +2,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import Ticket, {ITicketProps} from "./components/Ticket";
+import Ticket, { ITicketProps } from "./components/Ticket";
 
 
 declare var window: any;
