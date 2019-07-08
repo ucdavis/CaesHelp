@@ -41,7 +41,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             carbonCopies: "", //TODO:Replace
             forWebSite: "",
             forApplication: "",
-            subject: "", //TODO: Check if passed parameter
+            subject: this.props.subject,
             message: "",
             submitting: false,
             validState: false,
