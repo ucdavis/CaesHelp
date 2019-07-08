@@ -15,6 +15,7 @@ interface ITicketState {
     error: string;
     submitting: boolean;
     validState: boolean;
+    showErrors: boolean;
 }
 
 export interface ITicketProps {
@@ -43,7 +44,8 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             message: "",
             error: "",
             submitting: false,
-            validState: true
+            validState: false,
+            showErrors: false
     };
 
         this.state = { ...initialState };
@@ -70,9 +72,31 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         let valid = true;
         let error = "";
 
-        if (!this.state.supportDepartment || this.state.supportDepartment === "") {
+
+        if (!this.state.subject || !this.state.subject.trim()) {
             valid = false;
-            error = "You must select a Support Department";
+            error = "Subject is required.";
+        }
+        if (!this.state.message || !this.state.message.trim()) {
+            valid = false;
+            error = "Message is required.";
+        }
+
+        switch (this.state.supportDepartment) {
+            case "Computer Support":
+                break;
+            case "Web Site Support":
+                break;
+            case "Programming Support":
+                if (!this.state.forApplication || !this.state.forApplication) {
+                    valid = false;
+                    error = "For Programming support, you must select an application for this list.";
+                }
+                break;
+            default:
+                valid = false;
+                error = "You must select a Support Department";
+                break;
         }
 
         this.setState(state => ({
@@ -84,6 +108,10 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
     handleSubmit(event) {
         
         this._validateState();
+        this.setState({
+            showErrors: true
+        });
+
         if (!this.state.validState || this.state.submitting) {
             event.preventDefault();
             return;
@@ -202,9 +230,9 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
   
                     </div>
                     }
-                    {!this.state.validState && <div className="validation-summary-errors">{this.state.error}</div>}
+                    {this.state.showErrors && !this.state.validState && <div className="validation-summary-errors">{this.state.error}</div>}
                     <div className="form-group">
-                        <input disabled={!this.state.validState || this.state.submitting} type="submit" name="Submit" className="form-control" />
+                        <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control" />
                     </div> 
                 </form>
             </div>
