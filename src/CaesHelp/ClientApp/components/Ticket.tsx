@@ -1,6 +1,7 @@
 ﻿import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {ErrorList} from "../components/ErrorList";
+import { ErrorList } from "../components/ErrorList";
+import InputArray from "../components/InputArray";
 
 interface ITicketState {
     urgencyLevel: string;
@@ -47,7 +48,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             validState: false,
             showErrors: false,
             errorArray: [""]
-    };
+        };
 
         this.state = { ...initialState };
 
@@ -224,7 +225,8 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         }
                     <div className="form-group"> {/*TODO: Replace with multiples*/}
                         <label className="control-label">Carbon Copies</label>
-                            <input type="text" name="carbonCopies" className="form-control" value={this.state.carbonCopies} onChange={this.handleInputChange}/>
+                            <input type="text" name="carbonCopies" className="form-control" value={this.state.carbonCopies} onChange={this.handleInputChange} />
+                            <InputArray/>
                     </div> 
                     //TODO: Attachment
                     <div className="form-group">
