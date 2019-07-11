@@ -35,8 +35,8 @@ export default class InputArray extends React.Component<any,any> {
         return (
             <div>
                 {this.state.inputs.map((input, idx) => (
-                    <div className="form-group" key={idx}>
-                        <input className="form-control"
+                    <div className="form-group d-inline-block" key={idx}>
+                        <input className="form-control mb-2"
                             type="text"
                             placeholder={`email#${idx + 1}@some.com`}
                             value={input.value}
@@ -46,17 +46,16 @@ export default class InputArray extends React.Component<any,any> {
                             <button 
                             type="button"
                                 onClick={this.handleRemoveInput(idx)}
-                                className="btn btn-danger"
-                            >
-                            -
-            </button>
+                                className="btn btn-danger mb-2"
+                            ><i className="fa fa-trash"/></button>
                     </div>
                 ))}
+                <br/>
                 <button
                     type="button"
                     onClick={this.handleAddInput}
-                    className="small">
-                    Add Email (TODO Replace with a Prop)
+                    className="btn btn-primary">
+                    <i className="fa fa-plus"/> Add Email (TODO Replace with a Prop)
                 </button>
             </div>
 );
