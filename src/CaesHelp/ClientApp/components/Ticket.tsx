@@ -225,7 +225,6 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         }
                     <div className="form-group"> {/*TODO: Replace with multiples*/}
                         <label className="control-label">Carbon Copies</label>
-                            <input type="text" name="carbonCopies" className="form-control" value={this.state.carbonCopies} onChange={this.handleInputChange} />
                             <InputArray/>
                     </div> 
                     //TODO: Attachment

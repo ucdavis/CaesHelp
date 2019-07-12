@@ -14,7 +14,7 @@ namespace CaesHelp.Models
         public string Available { get; set; }
         public string ForWebSite { get; set; }
         public string ForApplication { get; set; }
-        public string CarbonCopies { get; set; } //TODO: Replace with array?
+        public string[] CarbonCopies { get; set; } //TODO: Replace with array?
         public string Subject { get; set; }
         public string Message { get; set; }
         public string x { get; set; } //TODO: Attachment
