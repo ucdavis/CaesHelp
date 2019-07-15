@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace CaesHelp.Models
 {
@@ -17,6 +18,6 @@ namespace CaesHelp.Models
         public string[] CarbonCopies { get; set; } //TODO: Replace with array?
         public string Subject { get; set; }
         public string Message { get; set; }
-        public string x { get; set; } //TODO: Attachment
+        public List<IFormFile> Files { get; set; }
     }
 }

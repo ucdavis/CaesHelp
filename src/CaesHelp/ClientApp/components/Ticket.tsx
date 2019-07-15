@@ -1,5 +1,4 @@
 ﻿import * as React from "react";
-import * as ReactDOM from "react-dom";
 import { ErrorList } from "../components/ErrorList";
 import InputArray from "../components/InputArray";
 
@@ -28,6 +27,8 @@ export interface ITicketProps {
 
 
 export default class Ticket extends React.Component<ITicketProps, ITicketState> {
+    private _formRef: HTMLFormElement;
+
     constructor(props) {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -74,6 +75,12 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         let valid = true;
         let errList = [];
 
+        const isValid = this._formRef.checkValidity();
+        if (!isValid) {
+            valid = false;
+            errList.push("One or more fields are invalid");
+        }
+
         if (!this.state.message || !this.state.message.trim()) {
             valid = false;
             errList.push("Message is required.");
@@ -114,12 +121,12 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
     };
 
-    handleSubmit(event) {
-        
-        this._validateState();
+    async handleSubmit(event) {
         this.setState({
             showErrors: true
         });
+
+        this._validateState();
 
         if (!this.state.validState || this.state.submitting) {
             event.preventDefault();
@@ -128,13 +135,23 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         this.setState(state => ({
             submitting: true
         }));
-        
-        //const data = new FormData(event.target);
 
-        //fetch('/home/submit', {
-        //    method: 'POST',
-        //    body: data,
-        //});
+        event.preventDefault();
+        const data = new FormData(event.target);
+        data.append("files",event.target.files[0]);
+
+        var response = await fetch('/home/submit', {
+            method: 'POST',
+            body: data,
+        });
+
+        if (response.ok) {
+            window.location.href = "/";
+            return;
+        }
+
+        var result = await response.json();
+        //TODO: messages where there are errors
     }
     public render() {
         const programmingSupportTitle = "<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
@@ -144,7 +161,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return (
             <div>
-                <form onSubmit={this.handleSubmit} action="Submit" method="post">
+                <form onSubmit={this.handleSubmit} action="Submit" method="post" ref={r => this._formRef = r} >
                     {this.props.onlyShowAppSupport &&
                         <div>{this.props.appName}</div>
                     }
@@ -192,7 +209,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     {this.state.supportDepartment === "Web Site Support" &&
                         <div className="form-group">
                             <label className="control-label">For Website <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="Copy the URL of the site and paste here. For example:<br/><u>https://www.ucdavis.edu/index.html</u>"/></label>
-                            <input type="text" name="forWebSite" className="form-control" placeholder="https://somesite.example.com" value={this.state.forWebSite} onChange={this.handleInputChange}/>
+                            <input required={true} type="text" name="forWebSite" className="form-control" placeholder="https://somesite.example.com" value={this.state.forWebSite} onChange={this.handleInputChange}/>
                         </div>
                     }
                         {this.state.supportDepartment === "Programming Support" &&
@@ -227,14 +244,18 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <label className="control-label">Carbon Copies</label>
                                 <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email"/>
                         </div> 
-                        //TODO: Attachment
+
+                        <div className="form-group">
+                            <label className="control-label">Attachment</label>
+                            <input type="file" name="files"/>
+                        </div>
                         <div className="form-group">
                             <label className="control-label">Subject</label>
-                                <input type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange} />
+                            <input required={true} type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange} />
                         </div>   
                         <div className="form-group">
                             <label className="control-label">Message</label>
-                                <textarea name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange}/>
+                            <textarea required={true} name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange}/>
                          </div>   
 
                         {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}

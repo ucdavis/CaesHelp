@@ -5,11 +5,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CaesHelp.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CaesHelp.Controllers
 {
     public class HomeController : Controller
     {
+        private const string TempDataMessageKey = "Message";
+        private const string TempDataErrorMessageKey = "ErrorMessage";
+
+        public string Message
+        {
+            get => TempData[TempDataMessageKey] as string;
+            set => TempData[TempDataMessageKey] = value;
+        }
+
+        public string ErrorMessage
+        {
+            get => TempData[TempDataErrorMessageKey] as string;
+            set => TempData[TempDataErrorMessageKey] = value;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -31,7 +47,6 @@ namespace CaesHelp.Controllers
         [HttpPost]
         public IActionResult Submit([FromForm] TicketPostModel model)
         {
-
             return RedirectToAction("Index");
         }
 
