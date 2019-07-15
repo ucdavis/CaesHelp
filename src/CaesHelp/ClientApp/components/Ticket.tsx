@@ -223,26 +223,27 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             </select>
                             </div>
                         }
-                    <div className="form-group"> {/*TODO: Validation on each one, and pass that back to here?*/}
-                        <label className="control-label">Carbon Copies</label>
-                            <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email"/>
-                    </div> 
-                    //TODO: Attachment
-                    <div className="form-group">
-                        <label className="control-label">Subject</label>
-                            <input type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange} />
-                    </div>   
-                    <div className="form-group">
-                        <label className="control-label">Message</label>
-                            <textarea name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange}/>
+                        <div className="form-group"> {/*TODO: Validation on each one, and pass that back to here?*/}
+                            <label className="control-label">Carbon Copies</label>
+                                <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email"/>
+                        </div> 
+                        //TODO: Attachment
+                        <div className="form-group">
+                            <label className="control-label">Subject</label>
+                                <input type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange} />
                         </div>   
-  
+                        <div className="form-group">
+                            <label className="control-label">Message</label>
+                                <textarea name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange}/>
+                         </div>   
+
+                        {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}
+                        <div className="form-group">
+                            <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control" />
+                        </div>
                     </div>
                     }
-                    {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray}/>}
-                    <div className="form-group">
-                        <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control"/>
-                    </div>
+
                 </form>
             </div>
         );
