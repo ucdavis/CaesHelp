@@ -15,8 +15,24 @@ namespace CaesHelp.Controllers
             return View();
         }
 
-        public IActionResult Submit() {
-            return View();
+        public IActionResult Submit(string appName, string subject) 
+        {
+            var model = new TicketDefaultsModel {AppName = appName, Subject = subject};
+            if (!string.IsNullOrWhiteSpace(model.AppName))
+            {
+                //TODO, validate appName
+                model.OnlyShowAppSupport = true;
+            }
+
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Submit([FromForm] TicketPostModel model)
+        {
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()
