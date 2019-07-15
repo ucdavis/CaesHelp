@@ -1,6 +1,7 @@
 ﻿import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {ErrorList} from "../components/ErrorList";
+import { ErrorList } from "../components/ErrorList";
+import InputArray from "../components/InputArray";
 
 interface ITicketState {
     urgencyLevel: string;
@@ -47,7 +48,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             validState: false,
             showErrors: false,
             errorArray: [""]
-    };
+        };
 
         this.state = { ...initialState };
 
@@ -184,7 +185,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
                         <div className="form-group"> {/*TODO: Replace with multiples*/}
                             <label className="control-label">Available Dates and Times</label>
-                            <input type="text" name="available" className="form-control" value={this.state.available} onChange={this.handleInputChange}/>
+                            <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times"/>
                         </div>  
                     }
 
@@ -222,9 +223,9 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             </select>
                             </div>
                         }
-                    <div className="form-group"> {/*TODO: Replace with multiples*/}
+                    <div className="form-group"> {/*TODO: Validation on each one, and pass that back to here?*/}
                         <label className="control-label">Carbon Copies</label>
-                            <input type="text" name="carbonCopies" className="form-control" value={this.state.carbonCopies} onChange={this.handleInputChange}/>
+                            <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email"/>
                     </div> 
                     //TODO: Attachment
                     <div className="form-group">
@@ -240,8 +241,8 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     }
                     {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray}/>}
                     <div className="form-group">
-                        <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control" />
-                    </div> 
+                        <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control"/>
+                    </div>
                 </form>
             </div>
         );
