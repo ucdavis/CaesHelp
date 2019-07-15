@@ -1,7 +1,13 @@
 ﻿import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-export default class InputArray extends React.Component<any,any> {
+export interface IInputArrayProps {
+    name: string; 
+    placeholder: string;
+    addButtonName: string;
+}
+
+export default class InputArray extends React.Component<IInputArrayProps,any> {
     constructor(props) {
         super(props);
 
@@ -38,10 +44,10 @@ export default class InputArray extends React.Component<any,any> {
                     <div className="form-group d-inline-block" key={idx}>
                         <input className="form-control mb-2"
                             type="text"
-                            placeholder={`email#${idx + 1}@some.com`}
+                            placeholder={this.props.placeholder}
                             value={input.value}
                             onChange={this.handleChange(idx)}
-                            name={`carbonCopies[${idx}]`}
+                            name={`${this.props.name}[${idx}]`}
                         />
                             <button 
                             type="button"
@@ -55,7 +61,7 @@ export default class InputArray extends React.Component<any,any> {
                     type="button"
                     onClick={this.handleAddInput}
                     className="btn btn-primary">
-                    <i className="fa fa-plus"/> Add Email (TODO Replace with a Prop)
+                    <i className="fa fa-plus"/> {this.props.addButtonName}
                 </button>
             </div>
 );
