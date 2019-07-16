@@ -23,6 +23,7 @@ export interface ITicketProps {
     appName: string;
     subject: string;
     onlyShowAppSupport: boolean;
+    submitterEmail: string;
 }
 
 
@@ -162,6 +163,10 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         return (
             <div>
                 <form onSubmit={this.handleSubmit} action="Submit" method="post" ref={r => this._formRef = r} >
+                    <div className="form-group">
+                        <label className="control-label">Submitter Email</label>
+                        <input type="text" name="phone" className="form-control" value={this.props.submitterEmail} disabled={true} />
+                    </div>
                     {this.props.onlyShowAppSupport &&
                         <div>{this.props.appName}</div>
                     }
