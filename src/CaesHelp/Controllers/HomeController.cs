@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CaesHelp.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using CaesHelp.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -33,9 +34,10 @@ namespace CaesHelp.Controllers
             return View();
         }
 
-        public IActionResult Submit(string appName, string subject) 
+        public IActionResult Submit(string appName, string subject)
         {
-            var model = new TicketDefaultsModel {AppName = appName, Subject = subject};
+            var user = User.GetUserInfo();
+            var model = new TicketDefaultsModel {AppName = appName, Subject = subject, SubmitterEmail = user.Email};
             if (!string.IsNullOrWhiteSpace(model.AppName))
             {
                 //TODO, validate appName
