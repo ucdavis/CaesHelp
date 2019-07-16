@@ -60,6 +60,50 @@ $cork-oak: #aca39a;
 $shingle-brown: #4f2c1d;
 
 // Layouts
+@mixin breakpoint($point) {
+    @if $point==sm {
+        @media (max-width: 576px) {
+            @content ;
+        }
+    }
+    @if $point==xsm {
+        @media (max-width: 575px) {
+            @content ;
+        }
+    }
+    @if $point==md {
+        @media (max-width: 768px) {
+            @content ;
+        }
+    }
+    @if $point==lg {
+        @media (max-width: 992px) {
+            @content ;
+        }
+    }
+    @if $point==xl {
+        @media (max-width: 1200px) {
+            @content ;
+        }
+    }
+}
+.container {
+  padding: 0;
+  width: 80%;
+  max-width:1440px;
+  @include breakpoint (sm) {
+    width: 95%;
+    max-width:1440px;
+  }
+  @include breakpoint (md) {
+    width: 90%;
+    max-width:1440px;
+  }
+  @include breakpoint(lg) {
+    width: 85%;
+    max-width:1440px;
+  }
+}
 
 @mixin fader {
   -o-transition:.25s;
