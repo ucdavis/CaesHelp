@@ -65,8 +65,7 @@ namespace CaesHelp.Services
 
                             await file.CopyToAsync(memoryStream);
                             memoryStream.Seek(0, SeekOrigin.Begin);
-                            var attach = new Attachment(memoryStream, file.FileName,
-                                MediaTypeNames.Application.Octet);
+                            var attach = new Attachment(memoryStream, file.FileName);
 
                             message.Attachments.Add(attach);
 
