@@ -88,6 +88,9 @@ namespace CaesHelp
                 };
             });
 
+            services.Configure<EmailSettings>(Configuration.GetSection("Email"));
+
+            services.AddTransient<IEmailService, EmailService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CaesHelp.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using CaesHelp.Models;
+using CaesHelp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
@@ -14,6 +15,7 @@ namespace CaesHelp.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        private readonly IEmailService _emailService;
         private const string TempDataMessageKey = "Message";
         private const string TempDataErrorMessageKey = "ErrorMessage";
 
@@ -27,6 +29,11 @@ namespace CaesHelp.Controllers
         {
             get => TempData[TempDataErrorMessageKey] as string;
             set => TempData[TempDataErrorMessageKey] = value;
+        }
+
+        public HomeController(IEmailService emailService)
+        {
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -51,6 +58,9 @@ namespace CaesHelp.Controllers
         [HttpPost]
         public IActionResult Submit([FromForm] TicketPostModel model)
         {
+
+            model.UserInfo = User.GetUserInfo();
+            _emailService.SendEmail(model);
             return RedirectToAction("Index");
         }
 

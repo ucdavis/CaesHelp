@@ -19,5 +19,7 @@ namespace CaesHelp.Models
         public string Subject { get; set; }
         public string Message { get; set; }
         public List<IFormFile> Files { get; set; }
+
+        public User UserInfo { get; set; }//Not posted from the page, but here so it is easier to pass to the email service.
     }
 }
