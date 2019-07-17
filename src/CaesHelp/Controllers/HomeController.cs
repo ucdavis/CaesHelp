@@ -56,11 +56,11 @@ namespace CaesHelp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Submit([FromForm] TicketPostModel model)
+        public async Task<IActionResult> Submit([FromForm] TicketPostModel model)
         {
 
             model.UserInfo = User.GetUserInfo();
-            _emailService.SendEmail(model);
+            await _emailService.SendEmail(model);
             return RedirectToAction("Index");
         }
 
