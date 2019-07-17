@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using CaesHelp.Models;
 using Microsoft.Extensions.Options;
@@ -43,24 +45,71 @@ namespace CaesHelp.Services
             }
 
             message.Subject = model.Subject;
+
+
+
+
             message.IsBodyHtml = false;
             message.Body = "Fake Email Body";
 
-            using (var client = new SmtpClient(_emailSettings.Host))
+            using (var memoryStream = new MemoryStream())
             {
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(_emailSettings.UserName, _emailSettings.Password);
-                client.Port = _emailSettings.Port;
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.EnableSsl = true;
+                if (model.Files != null && model.Files.Count > 0)
+                {
 
-                client.Send(message);
+                    foreach (var file in model.Files)
+                    {
+
+                        try
+                        {
+
+                            await file.CopyToAsync(memoryStream);
+                            memoryStream.Seek(0, SeekOrigin.Begin);
+                            var attach = new Attachment(memoryStream, file.FileName,
+                                MediaTypeNames.Application.Octet);
+
+                            message.Attachments.Add(attach);
+
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            throw;
+                        }
+
+                    }
+                }
+                //This has to be inside the memoryStream using because I think it read it at send time, and it would be closed otherwise
+                try
+                {
+
+                    using (var client = new SmtpClient(_emailSettings.Host))
+                    {
+                        client.UseDefaultCredentials = false;
+                        client.Credentials = new NetworkCredential(_emailSettings.UserName, _emailSettings.Password);
+                        client.Port = _emailSettings.Port;
+                        client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        client.EnableSsl = true;
+
+                        client.Send(message);
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
             }
+
+
         }
 
         private List<string> FilterCarbonCopies(string[] ccEmails)
         {
             var rtValue = new List<string>();
+            rtValue.Add("jsylvestre@ucdavis.edu"); //TODO: Remove
 
             if (ccEmails == null)
             {
