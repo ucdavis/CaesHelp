@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Text;
 using System.Threading.Tasks;
 using CaesHelp.Models;
 using Microsoft.Extensions.Options;
@@ -22,6 +23,25 @@ namespace CaesHelp.Services
 
         private readonly EmailSettings _emailSettings;
 
+        private static readonly string[] SupportEmails = new string[] 
+        {
+            "ASISupport@caes.ucdavis.edu",
+            "AppRequests@caes.ucdavis.edu",
+            "Clusters@caes.ucdavis.edu",
+            "CSRequests@caes.ucdavis.edu",
+            "ITPLPNEM@ucdavis.edu",
+            "PLPNEMITSupport@caes.ucdavis.edu",
+            "ITSupport@ucdavis.edu",
+            "OCSSupport@caes.ucdavis.edu",
+            "OGSWeb@caes.ucdavis.edu",
+            "WebRequests@caes.ucdavis.edu",
+            "shuka@ucdavis.edu",
+            "shuka@caes.ucdavis.edu",
+            "smith@caes.ucdavis.edu",
+            "ssmith@ucdavis.edu",
+            "ssmith@caes.ucdavis.edu",
+        };
+
         public EmailService(IOptions<EmailSettings> emailSettings)
         {
             _emailSettings = emailSettings.Value;
@@ -29,15 +49,32 @@ namespace CaesHelp.Services
 
         public async Task SendEmail(TicketPostModel model)
         {
+            var unknownSupportDept = false;
             if (!_emailSettings.SendEmails.Equals("Yes", StringComparison.OrdinalIgnoreCase))
             {
                 //Log.Information("Email Sending Disabled");
-                return;
+                //return;
             }
 
             //TODO: Build email
             var message = new MailMessage { From = new MailAddress(model.UserInfo.Email) };
-            message.To.Add(_emailSettings.AppSupportEmail); //TODO: Replace with ticket email
+            switch (model.SupportDepartment)
+            {
+                case "Computer Support":
+                    message.To.Add(_emailSettings.AppSupportEmail);
+                    break;
+                case "Web Site Support":
+                    message.To.Add(_emailSettings.WebSupportEmail);
+                    break;
+                case "Programming Support":
+                    message.To.Add(_emailSettings.ComputerSupportEmail);
+                    break;
+                default:
+                    unknownSupportDept = true;
+                    message.To.Add(_emailSettings.AppSupportEmail);
+                    break;
+            }
+            
 
             foreach (var carbonCopy in FilterCarbonCopies(model.CarbonCopies))
             {
@@ -50,7 +87,7 @@ namespace CaesHelp.Services
 
 
             message.IsBodyHtml = false;
-            message.Body = "Fake Email Body";
+            message.Body = BuildBody(model, unknownSupportDept);
 
             using (var memoryStream = new MemoryStream())
             {
@@ -89,8 +126,10 @@ namespace CaesHelp.Services
                         client.Port = _emailSettings.Port;
                         client.DeliveryMethod = SmtpDeliveryMethod.Network;
                         client.EnableSsl = true;
-
-                        client.Send(message);
+                        if (_emailSettings.SendEmails.Equals("Yes", StringComparison.OrdinalIgnoreCase))
+                        {
+                            client.Send(message);
+                        }
                     }
 
                 }
@@ -104,6 +143,7 @@ namespace CaesHelp.Services
 
 
         }
+
 
         private List<string> FilterCarbonCopies(string[] ccEmails)
         {
@@ -122,7 +162,7 @@ namespace CaesHelp.Services
                     continue;
                 }
 
-                var email = ccEmail.ToLower();
+                var email = ccEmail.ToLower().Trim();
                 if (IsValidEmail(email))
                 {
                     rtValue.Add(email);
@@ -134,9 +174,35 @@ namespace CaesHelp.Services
 
         private bool IsValidEmail(string email)
         {
-            //TODO: Add validation (regex and filter ticket emails)
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return false;
+            }
+
+            if (SupportEmails.Contains(email, StringComparer.CurrentCultureIgnoreCase))
+            {
+                return false;
+            }
             return true;
         }
+
+        private string BuildBody(TicketPostModel model, bool unknownSupportDept)
+        {
+            var body = new StringBuilder();
+            if (unknownSupportDept)
+            {
+                body.AppendLine("Unknown Support Department Detected!!!");
+                body.AppendLine("Routing to App Support First.");
+                body.AppendLine();
+            }
+            //body.AppendLine($"xxxxxxxxxxxxxxxxxxxxx: {model.Subject}");
+            body.AppendLine($"Original Subject     : {model.Subject}");
+            body.AppendLine($"Urgency Level        : {model.UrgencyLevel}");
+            body.AppendLine($"Support Department   : {model.SupportDepartment}");
+            if(!string.IsNullOrWhiteSpace(model.ForApplication) )
+            
+        }
+
 
     }
 }
