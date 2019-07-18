@@ -11,6 +11,7 @@ const props = {
     appName: window.App.model.appName,
     subject: window.App.model.subject,
     onlyShowAppSupport: window.App.model.onlyShowAppSupport,
+    submitterEmail: window.App.model.submitterEmail,
 } as ITicketProps;
 
 

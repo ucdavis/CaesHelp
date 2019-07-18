@@ -10,5 +10,7 @@ namespace CaesHelp.Models
         public string AppName { get; set; }
         public string Subject { get; set; }
         public bool OnlyShowAppSupport { get; set; } = false;
+
+        public string SubmitterEmail { get; set; }
     }
 }

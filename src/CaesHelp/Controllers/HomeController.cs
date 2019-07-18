@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CaesHelp.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using CaesHelp.Models;
+using CaesHelp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace CaesHelp.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
+        private readonly IEmailService _emailService;
         private const string TempDataMessageKey = "Message";
         private const string TempDataErrorMessageKey = "ErrorMessage";
 
@@ -26,14 +31,20 @@ namespace CaesHelp.Controllers
             set => TempData[TempDataErrorMessageKey] = value;
         }
 
+        public HomeController(IEmailService emailService)
+        {
+            _emailService = emailService;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Submit(string appName, string subject) 
+        public IActionResult Submit(string appName, string subject)
         {
-            var model = new TicketDefaultsModel {AppName = appName, Subject = subject};
+            var user = User.GetUserInfo();
+            var model = new TicketDefaultsModel {AppName = appName, Subject = subject, SubmitterEmail = user.Email};
             if (!string.IsNullOrWhiteSpace(model.AppName))
             {
                 //TODO, validate appName
@@ -45,8 +56,11 @@ namespace CaesHelp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Submit([FromForm] TicketPostModel model)
+        public async Task<IActionResult> Submit([FromForm] TicketPostModel model)
         {
+
+            model.UserInfo = User.GetUserInfo();
+            await _emailService.SendEmail(model);
             return RedirectToAction("Index");
         }
 
