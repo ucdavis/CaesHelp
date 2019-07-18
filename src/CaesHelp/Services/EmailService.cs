@@ -60,13 +60,13 @@ namespace CaesHelp.Services
             var message = new MailMessage { From = new MailAddress(model.UserInfo.Email) };
             switch (model.SupportDepartment)
             {
-                case "Computer Support":
+                case StaticValues.SupportDepartment.ComputerSupport:
                     message.To.Add(_emailSettings.AppSupportEmail);
                     break;
-                case "Web Site Support":
+                case StaticValues.SupportDepartment.WebSiteSupport:
                     message.To.Add(_emailSettings.WebSupportEmail);
                     break;
-                case "Programming Support":
+                case StaticValues.SupportDepartment.ProgrammingSupport:
                     message.To.Add(_emailSettings.ComputerSupportEmail);
                     break;
                 default:
@@ -193,14 +193,50 @@ namespace CaesHelp.Services
             {
                 body.AppendLine("Unknown Support Department Detected!!!");
                 body.AppendLine("Routing to App Support First.");
-                body.AppendLine();
+                body.AppendLine("");
             }
+
+            body.AppendLine("Submitting User Info:");
+            body.AppendLine($"Kerb Id              : {model.UserInfo.Id}");
+            body.AppendLine($"Name                 : {model.UserInfo.FirstName} {model.UserInfo.LastName}");
+
             //body.AppendLine($"xxxxxxxxxxxxxxxxxxxxx: {model.Subject}");
             body.AppendLine($"Original Subject     : {model.Subject}");
             body.AppendLine($"Urgency Level        : {model.UrgencyLevel}");
             body.AppendLine($"Support Department   : {model.SupportDepartment}");
-            if(!string.IsNullOrWhiteSpace(model.ForApplication) )
-            
+            if (!string.IsNullOrWhiteSpace(model.ForApplication) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.ProgrammingSupport, StringComparison.OrdinalIgnoreCase))
+            {
+                body.AppendLine($"For Application      : {model.ForApplication}");
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.ForWebSite) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.WebSiteSupport, StringComparison.OrdinalIgnoreCase))
+            {
+                body.AppendLine($"For Web Site  x x    : {model.ForWebSite}");
+            }
+
+            if (model.Available != null && model.Available.Any(a => !string.IsNullOrWhiteSpace(a)))
+            {
+                body.AppendLine("Available Time       :");
+                foreach (var availbleTimes in model.Available.Where(a => !string.IsNullOrWhiteSpace(a)))
+                {
+                    body.AppendLine($"    {availbleTimes}");
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.Phone) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.ComputerSupport, StringComparison.OrdinalIgnoreCase))
+            {
+                body.AppendLine($"Contact Phone Number : {model.Phone}");
+            }
+            if (!string.IsNullOrWhiteSpace(model.Location) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.ComputerSupport, StringComparison.OrdinalIgnoreCase))
+            {
+                body.AppendLine($"Location             : {model.Location}");
+            }
+            body.AppendLine("");
+            body.AppendLine("");
+            body.AppendLine("Supplied Message Body:");
+            body.AppendLine(model.Message);
+
+            return body.ToString();
         }
 
 
