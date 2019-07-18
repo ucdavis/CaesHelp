@@ -35,6 +35,10 @@ namespace CaesHelp.Services
             "OCSSupport@caes.ucdavis.edu",
             "OGSWeb@caes.ucdavis.edu",
             "WebRequests@caes.ucdavis.edu",
+            "support@caes.ucdavis.edu",
+            "lab-support@caes.ucdavis.edu",
+            "lab-reservations@caes.ucdavis.edu",
+            "ithelp@ucdavis.edu",
             "shuka@ucdavis.edu",
             "shuka@caes.ucdavis.edu",
             "smith@caes.ucdavis.edu",
@@ -61,13 +65,13 @@ namespace CaesHelp.Services
             switch (model.SupportDepartment)
             {
                 case StaticValues.SupportDepartment.ComputerSupport:
-                    message.To.Add(_emailSettings.AppSupportEmail);
+                    message.To.Add(_emailSettings.ComputerSupportEmail);
                     break;
                 case StaticValues.SupportDepartment.WebSiteSupport:
                     message.To.Add(_emailSettings.WebSupportEmail);
                     break;
                 case StaticValues.SupportDepartment.ProgrammingSupport:
-                    message.To.Add(_emailSettings.ComputerSupportEmail);
+                    message.To.Add(_emailSettings.AppSupportEmail);
                     break;
                 default:
                     unknownSupportDept = true;
@@ -82,8 +86,6 @@ namespace CaesHelp.Services
             }
 
             message.Subject = model.Subject;
-
-
 
 
             message.IsBodyHtml = false;
@@ -197,21 +199,32 @@ namespace CaesHelp.Services
             }
 
             body.AppendLine("Submitting User Info:");
-            body.AppendLine($"Kerb Id              : {model.UserInfo.Id}");
-            body.AppendLine($"Name                 : {model.UserInfo.FirstName} {model.UserInfo.LastName}");
+            body.AppendLine($"Kerb Id: {model.UserInfo.Id}");
+            body.AppendLine($"Name: {model.UserInfo.FirstName} {model.UserInfo.LastName}");
+            body.AppendLine("");
 
-            //body.AppendLine($"xxxxxxxxxxxxxxxxxxxxx: {model.Subject}");
-            body.AppendLine($"Original Subject     : {model.Subject}");
-            body.AppendLine($"Urgency Level        : {model.UrgencyLevel}");
-            body.AppendLine($"Support Department   : {model.SupportDepartment}");
+            if (model.CarbonCopies!= null && model.CarbonCopies.Any(a => !string.IsNullOrWhiteSpace(a)))
+            {
+                body.AppendLine("CC's Emails:");
+                foreach (var ccEmail in model.CarbonCopies.Where(a => !string.IsNullOrWhiteSpace(a)))
+                {
+                    body.AppendLine(ccEmail);
+                }
+
+                body.AppendLine("");
+            }
+
+            body.AppendLine($"Original Subject: {model.Subject}");
+            body.AppendLine($"Urgency Level: {model.UrgencyLevel}");
+            body.AppendLine($"Support Department: {model.SupportDepartment}");
             if (!string.IsNullOrWhiteSpace(model.ForApplication) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.ProgrammingSupport, StringComparison.OrdinalIgnoreCase))
             {
-                body.AppendLine($"For Application      : {model.ForApplication}");
+                body.AppendLine($"For Application: {model.ForApplication}");
             }
 
             if (!string.IsNullOrWhiteSpace(model.ForWebSite) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.WebSiteSupport, StringComparison.OrdinalIgnoreCase))
             {
-                body.AppendLine($"For Web Site  x x    : {model.ForWebSite}");
+                body.AppendLine($"For Web Site: {model.ForWebSite}");
             }
 
             if (model.Available != null && model.Available.Any(a => !string.IsNullOrWhiteSpace(a)))
@@ -229,7 +242,7 @@ namespace CaesHelp.Services
             }
             if (!string.IsNullOrWhiteSpace(model.Location) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.ComputerSupport, StringComparison.OrdinalIgnoreCase))
             {
-                body.AppendLine($"Location             : {model.Location}");
+                body.AppendLine($"Location: {model.Location}");
             }
             body.AppendLine("");
             body.AppendLine("");
