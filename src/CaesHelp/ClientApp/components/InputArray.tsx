@@ -48,11 +48,11 @@ export default class InputArray extends React.Component<IInputArrayProps,any> {
                             onChange={this.handleChange(idx)}
                             name={`${this.props.name}[${idx}]`}
                         />
-                            <button 
+                        <a
                             type="button"
                                 onClick={this.handleRemoveInput(idx)}
                                 className="btn btn-danger mb-2"
-                            ><i className="fa fa-trash"/></button>
+                            ><i className="fa fa-trash"/></a>
                     </div>
                 ))}
                 <br/>
