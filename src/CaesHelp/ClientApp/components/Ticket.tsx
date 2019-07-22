@@ -40,7 +40,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             phone: "",
             location: "",
             forWebSite: "",
-            forApplication: "",
+            forApplication: this.props.appName != null ? this.props.appName : "",
             subject: this.props.subject != null ? this.props.subject : "",
             message: "",
             submitting: false,
