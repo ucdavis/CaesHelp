@@ -4,7 +4,7 @@
 export interface IInputArrayProps {
     validation?: (type: string) => void;
     handleAddInput: () => void;
-    handleRemoveInput?: (idx: any) => void;
+    handleRemoveInput: (idx: any) => void;
     handleChange: (idx: any, evt: any) => void;
     name: string; 
     placeholder: string;

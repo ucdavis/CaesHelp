@@ -77,16 +77,16 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         }) as any);
     };
 
-    handleRemoveAvailableInput = (idx: any) => () => {
+    handleRemoveAvailableInput = (idx: any) => {
         this.setState(({
             availableInputs: this.state.availableInputs.filter((s, sidx) => idx !== sidx)
         }) as any);
     };
 
-    handleRemoveEmailInput = (idx: any) => () => {
+    handleRemoveEmailInput = (idx: any) => {
         this.setState(({
             emailInputs: this.state.emailInputs.filter((s, sidx) => idx !== sidx)
-        }) as any);
+        }) as any, this._validateState);
     };
 
     handleAddEmailInput = () => {
