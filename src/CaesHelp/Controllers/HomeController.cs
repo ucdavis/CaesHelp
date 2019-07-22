@@ -45,8 +45,20 @@ namespace CaesHelp.Controllers
         {
             var user = User.GetUserInfo();
             var model = new TicketDefaultsModel {AppName = appName, Subject = subject, SubmitterEmail = user.Email};
+
             if (!string.IsNullOrWhiteSpace(model.AppName))
             {
+                switch (true)
+                {
+                    case bool b when model.AppName.Equals("OPP", StringComparison.OrdinalIgnoreCase):
+                        model.AppName = "PrePurchasing";
+                        break;
+                    case bool b when model.AppName.Equals("Ace", StringComparison.OrdinalIgnoreCase):
+                        model.AppName = "Academic Course Evaluations";
+                        break;
+                    default:
+                        break;
+                }
                 //TODO, validate appName
                 model.OnlyShowAppSupport = true;
             }
@@ -58,7 +70,7 @@ namespace CaesHelp.Controllers
         [HttpPost]
         public async Task<IActionResult> Submit([FromForm] TicketPostModel model)
         {
-
+            //TODO: json
             model.UserInfo = User.GetUserInfo();
             await _emailService.SendEmail(model);
             return RedirectToAction("Index");
