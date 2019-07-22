@@ -58,7 +58,7 @@ namespace CaesHelp.Controllers
         [HttpPost]
         public async Task<IActionResult> Submit([FromForm] TicketPostModel model)
         {
-
+            //TODO: json
             model.UserInfo = User.GetUserInfo();
             await _emailService.SendEmail(model);
             return RedirectToAction("Index");

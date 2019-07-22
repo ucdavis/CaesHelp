@@ -8,8 +8,6 @@ interface ITicketState {
     supportDepartment: string;
     phone: string;
     location: string;
-    available: string; //TODO: Replace this with array control thing
-    carbonCopies: string; //TODO: Replace this with array control thing
     forWebSite: string;
     forApplication: string;
     subject: string;
@@ -41,8 +39,6 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             supportDepartment: this.props.onlyShowAppSupport ? "Programming Support" : "",
             phone: "",
             location: "",
-            available: "", //TODO: Replace
-            carbonCopies: "", //TODO:Replace
             forWebSite: "",
             forApplication: "",
             subject: this.props.subject,
@@ -106,7 +102,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             return { ...input, value: evt.target.value, isValid: validateEmail(evt.target.value) };
         });
 
-        this.setState(({ emailInputs: newValues }) as any);
+        this.setState(({ emailInputs: newValues }) as any, this._validateState);
     };
 
     handleAvailableChange = (idx: any, evt: any) => {
@@ -141,6 +137,14 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         if (!this.state.subject || !this.state.subject.trim()) {
             valid = false;
             errList.push("Subject is required.");
+        }
+
+        let xxx = this.state.emailInputs.filter(function(cc) {
+            return cc.isValid === false;
+        });
+        if (xxx.length > 0) {
+            valid = false;
+            errList.push("At least 1 Carbon Copy Email is invalid.");
         }
 
 
