@@ -32,8 +32,6 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
     constructor(props) {
         super(props);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
 
         const initialState: ITicketState = {
             urgencyLevel: "Non-Critical Issue",
@@ -59,7 +57,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
 
 
-    handleInputChange(event) {
+    handleInputChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -122,7 +120,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
     };
 
-    async handleSubmit(event) {
+    handleSubmit = async (event) => {
         this.setState({
             showErrors: true
         });
