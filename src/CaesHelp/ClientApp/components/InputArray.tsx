@@ -40,19 +40,19 @@ export default class InputArray extends React.Component<IInputArrayProps,any> {
         return (
             <div>
                 {this.state.inputs.map((input, idx) => (
-                    <div className="form-group d-inline-block" key={idx}>
-                        <input className="form-control mb-2"
-                            type="text"
-                            placeholder={this.props.placeholder}
-                            value={input.value}
-                            onChange={this.handleChange(idx)}
-                            name={`${this.props.name}[${idx}]`}
-                        />
-                        <a
-                            type="button"
-                                onClick={this.handleRemoveInput(idx)}
-                                className="btn btn-danger mb-2"
-                            ><i className="fa fa-trash"/></a>
+                    <div className="form-group " key={idx}>
+                        <div className="input-group" >
+                            <input className="form-control"
+                                type="text"
+                                placeholder={this.props.placeholder}
+                                value={input.value}
+                                onChange={this.handleChange(idx)}
+                                name={`${this.props.name}[${idx}]`}
+                            />
+                            <div className="input-group-append">
+                                <a className="btn btn-danger" type="button" onClick={this.handleRemoveInput(idx)}><i className="fa fa-minus"></i></a>
+                            </div>
+                        </div>
                     </div>
                 ))}
                 <br/>
