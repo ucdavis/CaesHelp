@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CaesHelp.Models;
 using Microsoft.Extensions.Options;
@@ -176,12 +177,18 @@ namespace CaesHelp.Services
 
         private bool IsValidEmail(string email)
         {
+            
             if (string.IsNullOrWhiteSpace(email))
             {
                 return false;
             }
 
             if (SupportEmails.Contains(email, StringComparer.CurrentCultureIgnoreCase))
+            {
+                return false;
+            }
+            const string emailRegex = @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$"; //https://www.regular-expressions.info/email.html
+            if (!Regex.IsMatch(email, emailRegex, RegexOptions.IgnoreCase))
             {
                 return false;
             }

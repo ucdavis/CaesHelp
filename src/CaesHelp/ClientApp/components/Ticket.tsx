@@ -1,14 +1,13 @@
 ﻿import * as React from "react";
 import { ErrorList } from "../components/ErrorList";
 import InputArray from "../components/InputArray";
+import { validateEmail } from "../util/email";
 
 interface ITicketState {
     urgencyLevel: string;
     supportDepartment: string;
     phone: string;
     location: string;
-    available: string; //TODO: Replace this with array control thing
-    carbonCopies: string; //TODO: Replace this with array control thing
     forWebSite: string;
     forApplication: string;
     subject: string;
@@ -17,6 +16,8 @@ interface ITicketState {
     validState: boolean;
     showErrors: boolean;
     errorArray: [string];
+    availableInputs: [{value: string, isValid: boolean}];
+    emailInputs: [{ value: string, isValid: boolean }];
 }
 
 export interface ITicketProps {
@@ -32,24 +33,22 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
     constructor(props) {
         super(props);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
 
         const initialState: ITicketState = {
             urgencyLevel: "Non-Critical Issue",
             supportDepartment: this.props.onlyShowAppSupport ? "Programming Support" : "",
             phone: "",
             location: "",
-            available: "", //TODO: Replace
-            carbonCopies: "", //TODO:Replace
             forWebSite: "",
-            forApplication: "",
-            subject: this.props.subject,
+            forApplication: this.props.appName != null ? this.props.appName : "",
+            subject: this.props.subject != null ? this.props.subject : "",
             message: "",
             submitting: false,
             validState: false,
             showErrors: false,
-            errorArray: [""]
+            errorArray: [""],
+            availableInputs: [{ value: "", isValid: true }],
+            emailInputs: [{ value: "" , isValid: true }]
         };
 
         this.state = { ...initialState };
@@ -59,7 +58,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
 
 
-    handleInputChange(event) {
+    handleInputChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -70,6 +69,54 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
         //this.setState(({ [name]: value }) as any); //TODO: Do I need as any here?
         //this._validateState();
+    }
+
+    handleAddAvailableInput = () => {
+        this.setState(({
+            availableInputs: this.state.availableInputs.concat([{ value: "", isValid: true }])
+        }) as any);
+    };
+
+    handleRemoveAvailableInput = (idx: any) => {
+        this.setState(({
+            availableInputs: this.state.availableInputs.filter((s, sidx) => idx !== sidx)
+        }) as any);
+    };
+
+    handleRemoveEmailInput = (idx: any) => {
+        this.setState(({
+            emailInputs: this.state.emailInputs.filter((s, sidx) => idx !== sidx)
+        }) as any, this._validateState);
+    };
+
+    handleAddEmailInput = () => {
+        this.setState(({
+            emailInputs: this.state.emailInputs.concat([{ value: "", isValid: true }])
+        }) as any);
+    };
+
+    handleEmailChange = (idx: any, evt: any) => {
+
+        const newValues = this.state.emailInputs.map((input, sidx) => {
+            if (idx !== sidx) return input;
+            return { ...input, value: evt.target.value.trim(), isValid: validateEmail(evt.target.value) };
+        });
+
+        this.setState(({ emailInputs: newValues }) as any, this._validateState);
+    };
+
+    handleAvailableChange = (idx: any, evt: any) => {
+
+        const newValues = this.state.availableInputs.map((input, sidx) => {
+            if (idx !== sidx) return input;
+            return { ...input, value: evt.target.value, isValid: true };
+        });
+
+        this.setState(({ availableInputs: newValues }) as any);
+    };
+
+    ignoreValidation = (val) => {
+        return true;
     }
 
     private _validateState = () => {
@@ -90,6 +137,14 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         if (!this.state.subject || !this.state.subject.trim()) {
             valid = false;
             errList.push("Subject is required.");
+        }
+
+        let xxx = this.state.emailInputs.filter(function(cc) {
+            return cc.isValid === false;
+        });
+        if (xxx.length > 0) {
+            valid = false;
+            errList.push("At least 1 Carbon Copy Email is invalid.");
         }
 
 
@@ -122,7 +177,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
     };
 
-    async handleSubmit(event) {
+    handleSubmit = async (event) => {
         this.setState({
             showErrors: true
         });
@@ -196,7 +251,9 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         <div>
                         <div className="form-group">
                                 <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
-                                <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange}/>
+                                <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange} />
+                                
+                                
                         </div>
                         <div className="form-group">
                                 <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
@@ -207,7 +264,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
                         <div className="form-group"> {/*TODO: Replace with multiples*/}
                             <label className="control-label">Available Dates and Times</label>
-                            <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times"/>
+                            <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" validation={this.ignoreValidation} inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange}/>
                         </div>  
                     }
 
@@ -247,7 +304,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         }
                         <div className="form-group"> {/*TODO: Validation on each one, and pass that back to here?*/}
                             <label className="control-label">Carbon Copies</label>
-                                <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email"/>
+                            <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" validation={validateEmail} inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange}/>
                         </div> 
 
                         <div className="form-group">
