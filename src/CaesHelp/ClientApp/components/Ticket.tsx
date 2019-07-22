@@ -1,6 +1,7 @@
 ﻿import * as React from "react";
 import { ErrorList } from "../components/ErrorList";
 import InputArray from "../components/InputArray";
+import { validateEmail } from "../util/email";
 
 interface ITicketState {
     urgencyLevel: string;
@@ -68,6 +69,10 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
         //this.setState(({ [name]: value }) as any); //TODO: Do I need as any here?
         //this._validateState();
+    }
+
+    ignoreValidation = (val) => {
+        return true;
     }
 
     private _validateState = () => {
@@ -194,7 +199,9 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         <div>
                         <div className="form-group">
                                 <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
-                                <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange}/>
+                                <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange} />
+                                
+                                
                         </div>
                         <div className="form-group">
                                 <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
@@ -205,7 +212,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
                         <div className="form-group"> {/*TODO: Replace with multiples*/}
                             <label className="control-label">Available Dates and Times</label>
-                            <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times"/>
+                            <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" validation={this.ignoreValidation}/>
                         </div>  
                     }
 
@@ -245,7 +252,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         }
                         <div className="form-group"> {/*TODO: Validation on each one, and pass that back to here?*/}
                             <label className="control-label">Carbon Copies</label>
-                                <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email"/>
+                            <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" validation={validateEmail}/>
                         </div> 
 
                         <div className="form-group">
