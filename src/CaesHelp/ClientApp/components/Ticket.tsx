@@ -47,8 +47,8 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             validState: false,
             showErrors: false,
             errorArray: [""],
-            availableInputs: [{ value: "Anytime", isValid: true }],
-            emailInputs: [{ value: "", isValid: true }]
+            availableInputs: [{ value: "", isValid: true }],
+            emailInputs: [{ value: "" , isValid: true }]
         };
 
         this.state = { ...initialState };
@@ -99,7 +99,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
         const newValues = this.state.emailInputs.map((input, sidx) => {
             if (idx !== sidx) return input;
-            return { ...input, value: evt.target.value, isValid: validateEmail(evt.target.value) };
+            return { ...input, value: evt.target.value.trim(), isValid: validateEmail(evt.target.value) };
         });
 
         this.setState(({ emailInputs: newValues }) as any, this._validateState);
