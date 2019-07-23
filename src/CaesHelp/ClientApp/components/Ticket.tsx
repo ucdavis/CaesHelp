@@ -196,7 +196,6 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         event.preventDefault();
         const data = new FormData(event.target);
         data.append("files", event.target.files[0]);
-        //data.append("RequestVerificationToken", this.props.antiForgeryToken);
 
         var response = await fetch('/home/submit', {
             method: 'POST',
