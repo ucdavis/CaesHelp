@@ -12,6 +12,7 @@ const props = {
     subject: window.App.model.subject,
     onlyShowAppSupport: window.App.model.onlyShowAppSupport,
     submitterEmail: window.App.model.submitterEmail,
+    antiForgeryToken: window.App.antiForgeryToken,
 } as ITicketProps;
 
 

@@ -4,10 +4,14 @@
 @{
     ViewData["Title"] = "Submit Page";
 }
+@Html.AntiForgeryToken()
 <script>
     window.App = {};
     window.App.model = @Json.Serialize(Model);
+    window.App.antiForgeryToken = document.getElementsByName('__RequestVerificationToken')[0].value;
 </script>
+
+
 
 <div class="text-center">
     <h1 class="display-4">Request Help</h1>
