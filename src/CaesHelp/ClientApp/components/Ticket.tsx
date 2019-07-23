@@ -223,7 +223,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             }));
         }
 
-        //TODO: messages where there are errors
+        //TODO: Dialog instead of Alert? Would need to figure out how to get the window.location to work with that.
     }
     public render() {
         const programmingSupportTitle = "<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
@@ -340,7 +340,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}
                         <div className="form-group">                            
                             <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control" />
-                            {this.state.submitting && <div><i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.</div>}
+                            {this.state.submitting && <div className="text-center"><i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.</div>}
                         </div>
                     </div>
                     }
