@@ -13,23 +13,11 @@ using Microsoft.AspNetCore.Http;
 namespace CaesHelp.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    [AutoValidateAntiforgeryToken]
+    public class HomeController : SuperController
     {
         private readonly IEmailService _emailService;
-        private const string TempDataMessageKey = "Message";
-        private const string TempDataErrorMessageKey = "ErrorMessage";
 
-        public string Message
-        {
-            get => TempData[TempDataMessageKey] as string;
-            set => TempData[TempDataMessageKey] = value;
-        }
-
-        public string ErrorMessage
-        {
-            get => TempData[TempDataErrorMessageKey] as string;
-            set => TempData[TempDataErrorMessageKey] = value;
-        }
 
         public HomeController(IEmailService emailService)
         {
@@ -41,10 +29,27 @@ namespace CaesHelp.Controllers
             return View();
         }
 
+
         public IActionResult Submit(string appName, string subject)
         {
-            var user = User.GetUserInfo();
-            var model = new TicketDefaultsModel {AppName = appName, Subject = subject, SubmitterEmail = user.Email};
+            var user = new User();
+            try
+            {
+                user = User.GetUserInfo();
+            }
+            catch (Exception e)
+            {
+                ErrorMessage = "There was an error getting your user information from IAM. Please email our Programming support directly to let us know.";
+                return RedirectToAction("Index", "Error");
+            }
+
+            if (string.IsNullOrWhiteSpace(user.Email))
+            {
+                ErrorMessage = "We couldn't find your email in IAM for your account. Please email our Programming support directly to let us know.";
+                return RedirectToAction("Index", "Error");
+            }
+
+            var model = new TicketDefaultsModel { AppName = appName, Subject = subject, SubmitterEmail = user.Email };
 
             if (!string.IsNullOrWhiteSpace(model.AppName))
             {
@@ -59,7 +64,7 @@ namespace CaesHelp.Controllers
                     default:
                         break;
                 }
-                //TODO, validate appName
+
                 model.OnlyShowAppSupport = true;
             }
 
@@ -70,10 +75,21 @@ namespace CaesHelp.Controllers
         [HttpPost]
         public async Task<IActionResult> Submit([FromForm] TicketPostModel model)
         {
-            //TODO: json
-            model.UserInfo = User.GetUserInfo();
-            await _emailService.SendEmail(model);
-            return RedirectToAction("Index");
+            var success = false;
+            var message = string.Empty;
+            try
+            {
+                model.UserInfo = User.GetUserInfo();
+                await _emailService.SendEmail(model);
+                success = true;
+                message = "Help ticket submitted. You should get a confirmation email within 5 or 10 minutes.";
+            }
+            catch (Exception e)
+            {
+                message = "There was an unexpected error. Please try again.";
+            }
+
+            return Json(new { success, message });
         }
 
         public IActionResult Privacy()

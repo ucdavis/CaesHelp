@@ -25,6 +25,7 @@ export interface ITicketProps {
     subject: string;
     onlyShowAppSupport: boolean;
     submitterEmail: string;
+    antiForgeryToken: string;
 }
 
 
@@ -48,7 +49,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             showErrors: false,
             errorArray: [""],
             availableInputs: [{ value: "", isValid: true }],
-            emailInputs: [{ value: "" , isValid: true }]
+            emailInputs: [{ value: "", isValid: true }],
         };
 
         this.state = { ...initialState };
@@ -194,19 +195,35 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
         event.preventDefault();
         const data = new FormData(event.target);
-        data.append("files",event.target.files[0]);
+        data.append("files", event.target.files[0]);
+        //data.append("RequestVerificationToken", this.props.antiForgeryToken);
 
         var response = await fetch('/home/submit', {
             method: 'POST',
             body: data,
+            headers: [["RequestVerificationToken", this.props.antiForgeryToken]]
         });
+        var result = await response.json();
 
         if (response.ok) {
-            window.location.href = "/";
-            return;
+            if (result.success) {
+                alert(result.message);
+                window.location.href = "/";
+                return;
+            } else {
+                alert(result.message);
+                this.setState(state => ({
+                    submitting: false
+                }));
+            }
+
+        } else {
+            alert("There was an error, please try again.");
+            this.setState(state => ({
+                submitting: false
+            }));
         }
 
-        var result = await response.json();
         //TODO: messages where there are errors
     }
     public render() {
@@ -217,10 +234,10 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return (
             <div>
-                <form onSubmit={this.handleSubmit} action="Submit" method="post" ref={r => this._formRef = r} >
+                <form onSubmit={this.handleSubmit} action="Submit" method="post" ref={r => this._formRef = r}>
                     <div className="form-group">
                         <label className="control-label">Submitter Email</label>
-                        <input type="text" name="phone" className="form-control" value={this.props.submitterEmail} disabled={true} />
+                        <input type="text" name="phone" className="form-control" value={this.props.submitterEmail} disabled={true}/>
                     </div>
                     {this.props.onlyShowAppSupport &&
                         <div>{this.props.appName}</div>
@@ -322,8 +339,9 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                          </div>   
 
                         {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}
-                        <div className="form-group">
+                        <div className="form-group">                            
                             <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control" />
+                            {this.state.submitting && <div><i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.</div>}
                         </div>
                     </div>
                     }
