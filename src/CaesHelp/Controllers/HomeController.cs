@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Http;
 
 namespace CaesHelp.Controllers
 {
-    [Authorize]
     [AutoValidateAntiforgeryToken]
     public class HomeController : SuperController
     {
@@ -29,7 +28,7 @@ namespace CaesHelp.Controllers
             return View();
         }
 
-
+        [Authorize]
         public IActionResult Submit(string appName, string subject)
         {
             var user = new User();
@@ -72,6 +71,7 @@ namespace CaesHelp.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Submit([FromForm] TicketPostModel model)
         {
