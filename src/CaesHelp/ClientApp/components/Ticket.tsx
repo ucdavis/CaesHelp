@@ -33,6 +33,7 @@ export interface ITicketProps {
 
 export default class Ticket extends React.Component<ITicketProps, ITicketState> {
     private _formRef: HTMLFormElement;
+    
 
     constructor(props) {
         super(props);
@@ -56,7 +57,6 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         };
 
         this.state = { ...initialState };
-
 
     }
 
@@ -128,6 +128,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
     }
 
     private _validateState = () => {
+        const maxFileSize = 6000000;  //6 MB
         let valid = true;
         let errList = [];
 
@@ -147,12 +148,17 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             errList.push("Subject is required.");
         }
 
-        let xxx = this.state.emailInputs.filter(function(cc) {
+        let emails = this.state.emailInputs.filter(function(cc) {
             return cc.isValid === false;
         });
-        if (xxx.length > 0) {
+        if (emails.length > 0) {
             valid = false;
             errList.push("At least 1 Carbon Copy Email is invalid.");
+        }
+
+        if (this.state.file && this.state.file.name && this.state.file.size > maxFileSize) {
+            valid = false;
+            errList.push("Your attachment is too big.");
         }
 
 
@@ -351,7 +357,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             )}
                             </Dropzone>
                             {this.state.file.name &&
-                                <div>{this.state.file.name} -- {this.state.file.size}</div>
+                                <small className="form-text">File Name: {this.state.file.name}</small>
                             }
                         </div>
                         <div className="form-group">
