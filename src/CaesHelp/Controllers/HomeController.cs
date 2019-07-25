@@ -23,11 +23,6 @@ namespace CaesHelp.Controllers
             _emailService = emailService;
         }
 
-        public IActionResult Result()
-        {
-            return View();
-        }
-
         [Authorize]
         public IActionResult Index(string appName, string subject)
         {
