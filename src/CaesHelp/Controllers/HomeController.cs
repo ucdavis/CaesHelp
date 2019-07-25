@@ -23,13 +23,13 @@ namespace CaesHelp.Controllers
             _emailService = emailService;
         }
 
-        public IActionResult Index()
+        public IActionResult Result()
         {
             return View();
         }
 
         [Authorize]
-        public IActionResult Submit(string appName, string subject)
+        public IActionResult Index(string appName, string subject)
         {
             var user = new User();
             try
@@ -73,7 +73,7 @@ namespace CaesHelp.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Submit([FromForm] TicketPostModel model)
+        public async Task<IActionResult> Index([FromForm] TicketPostModel model)
         {
             var success = false;
             var message = string.Empty;
