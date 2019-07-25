@@ -336,7 +336,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                                             <div className='d-flex justify-content-center align-items-center'>
                                                 <i className='fas fa-upload fa-2x mr-4' />
                                                 <div className='d-flex flex-column align-items-center'>
-                                                    <span>Drop files to attach, or click to Browse.</span>
+                                                    <span>Drop file to attach, or click to Browse.</span>
 
                                                     <span>(Individual file upload size limit 5 MB)</span>
                                                 </div>
