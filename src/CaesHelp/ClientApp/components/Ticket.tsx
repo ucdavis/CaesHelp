@@ -2,6 +2,7 @@
 import { ErrorList } from "../components/ErrorList";
 import InputArray from "../components/InputArray";
 import { validateEmail } from "../util/email";
+import Dropzone from 'react-dropzone';
 
 interface ITicketState {
     urgencyLevel: string;
@@ -324,9 +325,18 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" validation={validateEmail} inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange}/>
                         </div> 
 
+
                         <div className="form-group">
-                            <label className="control-label">Attachment</label>
-                            <input type="file" name="files" className="form-control"/>
+                    <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+                        {({ getRootProps, getInputProps }) => (
+                                <section>
+                                    <div {...getRootProps()}>
+                                            <input {...getInputProps()} className="form-control" name="files"/>
+                                        <p>Drag 'n' drop some files here, or click to select files</p>
+                                    </div>
+                                </section>
+                            )}
+                            </Dropzone>
                         </div>
                         <div className="form-group">
                             <label className="control-label">Subject</label>
