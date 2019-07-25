@@ -19,6 +19,7 @@ interface ITicketState {
     errorArray: [string];
     availableInputs: [{value: string, isValid: boolean}];
     emailInputs: [{ value: string, isValid: boolean }];
+    file: { name: string, size: number };
 }
 
 export interface ITicketProps {
@@ -51,6 +52,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             errorArray: [""],
             availableInputs: [{ value: "", isValid: true }],
             emailInputs: [{ value: "", isValid: true }],
+            file: { name: "", size: 0 },
         };
 
         this.state = { ...initialState };
@@ -115,6 +117,10 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         });
 
         this.setState(({ availableInputs: newValues }) as any);
+    };
+
+    handleFileUpload = (acceptedFiles: File[]) => {
+        this.setState(({ file: { name: acceptedFiles[0].name, size: acceptedFiles[0].size } }), this._validateState);
     };
 
     ignoreValidation = (val) => {
@@ -235,62 +241,61 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         return (
             <div>
                 <form onSubmit={this.handleSubmit} action="Submit" method="post" ref={r => this._formRef = r}>
-                <div className="form-group">
-                    <label className="control-label">Submitter Email</label>
-                    <input type="text" name="phone" className="form-control" value={this.props.submitterEmail} disabled={true}/>
-                </div>
-                {this.props.onlyShowAppSupport &&
+                    <div className="form-group">
+                        <label className="control-label">Submitter Email</label>
+                        <input type="text" name="phone" className="form-control" value={this.props.submitterEmail} disabled={true}/>
+                    </div>
+                    {this.props.onlyShowAppSupport &&
                         <div>{this.props.appName}</div>
                     }
-                <div className="form-group">
-                    <label className="control-label">Urgency <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title="<b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person."/></label>
-                    <select name="urgencyLevel" className="form-control" value={this.state.urgencyLevel} onChange={this.handleInputChange}>
-                        <option value="Non-Critical Issue">Non-Critical Issue</option>
-                        <option value="Scheduled Requests">Scheduled Requests</option>
-                        <option value="Workaround Available">Workaround Available</option>
-                        <option value="Work Stoppage">Work Stoppage</option>
-                        <option value="Critical">Critical</option>
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label className="control-label">Support Department <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title={titleToUse}/></label>
-                    <select name="supportDepartment" className="form-control" value={this.state.supportDepartment} onChange={this.handleInputChange} disabled={this.props.onlyShowAppSupport}>
-                        <option value="">--Select a Support Department--</option>
-                        <option value="Computer Support">Computer Support</option>
-                        <option value="Web Site Support">Web Site Support</option>
-                        <option value="Programming Support">Programming Support</option>
-                    </select>
-                </div>
-                {this.state.supportDepartment !==  "" &&
+                    <div className="form-group">
+                        <label className="control-label">Urgency <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title="<b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person."/></label>
+                        <select name="urgencyLevel" className="form-control" value={this.state.urgencyLevel} onChange={this.handleInputChange}>
+                            <option value="Non-Critical Issue">Non-Critical Issue</option>
+                            <option value="Scheduled Requests">Scheduled Requests</option>
+                            <option value="Workaround Available">Workaround Available</option>
+                            <option value="Work Stoppage">Work Stoppage</option>
+                            <option value="Critical">Critical</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label className="control-label">Support Department <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title={titleToUse}/></label>
+                        <select name="supportDepartment" className="form-control" value={this.state.supportDepartment} onChange={this.handleInputChange} disabled={this.props.onlyShowAppSupport}>
+                            <option value="">--Select a Support Department--</option>
+                            <option value="Computer Support">Computer Support</option>
+                            <option value="Web Site Support">Web Site Support</option>
+                            <option value="Programming Support">Programming Support</option>
+                        </select>
+                    </div>
+                    {this.state.supportDepartment !==  "" &&
                         <div>
-                        
-                    {this.state.supportDepartment === "Computer Support" &&
-                        <div>
-                        <div className="form-group">
-                                <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
-                                <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange} />
-                                
-                                
-                        </div>
-                        <div className="form-group">
-                                <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
-                                <input type="text" name="location" className="form-control" value={this.state.location} onChange={this.handleInputChange}/>
-                        </div>
-                        </div>
-                    }
-                    {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
-                        <div className="form-group"> {/*TODO: Replace with multiples*/}
-                            <label className="control-label">Available Dates and Times</label>
-                            <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" validation={this.ignoreValidation} inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange}/>
-                        </div>  
-                    }
+                        {this.state.supportDepartment === "Computer Support" &&
+                            <div>
+                            <div className="form-group">
+                                    <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
+                                    <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange} />
+                                    
+                                    
+                            </div>
+                            <div className="form-group">
+                                    <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
+                                    <input type="text" name="location" className="form-control" value={this.state.location} onChange={this.handleInputChange}/>
+                            </div>
+                            </div>
+                        }
+                        {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
+                            <div className="form-group"> {/*TODO: Replace with multiples*/}
+                                <label className="control-label">Available Dates and Times</label>
+                                <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" validation={this.ignoreValidation} inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange}/>
+                            </div>  
+                        }
 
-                    {this.state.supportDepartment === "Web Site Support" &&
-                        <div className="form-group">
-                            <label className="control-label">For Website <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="Copy the URL of the site and paste here. For example:<br/><u>https://www.ucdavis.edu/index.html</u>"/></label>
-                            <input required={true} type="text" name="forWebSite" className="form-control" placeholder="https://somesite.example.com" value={this.state.forWebSite} onChange={this.handleInputChange}/>
-                        </div>
-                    }
+                        {this.state.supportDepartment === "Web Site Support" &&
+                            <div className="form-group">
+                                <label className="control-label">For Website <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="Copy the URL of the site and paste here. For example:<br/><u>https://www.ucdavis.edu/index.html</u>"/></label>
+                                <input required={true} type="text" name="forWebSite" className="form-control" placeholder="https://somesite.example.com" value={this.state.forWebSite} onChange={this.handleInputChange}/>
+                            </div>
+                        }
                         {this.state.supportDepartment === "Programming Support" &&
                             <div className="form-group">
                             <label className="control-label">For Application</label>
@@ -328,7 +333,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
                         <div className="form-group">
                             <label className="control-label">Attachment</label>
-                            <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+                            <Dropzone onDrop={acceptedFiles => this.handleFileUpload(acceptedFiles)}>
                                 {({ getRootProps, getInputProps }) => (
                                 <div className="border border-secondary">
                                     <div {...getRootProps()}>
@@ -344,27 +349,30 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                                     </div>
                                 </div>
                             )}
-                </Dropzone>
+                            </Dropzone>
+                            {this.state.file.name &&
+                                <div>{this.state.file.name} -- {this.state.file.size}</div>
+                            }
+                        </div>
+                        <div className="form-group">
+                            <label className="control-label">Subject</label>
+                            <input required={true} type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange}/>
+                        </div>
+                        <div className="form-group">
+                            <label className="control-label">Message</label>
+                            <textarea required={true} name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange}/>
+                        </div>
+
+                        {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}
+                        <div className="form-group">
+                            <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control"/>
+                            {this.state.submitting && <div className="text-center"><i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.</div>}
+                        </div>
+                    </div>
+                    }
+
+                </form>
             </div>
-<div className="form-group">
-    <label className="control-label">Subject</label>
-    <input required={true} type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange}/>
-</div>
-<div className="form-group">
-    <label className="control-label">Message</label>
-    <textarea required={true} name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange}/>
-</div>
-
-{this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}
-<div className="form-group">
-    <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control"/>
-    {this.state.submitting && <div className="text-center"><i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.</div>}
-</div>
-</div>
-}
-
-</form>
-</div>
         );
     }
 }
