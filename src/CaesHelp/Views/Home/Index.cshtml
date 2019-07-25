@@ -1,8 +1,63 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model TicketDefaultsModel
+
+
+@{
+    ViewData["Title"] = "CAES Help";
 }
+@Html.AntiForgeryToken()
+<script>
+    window.App = {};
+    window.App.model = @Json.Serialize(Model);
+    window.App.antiForgeryToken = document.getElementsByName('__RequestVerificationToken')[0].value;
+</script>
+
+
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Request Help</h1>
 </div>
+
+
+
+<div id="react-app"></div>
+
+@section Styles
+{
+    <style>
+        .tooltip-inner {
+            max-width: 550px;
+            text-align: left;
+        }
+    </style>
+    <style>
+        .validation-summary-errors {
+            border:2px solid red;
+            color:red;
+            font-weight:bold;
+            margin:6px;
+            width:30%;
+        }
+
+        .field-validation-error{
+            color:red;
+            font-weight:bold;
+            background-color:yellow;
+        }
+
+        .input-validation-error{
+            color:red;
+            font-weight:bold;
+            background-color:pink;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $('body').tooltip({
+            selector: '[data-toggle="tooltip"]'
+        });
+    </script>
+}
+

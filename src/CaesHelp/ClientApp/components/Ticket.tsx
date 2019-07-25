@@ -1,14 +1,14 @@
 ﻿import * as React from "react";
 import { ErrorList } from "../components/ErrorList";
 import InputArray from "../components/InputArray";
+import { validateEmail } from "../util/email";
+import Dropzone from 'react-dropzone';
 
 interface ITicketState {
     urgencyLevel: string;
     supportDepartment: string;
     phone: string;
     location: string;
-    available: string; //TODO: Replace this with array control thing
-    carbonCopies: string; //TODO: Replace this with array control thing
     forWebSite: string;
     forApplication: string;
     subject: string;
@@ -17,6 +17,9 @@ interface ITicketState {
     validState: boolean;
     showErrors: boolean;
     errorArray: [string];
+    availableInputs: [{value: string, isValid: boolean}];
+    emailInputs: [{ value: string, isValid: boolean }];
+    file: { name: string, size: number };
 }
 
 export interface ITicketProps {
@@ -24,42 +27,42 @@ export interface ITicketProps {
     subject: string;
     onlyShowAppSupport: boolean;
     submitterEmail: string;
+    antiForgeryToken: string;
 }
 
 
 export default class Ticket extends React.Component<ITicketProps, ITicketState> {
     private _formRef: HTMLFormElement;
+    
 
     constructor(props) {
         super(props);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
 
         const initialState: ITicketState = {
             urgencyLevel: "Non-Critical Issue",
             supportDepartment: this.props.onlyShowAppSupport ? "Programming Support" : "",
             phone: "",
             location: "",
-            available: "", //TODO: Replace
-            carbonCopies: "", //TODO:Replace
             forWebSite: "",
-            forApplication: "",
-            subject: this.props.subject,
+            forApplication: this.props.appName != null ? this.props.appName : "",
+            subject: this.props.subject != null ? this.props.subject : "",
             message: "",
             submitting: false,
             validState: false,
             showErrors: false,
-            errorArray: [""]
+            errorArray: [""],
+            availableInputs: [{ value: "", isValid: true }],
+            emailInputs: [{ value: "", isValid: true }],
+            file: { name: "", size: 0 },
         };
 
         this.state = { ...initialState };
-
 
     }
 
 
 
-    handleInputChange(event) {
+    handleInputChange = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -72,7 +75,60 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         //this._validateState();
     }
 
+    handleAddAvailableInput = () => {
+        this.setState(({
+            availableInputs: this.state.availableInputs.concat([{ value: "", isValid: true }])
+        }) as any);
+    };
+
+    handleRemoveAvailableInput = (idx: any) => {
+        this.setState(({
+            availableInputs: this.state.availableInputs.filter((s, sidx) => idx !== sidx)
+        }) as any);
+    };
+
+    handleRemoveEmailInput = (idx: any) => {
+        this.setState(({
+            emailInputs: this.state.emailInputs.filter((s, sidx) => idx !== sidx)
+        }) as any, this._validateState);
+    };
+
+    handleAddEmailInput = () => {
+        this.setState(({
+            emailInputs: this.state.emailInputs.concat([{ value: "", isValid: true }])
+        }) as any);
+    };
+
+    handleEmailChange = (idx: any, evt: any) => {
+
+        const newValues = this.state.emailInputs.map((input, sidx) => {
+            if (idx !== sidx) return input;
+            return { ...input, value: evt.target.value.trim(), isValid: validateEmail(evt.target.value) };
+        });
+
+        this.setState(({ emailInputs: newValues }) as any, this._validateState);
+    };
+
+    handleAvailableChange = (idx: any, evt: any) => {
+
+        const newValues = this.state.availableInputs.map((input, sidx) => {
+            if (idx !== sidx) return input;
+            return { ...input, value: evt.target.value, isValid: true };
+        });
+
+        this.setState(({ availableInputs: newValues }) as any);
+    };
+
+    handleFileUpload = (acceptedFiles: File[]) => {
+        this.setState(({ file: { name: acceptedFiles[0].name, size: acceptedFiles[0].size } }), this._validateState);
+    };
+
+    ignoreValidation = (val) => {
+        return true;
+    }
+
     private _validateState = () => {
+        const maxFileSize = 6000000;  //6 MB
         let valid = true;
         let errList = [];
 
@@ -90,6 +146,19 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         if (!this.state.subject || !this.state.subject.trim()) {
             valid = false;
             errList.push("Subject is required.");
+        }
+
+        let emails = this.state.emailInputs.filter(function(cc) {
+            return cc.isValid === false;
+        });
+        if (emails.length > 0) {
+            valid = false;
+            errList.push("At least 1 Carbon Copy Email is invalid.");
+        }
+
+        if (this.state.file && this.state.file.name && this.state.file.size > maxFileSize) {
+            valid = false;
+            errList.push("Your attachment is too big.");
         }
 
 
@@ -122,7 +191,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
     };
 
-    async handleSubmit(event) {
+    handleSubmit = async (event) => {
         this.setState({
             showErrors: true
         });
@@ -139,20 +208,35 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
         event.preventDefault();
         const data = new FormData(event.target);
-        data.append("files",event.target.files[0]);
+        data.append("files", event.target.files[0]);
 
-        var response = await fetch('/home/submit', {
+        var response = await fetch('/home/index', {
             method: 'POST',
             body: data,
+            headers: [["RequestVerificationToken", this.props.antiForgeryToken]]
         });
+        var result = await response.json();
 
         if (response.ok) {
-            window.location.href = "/";
-            return;
+            if (result.success) {
+                alert(result.message);
+                window.location.href = "/";
+                return;
+            } else {
+                alert(result.message);
+                this.setState(state => ({
+                    submitting: false
+                }));
+            }
+
+        } else {
+            alert("There was an error, please try again.");
+            this.setState(state => ({
+                submitting: false
+            }));
         }
 
-        var result = await response.json();
-        //TODO: messages where there are errors
+        //TODO: Dialog instead of Alert? Would need to figure out how to get the window.location to work with that.
     }
     public render() {
         const programmingSupportTitle = "<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
@@ -162,10 +246,10 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return (
             <div>
-                <form onSubmit={this.handleSubmit} action="Submit" method="post" ref={r => this._formRef = r} >
+                <form onSubmit={this.handleSubmit} action="Submit" method="post" ref={r => this._formRef = r}>
                     <div className="form-group">
                         <label className="control-label">Submitter Email</label>
-                        <input type="text" name="phone" className="form-control" value={this.props.submitterEmail} disabled={true} />
+                        <input type="text" name="phone" className="form-control" value={this.props.submitterEmail} disabled={true}/>
                     </div>
                     {this.props.onlyShowAppSupport &&
                         <div>{this.props.appName}</div>
@@ -191,32 +275,33 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     </div>
                     {this.state.supportDepartment !==  "" &&
                         <div>
-                        
-                    {this.state.supportDepartment === "Computer Support" &&
-                        <div>
-                        <div className="form-group">
-                                <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
-                                <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange}/>
-                        </div>
-                        <div className="form-group">
-                                <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
-                                <input type="text" name="location" className="form-control" value={this.state.location} onChange={this.handleInputChange}/>
-                        </div>
-                        </div>
-                    }
-                    {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
-                        <div className="form-group"> {/*TODO: Replace with multiples*/}
-                            <label className="control-label">Available Dates and Times</label>
-                            <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times"/>
-                        </div>  
-                    }
+                        {this.state.supportDepartment === "Computer Support" &&
+                            <div>
+                            <div className="form-group">
+                                    <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
+                                    <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange} />
+                                    
+                                    
+                            </div>
+                            <div className="form-group">
+                                    <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
+                                    <input type="text" name="location" className="form-control" value={this.state.location} onChange={this.handleInputChange}/>
+                            </div>
+                            </div>
+                        }
+                        {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
+                            <div className="form-group"> {/*TODO: Replace with multiples*/}
+                                <label className="control-label">Available Dates and Times</label>
+                                <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" validation={this.ignoreValidation} inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange}/>
+                            </div>  
+                        }
 
-                    {this.state.supportDepartment === "Web Site Support" &&
-                        <div className="form-group">
-                            <label className="control-label">For Website <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="Copy the URL of the site and paste here. For example:<br/><u>https://www.ucdavis.edu/index.html</u>"/></label>
-                            <input required={true} type="text" name="forWebSite" className="form-control" placeholder="https://somesite.example.com" value={this.state.forWebSite} onChange={this.handleInputChange}/>
-                        </div>
-                    }
+                        {this.state.supportDepartment === "Web Site Support" &&
+                            <div className="form-group">
+                                <label className="control-label">For Website <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="Copy the URL of the site and paste here. For example:<br/><u>https://www.ucdavis.edu/index.html</u>"/></label>
+                                <input required={true} type="text" name="forWebSite" className="form-control" placeholder="https://somesite.example.com" value={this.state.forWebSite} onChange={this.handleInputChange}/>
+                            </div>
+                        }
                         {this.state.supportDepartment === "Programming Support" &&
                             <div className="form-group">
                             <label className="control-label">For Application</label>
@@ -242,30 +327,52 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                                 <option value="Student Information Management System">Student Information Management System</option>
                                 <option value="Subject To Dismissal">Subject To Dismissal</option>
                                 <option value="TPS3">TPS3</option>
+                                <option value="Tacos">Tacos</option>
                             </select>
                             </div>
                         }
                         <div className="form-group"> {/*TODO: Validation on each one, and pass that back to here?*/}
                             <label className="control-label">Carbon Copies</label>
-                                <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email"/>
+                            <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" validation={validateEmail} inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange}/>
                         </div> 
+
 
                         <div className="form-group">
                             <label className="control-label">Attachment</label>
-                            <input type="file" name="files" className="form-control"/>
+                            <Dropzone onDrop={acceptedFiles => this.handleFileUpload(acceptedFiles)}>
+                                {({ getRootProps, getInputProps }) => (
+                                <div className="border border-secondary">
+                                    <div {...getRootProps()}>
+                                        <input {...getInputProps()} className="form-control" name="files"/>
+                                            <div className='d-flex justify-content-center align-items-center'>
+                                                <i className='fas fa-upload fa-2x mr-4' />
+                                                <div className='d-flex flex-column align-items-center'>
+                                                    <span>Drop file to attach, or click to Browse.</span>
+
+                                                    <span>(Individual file upload size limit 5 MB)</span>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            )}
+                            </Dropzone>
+                            {this.state.file.name &&
+                                <small className="form-text">File Name: {this.state.file.name}</small>
+                            }
                         </div>
                         <div className="form-group">
                             <label className="control-label">Subject</label>
-                            <input required={true} type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange} />
-                        </div>   
+                            <input required={true} type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange}/>
+                        </div>
                         <div className="form-group">
                             <label className="control-label">Message</label>
                             <textarea required={true} name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange}/>
-                         </div>   
+                        </div>
 
                         {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}
                         <div className="form-group">
-                            <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control" />
+                            <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control"/>
+                            {this.state.submitting && <div className="text-center"><i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.</div>}
                         </div>
                     </div>
                     }

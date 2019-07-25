@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using CaesHelp.Extensions
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -35,16 +36,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-action="Submit">Submit Ticket</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Create Help Ticket</a>
                         </li>
                     </ul>
                 </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div style="flex-shrink: 0" class="form-inline mt-2 mt-md-0">
+                        <span>Welcome @User.GetNameClaim()</span>
+                        <form class="flexer" asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                            <button type="submit" class="btn btn-light" style="margin-left: 8px;">Sign out</button>
+                        </form>
+                    </div>
+                }
             </div>
         </nav>
     </header>
