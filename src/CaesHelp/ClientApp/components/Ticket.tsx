@@ -170,6 +170,11 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     valid = false;
                     errList.push("You must specify the URL for the website.");
                 }
+                if (this.state.forWebSite &&
+                    this.state.forWebSite.toLowerCase().indexOf("registration.ucdavis.edu") >= 0) {
+                    valid = false;
+                    errList.push("The registration.ucdavis.edu website is managed by Programming Support. Please change the Support Department.");
+                }
                 break;
             case "Programming Support":
                 if (!this.state.forApplication || !this.state.forApplication) {
