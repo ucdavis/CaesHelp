@@ -153,7 +153,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         });
         if (emails.length > 0) {
             valid = false;
-            errList.push("At least 1 Carbon Copy Email is invalid.");
+            errList.push(`${emails.length} Carbon Copy ${emails.length <= 1 ? "Email is" :"Emails are"} invalid.`);
         }
 
         if (this.state.file && this.state.file.name && this.state.file.size > maxFileSize) {
