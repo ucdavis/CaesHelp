@@ -71,8 +71,6 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             [name]: value
         } as any, this._validateState);
 
-        //this.setState(({ [name]: value }) as any); //TODO: Do I need as any here?
-        //this._validateState();
     }
 
     handleAddAvailableInput = () => {
@@ -295,7 +293,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             </div>
                         }
                         {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
-                            <div className="form-group"> {/*TODO: Replace with multiples*/}
+                            <div className="form-group">
                                 <label className="control-label">Available Dates and Times</label>
                                 <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" validation={this.ignoreValidation} inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange}/>
                             </div>  
@@ -336,7 +334,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             </select>
                             </div>
                         }
-                        <div className="form-group"> {/*TODO: Validation on each one, and pass that back to here?*/}
+                        <div className="form-group">
                             <label className="control-label">Carbon Copies</label>
                             <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" validation={validateEmail} inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange}/>
                         </div> 
