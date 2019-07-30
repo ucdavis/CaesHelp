@@ -71,8 +71,6 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             [name]: value
         } as any, this._validateState);
 
-        //this.setState(({ [name]: value }) as any); //TODO: Do I need as any here?
-        //this._validateState();
     }
 
     handleAddAvailableInput = () => {
@@ -153,7 +151,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         });
         if (emails.length > 0) {
             valid = false;
-            errList.push("At least 1 Carbon Copy Email is invalid.");
+            errList.push(`${emails.length} Carbon Copy ${emails.length <= 1 ? "Email is" :"Emails are"} invalid.`);
         }
 
         if (this.state.file && this.state.file.name && this.state.file.size > maxFileSize) {
@@ -169,6 +167,11 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                 if (!this.state.forWebSite || !this.state.forWebSite.trim()) {
                     valid = false;
                     errList.push("You must specify the URL for the website.");
+                }
+                if (this.state.forWebSite &&
+                    this.state.forWebSite.toLowerCase().indexOf("registration.ucdavis.edu") >= 0) {
+                    valid = false;
+                    errList.push("The registration.ucdavis.edu website is managed by Programming Support. Please change the Support Department.");
                 }
                 break;
             case "Programming Support":
@@ -293,7 +296,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             </div>
                         }
                         {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
-                            <div className="form-group"> {/*TODO: Replace with multiples*/}
+                            <div className="form-group">
                                 <label className="control-label">Available Dates and Times</label>
                                 <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" validation={this.ignoreValidation} inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange}/>
                             </div>
@@ -334,7 +337,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             </select>
                             </div>
                         }
-                        <div className="form-group"> {/*TODO: Validation on each one, and pass that back to here?*/}
+                        <div className="form-group">
                             <label className="control-label">Should anyone else know?</label>
                             <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" validation={validateEmail} inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange}/>
                         </div>

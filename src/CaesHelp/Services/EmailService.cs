@@ -151,7 +151,6 @@ namespace CaesHelp.Services
         private List<string> FilterCarbonCopies(string[] ccEmails)
         {
             var rtValue = new List<string>();
-            rtValue.Add("jsylvestre@ucdavis.edu"); //TODO: Remove
 
             if (ccEmails == null)
             {
