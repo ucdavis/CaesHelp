@@ -18,10 +18,26 @@ background: linear-gradient(180deg, rgba(248,249,251,1) 0%, rgba(255,255,255,1) 
 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f8f9fb",endColorstr="#ffffff",GradientType=1);
 }
 header {
-  background: url("/media/caes-circles.svg");
-  background-repeat: no-repeat;
-  background-position: top right;
+  background: url("/media/caes-circles.svg") center top/cover no-repeat;
+  padding-top:10.5%;
+  background-size:50%;
+  padding-bottom:5%;
+@include breakpoint(xl) {
+  background-size: 70%;
+}
+@include breakpoint(lg) {
+  background-size:80%;
+}
+@include breakpoint(md) {
+  background-size:95%;
+}
+  margin-top:-1rem;
+  h1 {
+    margin-bottom:1rem;
+  }
+
 }
 footer {
     flex-shrink: 0;
+    margin-bottom:2rem;
 }
