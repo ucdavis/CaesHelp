@@ -283,7 +283,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <option value="Programming Support">Programming Support</option>
                         </select>
                     </div>
-                    {this.state.supportDepartment !==  "" &&
+                    {!!this.state.supportDepartment &&
                         <div>
                         {this.state.supportDepartment === "Computer Support" &&
                             <div>
