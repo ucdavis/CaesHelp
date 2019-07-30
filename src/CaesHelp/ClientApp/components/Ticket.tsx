@@ -1,7 +1,7 @@
 ﻿import * as React from "react";
-import { ErrorList } from "../components/ErrorList";
+import ErrorList from "../components/ErrorList";
 import InputArray from "../components/InputArray";
-import { validateEmail } from "../util/email";
+import validateEmail  from "../util/email";
 import Dropzone from 'react-dropzone';
 
 interface ITicketState {
@@ -283,7 +283,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <option value="Programming Support">Programming Support</option>
                         </select>
                     </div>
-                    {this.state.supportDepartment !==  "" &&
+                    {!!this.state.supportDepartment &&
                         <div>
                         {this.state.supportDepartment === "Computer Support" &&
                             <div>

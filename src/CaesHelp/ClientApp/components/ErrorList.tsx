@@ -1,6 +1,10 @@
 ﻿import * as React from "react";
 
-export function ErrorList(props) {
+interface IProps {
+    errorArray: [string];
+}
+
+export default function ErrorList(props: IProps) {
     const errors = props.errorArray;
     const errorList = errors.map((error) =>
         <li key={error}>{error}</li>
