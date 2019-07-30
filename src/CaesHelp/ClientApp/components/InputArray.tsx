@@ -6,7 +6,7 @@ export interface IInputArrayProps {
     handleAddInput: () => void;
     handleRemoveInput: (idx: any) => void;
     handleChange: (idx: any, evt: any) => void;
-    name: string; 
+    name: string;
     placeholder: string;
     addButtonName: string;
     inputs: [{value: string, isValid: boolean}];
@@ -36,11 +36,11 @@ public render() {
                                 name={`${this.props.name}[${idx}]`}
                             />
                             <div className="input-group-append">
-                                <a className="btn btn-danger" type="button" onClick={() => this.props.handleRemoveInput(idx)}><i className="fa fa-minus"></i></a>
+                                <a className="btn btn-danger" type="button" onClick={() => this.props.handleRemoveInput(idx)}><i className="fa fa-times"></i></a>
                             </div>
                             <div className="invalid-feedback">This value is invalid</div>
                         </div>
-                        
+
                     </div>
                 ))}
                 <br/>
