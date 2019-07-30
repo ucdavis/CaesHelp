@@ -194,6 +194,10 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
     };
 
+    private _makeClassName = (prefix, postfix) => {
+        return `${prefix}-${postfix.toLowerCase().replace(" ", "-")}`;
+    };
+
     handleSubmit = async (event) => {
         this.setState({
             showErrors: true
@@ -262,7 +266,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     }
                     <div className="form-group">
                         <label className="control-label">Urgency <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title="<b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person."/></label>
-                        <select name="urgencyLevel" className="form-control '{this.state.urgencyLevel}'" value={this.state.urgencyLevel} onChange={this.handleInputChange}>
+                        <select name="urgencyLevel" className={`form-control ${this._makeClassName("color",this.state.urgencyLevel)}`} value={this.state.urgencyLevel} onChange={this.handleInputChange}>
                             <option className="noncrit" value="Non-Critical Issue">Non-Critical Issue</option>
                             <option value="Scheduled Requests">Scheduled Requests</option>
                             <option value="Workaround Available">Workaround Available</option>
@@ -317,7 +321,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                                 <option value="AD419">AD419</option>
                                 <option value="CatBert">CatBert</option>
                                 <option value="Commencement">Commencement</option>
-                                <option value="Conference Registration And Payments">Conference Registration And Payments</option>
+                                <option value="Registration">Registration</option>
                                 <option value="Dogbert">Dogbert</option>
                                 <option value="Eat Fit">Eat Fit</option>
                                 <option value="Eligibility List">Eligibility List</option>

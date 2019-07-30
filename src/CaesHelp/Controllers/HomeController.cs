@@ -55,6 +55,9 @@ namespace CaesHelp.Controllers
                     case bool b when model.AppName.Equals("Ace", StringComparison.OrdinalIgnoreCase):
                         model.AppName = "Academic Course Evaluations";
                         break;
+                    case bool b when model.AppName.Equals("Crp", StringComparison.OrdinalIgnoreCase):
+                        model.AppName = "Registration";
+                        break;
                     default:
                         break;
                 }
