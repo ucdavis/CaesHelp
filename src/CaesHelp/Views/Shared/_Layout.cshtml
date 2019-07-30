@@ -9,12 +9,12 @@
     <environment names="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css" />
-        <link rel="stylesheet" href="https://ucdcdn.azureedge.net/public/ucdavis.1.0.7.css" />
+        <!-- <link rel="stylesheet" href="https://ucdcdn.azureedge.net/public/ucdavis.1.0.7.css" /> -->
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
-        <link rel="stylesheet" href="https://ucdcdn.azureedge.net/public/ucdavis.1.0.7.css" />
+        <!-- <link rel="stylesheet" href="https://ucdcdn.azureedge.net/public/ucdavis.1.0.7.css" /> -->
     </environment>
 
     <!-- <environment names="Staging,Production">
@@ -24,58 +24,64 @@
     @RenderSection("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CaesHelp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Create Help Ticket</a>
-                        </li>
-                    </ul>
-                </div>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div style="flex-shrink: 0" class="form-inline mt-2 mt-md-0">
-                        <span>Welcome @User.GetNameClaim()</span>
-                        <form class="flexer" asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
-                            <button type="submit" class="btn btn-light" style="margin-left: 8px;">Sign out</button>
-                        </form>
-                    </div>
-                }
-            </div>
-        </nav>
+  <div class="page-wrap">
+    <header class="text-center">
+        <h1 asp-area="" asp-controller="Home" asp-action="Index">CAES Help</h1>
+          @if (User.Identity.IsAuthenticated)
+          {
+              <div class="discreet">
+                  <span>@User.GetNameClaim()</span> •
+                  <a asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                  Sign out
+                  </a>
+              </div>
+          }
     </header>
-<div class="container">
-    @if (!string.IsNullOrWhiteSpace(TempData["ErrorMessage"] as string))
-    {
-        <div class="container">
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert">×</button> @TempData["ErrorMessage"]
-            </div>
-        </div>
-    }
-    @if (!string.IsNullOrWhiteSpace(TempData["Message"] as string))
-    {
-        <div class="container">
-            <div class="alert alert-info">
-                <button type="button" class="close" data-dismiss="alert">×</button> @TempData["Message"]
-            </div>
-        </div>
-    }
-    <main role="main" class="pb-3">@RenderBody()
-    </main>
-</div>
+    <div class="container">
+      @if (!string.IsNullOrWhiteSpace(TempData["ErrorMessage"] as string))
+      {
+          <div class="container">
+              <div class="alert alert-danger">
+                  <button type="button" class="close" data-dismiss="alert">×</button> @TempData["ErrorMessage"]
+              </div>
+          </div>
+      }
+      @if (!string.IsNullOrWhiteSpace(TempData["Message"] as string))
+      {
+          <div class="container">
+              <div class="alert alert-info">
+                  <button type="button" class="close" data-dismiss="alert">×</button> @TempData["Message"]
+              </div>
+          </div>
+      }
+      <main role="main" class="pb-3">@RenderBody()
+      </main>
+    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - CaesHelp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+  </div>
+
+    <footer class="container text-center">
+
+    <span class="discreet">&copy; Copyright 2000-
+        <script language="JavaScript" type="text/javascript">
+        now = new Date
+        theYear = now.getYear()
+        if (theYear < 1900)
+            theYear = theYear + 1900
+        document.write(theYear)
+        </script>
+        The Regents of the University of California, Davis campus. All rights reserved.
+          <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </span>
+
+
+
+    </div>
+
+
+
+
+
     </footer>
 
     <environment names="Development">

@@ -1,0 +1,138 @@
+// Gradient Banner //
+.head_bleed {
+  background: #1e3a5b;
+    background: -moz-linear-gradient(left,#1e3a5b 0%,#1e3a5b 44%,#dbbc5b 57%,#dbbc5b 100%);
+    background: -webkit-linear-gradient(left,#1e3a5b 0%,#1e3a5b 44%,#dbbc5b 57%,#dbbc5b 100%);
+    background: linear-gradient(to right,#1e3a5b 0%,#1e3a5b 44%,#dbbc5b 57%,#dbbc5b 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$gradient-one',endColorstr='$gradient-two',GradientType=1);
+}
+.head_divider {
+    background: url(/media/gunrock_banner_final.svg) center top/cover no-repeat;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height:10px;
+}
+
+// Backgrounds //
+.bg-ucd-blue {
+  background-color:$ucd-blue;
+}
+.bg-ucd-gold {
+  background-color:$ucd-gold;
+}
+.bg-unitrans-red {
+  background-color: $unitrans-red;
+}
+.bg-western-redbud {
+  background-color:$western-redbud;
+}
+.bg-california-poppy{
+  background-color: $california-poppy;
+}
+.bg-sunny-grass {
+  background-color: $sunny-grass;
+}
+.bg-golden-lupine {
+  background-color: $golden-lupine;
+}
+.bg-sky-blue {
+  background-color: $sky-blue;
+}
+.bg-recpool-blue {
+  background-color: $recpool-blue;
+}
+.bg-wine-grape {
+  background-color: $wine-grape;
+}
+
+// Colors //
+.color-ucd-blue {
+  color:$ucd-blue;
+}
+.color-ucd-gold {
+  color:$ucd-gold;
+}
+.color-unitrans-red {
+  color: $unitrans-red;
+}
+.color-western-redbud {
+  color:$western-redbud;
+}
+.color-california-poppy{
+  color: $california-poppy;
+}
+.color-sunny-grass {
+  color: $sunny-grass;
+}
+.color-golden-lupine {
+  color: $golden-lupine;
+}
+.color-sky-blue {
+  color: $sky-blue;
+}
+.color-recpool-blue {
+  color: $recpool-blue;
+}
+.color-wine-grape {
+  color: $wine-grape;
+}
+.primary-color {
+  color: $primary-color;
+}
+.secondary-color {
+  color: $secondary-color;
+}
+.a-color {
+  color: $a-link;
+}
+.primary-font {
+  color: $primary-font;
+}
+.secondary-font {
+  color: $secondary-font;
+}
+.tertiary-font {
+  color: $tertiary-font;
+}
+
+// Border Colors //
+.border-ucd-blue {
+  border-color:$ucd-blue;
+}
+.border-ucd-gold {
+  border-color:$ucd-gold;
+}
+.border-unitrans-red {
+  border-color: $unitrans-red;
+}
+.border-western-redbud {
+  border-color:$western-redbud;
+}
+.border-california-poppy{
+  border-color: $california-poppy;
+}
+.border-sunny-grass {
+  border-color: $sunny-grass;
+}
+.border-golden-lupine {
+  border-color: $golden-lupine;
+}
+.border-sky-blue {
+  border-color: $sky-blue;
+}
+.border-recpool-blue {
+  border-color: $recpool-blue;
+}
+.border-wine-grape {
+  border-color: $wine-grape;
+}
+
+
+// Font Families
+.sans-bold {
+  font-family: $sans-bold;
+}
+.sans-reg {
+  font-family: $sans-reg;
+}

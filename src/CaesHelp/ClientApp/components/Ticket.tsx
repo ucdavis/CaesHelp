@@ -33,7 +33,7 @@ export interface ITicketProps {
 
 export default class Ticket extends React.Component<ITicketProps, ITicketState> {
     private _formRef: HTMLFormElement;
-    
+
 
     constructor(props) {
         super(props);
@@ -194,6 +194,10 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
     };
 
+    private _makeClassName = (prefix, postfix) => {
+        return `${prefix}-${postfix.toLowerCase().replace(" ", "-")}`;
+    };
+
     handleSubmit = async (event) => {
         this.setState({
             showErrors: true
@@ -249,18 +253,21 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return (
             <div>
+              <h3>Ticket Information</h3>
+              <p>Hail friend, please use the below forms to seek help with your College of Agricultural and Environmental Sciences Dean’s Office Computer Resources Unit question. </p>
+
                 <form onSubmit={this.handleSubmit} action="Submit" method="post" ref={r => this._formRef = r}>
                     <div className="form-group">
                         <label className="control-label">Submitter Email</label>
-                        <input type="text" name="phone" className="form-control" value={this.props.submitterEmail} disabled={true}/>
+                        <input type="text" name="submitter-email" className="form-control" value={this.props.submitterEmail} disabled={true}/>
                     </div>
                     {this.props.onlyShowAppSupport &&
                         <div>{this.props.appName}</div>
                     }
                     <div className="form-group">
                         <label className="control-label">Urgency <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title="<b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person."/></label>
-                        <select name="urgencyLevel" className="form-control" value={this.state.urgencyLevel} onChange={this.handleInputChange}>
-                            <option value="Non-Critical Issue">Non-Critical Issue</option>
+                        <select name="urgencyLevel" className={`form-control ${this._makeClassName("color",this.state.urgencyLevel)}`} value={this.state.urgencyLevel} onChange={this.handleInputChange}>
+                            <option className="noncrit" value="Non-Critical Issue">Non-Critical Issue</option>
                             <option value="Scheduled Requests">Scheduled Requests</option>
                             <option value="Workaround Available">Workaround Available</option>
                             <option value="Work Stoppage">Work Stoppage</option>
@@ -283,8 +290,8 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <div className="form-group">
                                     <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
                                     <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange} />
-                                    
-                                    
+
+
                             </div>
                             <div className="form-group">
                                     <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
@@ -296,7 +303,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <div className="form-group">
                                 <label className="control-label">Available Dates and Times</label>
                                 <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" validation={this.ignoreValidation} inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange}/>
-                            </div>  
+                            </div>
                         }
 
                         {this.state.supportDepartment === "Web Site Support" &&
@@ -314,7 +321,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                                 <option value="AD419">AD419</option>
                                 <option value="CatBert">CatBert</option>
                                 <option value="Commencement">Commencement</option>
-                                <option value="Conference Registration And Payments">Conference Registration And Payments</option>
+                                <option value="Registration">Registration</option>
                                 <option value="Dogbert">Dogbert</option>
                                 <option value="Eat Fit">Eat Fit</option>
                                 <option value="Eligibility List">Eligibility List</option>
@@ -335,9 +342,9 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             </div>
                         }
                         <div className="form-group">
-                            <label className="control-label">Carbon Copies</label>
+                            <label className="control-label">Should anyone else know?</label>
                             <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" validation={validateEmail} inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange}/>
-                        </div> 
+                        </div>
 
 
                         <div className="form-group">
@@ -385,4 +392,3 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         );
     }
 }
-

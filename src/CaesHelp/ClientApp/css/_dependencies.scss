@@ -24,12 +24,6 @@ $sans-reg:      "proxima-nova-r",sans-serif;
 
 $primary-color:     #1D3B5C;
 $secondary-color:   #004987;
-$tertiary-color:    #F4BD00;
-
-
-
-$gold:              #DAAA00;
-$blue:              #004987;
 
 $a-link:            transparentize($primary-color, .2);
 
@@ -42,18 +36,11 @@ $box-shadow: 0 0 0 1px rgba(49,49,93,.03), 0 2px 5px 0 rgba(49,49,93,.1), 0 1px 
 $bg-color: #F8F9FB; // background
 $borders: #E8E9ED; // border color
 
-$nav-active: #fff;
-$nav-secondary: $secondary-font;
-
-$people: #ba0c2f;
-$equipment: #DAAA00;
-$access: #78be20;
-$keys:  #00b5e2;
-$spaces: #642667;
-$history: $primary-font;
 // UC Davis Colors
 // Supplemental bright color palette for UC Davis
 
+$ucd-blue:#1D4A83;
+$ucd-gold:#D2AC39;
 $unitrans-red: #ba0c2f;
 $western-redbud: #c6007e;
 $california-poppy: #ed8800;
@@ -73,13 +60,9 @@ $cork-oak: #aca39a;
 $shingle-brown: #4f2c1d;
 
 // Layouts
-
-$card-padding: 0.75rem 1.75rem;
-$card-thick-padding: 3rem;
-
 @mixin breakpoint($point) {
     @if $point==sm {
-        @media (min-width: 576px) {
+        @media (max-width: 576px) {
             @content ;
         }
     }
@@ -89,23 +72,35 @@ $card-thick-padding: 3rem;
         }
     }
     @if $point==md {
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
             @content ;
         }
     }
     @if $point==lg {
-        @media (min-width: 992px) {
+        @media (max-width: 992px) {
             @content ;
         }
     }
     @if $point==xl {
-        @media (min-width: 1200px) {
+        @media (max-width: 1200px) {
             @content ;
         }
     }
 }
-
-
+.container {
+  padding: 0;
+  width: 80%;
+  max-width:660px;
+  @include breakpoint (sm) {
+    width: 95%;
+  }
+  @include breakpoint (md) {
+    width: 90%;
+  }
+  @include breakpoint(lg) {
+    width: 85%;
+  }
+}
 
 @mixin fader {
   -o-transition:.25s;
@@ -118,13 +113,9 @@ $card-thick-padding: 3rem;
 @mixin main-btn {
   white-space: nowrap;
   display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 20px;
   box-shadow: 0 -3px 0 rgba(0, 0, 0, 0.15) inset, 0 1px 3px rgba(0,0,0,.08);
   background: $primary-color;
   border-radius: 2px;
-  font-size: 1.6rem;
   letter-spacing: 0.025em;
   color: #fff !important;
   text-decoration: none;
@@ -146,11 +137,7 @@ $card-thick-padding: 3rem;
 @mixin inverse-btn {
   white-space: nowrap;
   display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 20px;
   background: #fff;
-  font-size: 1.6rem;
   letter-spacing: 0.025em;
   color: $primary-color;
   text-decoration: none;
