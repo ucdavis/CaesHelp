@@ -121,9 +121,6 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         this.setState(({ file: { name: acceptedFiles[0].name, size: acceptedFiles[0].size } }), this._validateState);
     };
 
-    ignoreValidation = (val) => {
-        return true;
-    }
 
     private _validateState = () => {
         const maxFileSize = 6000000;  //6 MB
@@ -302,7 +299,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
                             <div className="form-group">
                                 <label className="control-label">Available Dates and Times</label>
-                                <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" validation={this.ignoreValidation} inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange}/>
+                                <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange}/>
                             </div>
                         }
 
@@ -343,7 +340,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         }
                         <div className="form-group">
                             <label className="control-label">Should anyone else know?</label>
-                            <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" validation={validateEmail} inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange}/>
+                            <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange}/>
                         </div>
 
 
