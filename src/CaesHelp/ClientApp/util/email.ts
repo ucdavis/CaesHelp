@@ -1,4 +1,4 @@
-﻿export function validateEmail(email: string): boolean {
+﻿export default  function validateEmail(email: string): boolean {
     if (!email || email.trim().length === 0) {
         return true;
     }

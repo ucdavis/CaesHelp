@@ -1,7 +1,7 @@
 ﻿import * as React from "react";
 import ErrorList from "../components/ErrorList";
 import InputArray from "../components/InputArray";
-import { validateEmail } from "../util/email";
+import validateEmail  from "../util/email";
 import Dropzone from 'react-dropzone';
 
 interface ITicketState {
