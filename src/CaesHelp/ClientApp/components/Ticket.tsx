@@ -259,7 +259,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                 <form onSubmit={this.handleSubmit} action="Submit" method="post" ref={r => this._formRef = r}>
                     <div className="form-group">
                         <label className="control-label">Submitter Email</label>
-                        <input type="text" name="phone" className="form-control" value={this.props.submitterEmail} disabled={true}/>
+                        <input type="text" name="submitter-email" className="form-control" value={this.props.submitterEmail} disabled={true}/>
                     </div>
                     {this.props.onlyShowAppSupport &&
                         <div>{this.props.appName}</div>
