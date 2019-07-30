@@ -25,32 +25,17 @@
 </head>
 <body>
   <div class="page-wrap">
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CaesHelp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Create Help Ticket</a>
-                        </li>
-                    </ul>
-                </div>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div style="flex-shrink: 0" class="form-inline mt-2 mt-md-0">
-                        <span>Welcome @User.GetNameClaim()</span>
-                        <form class="flexer" asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
-                            <button type="submit" class="btn btn-light" style="margin-left: 8px;">Sign out</button>
-                        </form>
-                    </div>
-                }
-            </div>
-        </nav>
+    <header class="text-center">
+        <h1 asp-area="" asp-controller="Home" asp-action="Index">CAES Help</h1>
+          @if (User.Identity.IsAuthenticated)
+          {
+              <div>
+                  <span>@User.GetNameClaim()</span> •
+                  <a asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                  Sign out
+                  </a>
+              </div>
+          }
     </header>
     <div class="container">
       @if (!string.IsNullOrWhiteSpace(TempData["ErrorMessage"] as string))
@@ -78,7 +63,7 @@
     <footer class="container">
 
 <div class="row justify-content-between align-items-center">
-  <div class="col-sm-4">
+  <div class="col">
     <p class="discreet">&copy; Copyright 2000-
         <script language="JavaScript" type="text/javascript">
         now = new Date
@@ -87,14 +72,14 @@
             theYear = theYear + 1900
         document.write(theYear)
         </script>
-        The Regents of the University of California, Davis campus.<br>All rights reserved.
+        The Regents of the University of California, Davis campus. All rights reserved.
     </p>
   </div>
-      <div class="col-sm-4 text-right">
+      <div class="col text-right">
         <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        <a target="_blank" href="https://status.caes.ucdavis.edu/"><i class="fas fa-satellite-dish fa-2x"></i></a>
+        <!-- <a target="_blank" href="https://status.caes.ucdavis.edu/"><i class="fas fa-satellite-dish fa-2x"></i></a>
 
-          <a target="_blank" href="https://github.com/ucdavis"><i class="fab fa-github fa-2x"></i></a>
+          <a target="_blank" href="https://github.com/ucdavis"><i class="fab fa-github fa-2x"></i></a> -->
       </div>
     </div>
 

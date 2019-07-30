@@ -33,7 +33,7 @@ export interface ITicketProps {
 
 export default class Ticket extends React.Component<ITicketProps, ITicketState> {
     private _formRef: HTMLFormElement;
-    
+
 
     constructor(props) {
         super(props);
@@ -246,6 +246,9 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return (
             <div>
+              <h3>Ticket Information</h3>
+              <p>Hail friend, please use the below forms to seek help with your College of Agricultural and Environmental Sciences Dean’s Office Computer Resources Unit question. </p>
+
                 <form onSubmit={this.handleSubmit} action="Submit" method="post" ref={r => this._formRef = r}>
                     <div className="form-group">
                         <label className="control-label">Submitter Email</label>
@@ -280,8 +283,8 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <div className="form-group">
                                     <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
                                     <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange} />
-                                    
-                                    
+
+
                             </div>
                             <div className="form-group">
                                     <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
@@ -293,7 +296,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <div className="form-group"> {/*TODO: Replace with multiples*/}
                                 <label className="control-label">Available Dates and Times</label>
                                 <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" validation={this.ignoreValidation} inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange}/>
-                            </div>  
+                            </div>
                         }
 
                         {this.state.supportDepartment === "Web Site Support" &&
@@ -332,9 +335,9 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             </div>
                         }
                         <div className="form-group"> {/*TODO: Validation on each one, and pass that back to here?*/}
-                            <label className="control-label">Carbon Copies</label>
+                            <label className="control-label">Should anyone else know?</label>
                             <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" validation={validateEmail} inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange}/>
-                        </div> 
+                        </div>
 
 
                         <div className="form-group">
@@ -382,4 +385,3 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         );
     }
 }
-

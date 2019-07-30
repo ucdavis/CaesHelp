@@ -1,16 +1,27 @@
-
 html {
   height:100%;
+
 }
 body {
   display: flex;
   flex-direction: column;
   height:100%;
+
+
 }
 .page-wrap {
 flex: 1 0 auto;
+background: rgb(248,249,251);
+background: -moz-linear-gradient(180deg, rgba(248,249,251,1) 0%, rgba(255,255,255,1) 100%);
+background: -webkit-linear-gradient(180deg, rgba(248,249,251,1) 0%, rgba(255,255,255,1) 100%);
+background: linear-gradient(180deg, rgba(248,249,251,1) 0%, rgba(255,255,255,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f8f9fb",endColorstr="#ffffff",GradientType=1);
 }
-
+header {
+  background: url("/media/caes-circles.svg");
+  background-repeat: no-repeat;
+  background-position: top right;
+}
 footer {
     flex-shrink: 0;
 }
