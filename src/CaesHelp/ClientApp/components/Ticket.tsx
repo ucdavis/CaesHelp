@@ -121,6 +121,54 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         this.setState(({ file: { name: acceptedFiles[0].name, size: acceptedFiles[0].size } }), this._validateState);
     };
 
+    handleSubmit = async (event) => {
+        this.setState({
+            showErrors: true
+        });
+
+        this._validateState();
+
+        if (!this.state.validState || this.state.submitting) {
+            event.preventDefault();
+            return;
+        }
+        this.setState(state => ({
+            submitting: true
+        }));
+
+        event.preventDefault();
+        const data = new FormData(event.target);
+        data.append("files", event.target.files[0]);
+
+        var response = await fetch('/home/index', {
+            method: 'POST',
+            body: data,
+            headers: [["RequestVerificationToken", this.props.antiForgeryToken]]
+        });
+        var result = await response.json();
+
+        if (response.ok) {
+            if (result.success) {
+                alert(result.message);
+                window.location.href = "/";
+                return;
+            } else {
+                alert(result.message);
+                this.setState(state => ({
+                    submitting: false
+                }));
+            }
+
+        } else {
+            alert("There was an error, please try again.");
+            this.setState(state => ({
+                submitting: false
+            }));
+        }
+
+        //TODO: Dialog instead of Alert? Would need to figure out how to get the window.location to work with that.
+    }
+
     private _isAttachmentValid = () => {
         const maxFileSize = 6000000;  //6 MB
         if (this.state.file && this.state.file.name && this.state.file.size > maxFileSize) {
@@ -202,53 +250,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         return `${prefix}-${postfix.toLowerCase().replace(" ", "-")}`;
     };
 
-    handleSubmit = async (event) => {
-        this.setState({
-            showErrors: true
-        });
-
-        this._validateState();
-
-        if (!this.state.validState || this.state.submitting) {
-            event.preventDefault();
-            return;
-        }
-        this.setState(state => ({
-            submitting: true
-        }));
-
-        event.preventDefault();
-        const data = new FormData(event.target);
-        data.append("files", event.target.files[0]);
-
-        var response = await fetch('/home/index', {
-            method: 'POST',
-            body: data,
-            headers: [["RequestVerificationToken", this.props.antiForgeryToken]]
-        });
-        var result = await response.json();
-
-        if (response.ok) {
-            if (result.success) {
-                alert(result.message);
-                window.location.href = "/";
-                return;
-            } else {
-                alert(result.message);
-                this.setState(state => ({
-                    submitting: false
-                }));
-            }
-
-        } else {
-            alert("There was an error, please try again.");
-            this.setState(state => ({
-                submitting: false
-            }));
-        }
-
-        //TODO: Dialog instead of Alert? Would need to figure out how to get the window.location to work with that.
-    }
+    
     public render() {
         const programmingSupportTitle = "<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
         const webSupportTitle = "<b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/>";
