@@ -289,9 +289,8 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <option value="Programming Support">Programming Support</option>
                         </select>
                     </div>
-                    {!!this.state.supportDepartment &&
-                        this._renderDepartmentSelected()
-                    }
+                    {this._renderDepartmentSelected()}
+
 
                 </form>
             </div>
@@ -299,6 +298,9 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
     }
 
     private _renderDepartmentSelected() {
+        if (!this.state.supportDepartment) {
+            return null;
+        }
         return (
             <div>
                 {this.state.supportDepartment === "Computer Support" &&
