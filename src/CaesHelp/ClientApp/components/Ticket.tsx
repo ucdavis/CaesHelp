@@ -361,11 +361,11 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                 </div>
 
 
-                <div className="form-group">
+                <div className="form-group" >
                     <label className="control-label">Attachment</label>
                     <Dropzone onDrop={acceptedFiles => this.handleFileUpload(acceptedFiles)}>
                         {({ getRootProps, getInputProps }) => (
-                            <div className="border border-secondary">
+                            <div className={`border border-secondary ${!this._isAttachmentValid() ? "alert-danger" : ""}`}>
                                 <div {...getRootProps()}>
                                     <input {...getInputProps()} className="form-control" name="files" />
                                     <div className='d-flex justify-content-center align-items-center'>
@@ -381,8 +381,13 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         )}
                     </Dropzone>
                     {this.state.file.name &&
-                        <small className="form-text">File Name: {this.state.file.name}</small>
-                    }
+                        <div>
+                            <small className="form-text">File Name: {this.state.file.name}</small>
+                            {!this._isAttachmentValid() &&
+                            <div className="form-text">The attachment is too big</div>
+                            }
+                        </div>
+                }
                 </div>
                 <div className="form-group">
                     <label className="control-label">Subject</label>
