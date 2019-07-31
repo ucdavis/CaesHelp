@@ -121,80 +121,6 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         this.setState(({ file: { name: acceptedFiles[0].name, size: acceptedFiles[0].size } }), this._validateState);
     };
 
-
-    private _validateState = () => {
-        const maxFileSize = 6000000;  //6 MB
-        let valid = true;
-        let errList = [];
-
-        const isValid = this._formRef.checkValidity();
-        if (!isValid) {
-            valid = false;
-            errList.push("One or more fields are invalid");
-        }
-
-        if (!this.state.message || !this.state.message.trim()) {
-            valid = false;
-            errList.push("Message is required.");
-        }
-
-        if (!this.state.subject || !this.state.subject.trim()) {
-            valid = false;
-            errList.push("Subject is required.");
-        }
-
-        let emails = this.state.emailInputs.filter(function(cc) {
-            return cc.isValid === false;
-        });
-        if (emails.length > 0) {
-            valid = false;
-            errList.push(`${emails.length} Carbon Copy ${emails.length <= 1 ? "Email is" :"Emails are"} invalid.`);
-        }
-
-        if (this.state.file && this.state.file.name && this.state.file.size > maxFileSize) {
-            valid = false;
-            errList.push("Your attachment is too big.");
-        }
-
-
-        switch (this.state.supportDepartment) {
-            case "Computer Support":
-                break;
-            case "Web Site Support":
-                if (!this.state.forWebSite || !this.state.forWebSite.trim()) {
-                    valid = false;
-                    errList.push("You must specify the URL for the website.");
-                }
-                if (this.state.forWebSite &&
-                    this.state.forWebSite.toLowerCase().indexOf("registration.ucdavis.edu") >= 0) {
-                    valid = false;
-                    errList.push("The registration.ucdavis.edu website is managed by Programming Support. Please change the Support Department.");
-                }
-                break;
-            case "Programming Support":
-                if (!this.state.forApplication || !this.state.forApplication) {
-                    valid = false;
-                    errList.push("For Programming support, you must select an application for this list.");
-                }
-                break;
-            default:
-                valid = false;
-                errList.push("You must select a Support Department.");
-                break;
-        }
-
-        this.setState((state => ({
-            validState: valid,
-            errorArray: errList
-        })) as any);
-
-
-    };
-
-    private _makeClassName = (prefix, postfix) => {
-        return `${prefix}-${postfix.toLowerCase().replace(" ", "-")}`;
-    };
-
     handleSubmit = async (event) => {
         this.setState({
             showErrors: true
@@ -242,6 +168,89 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
         //TODO: Dialog instead of Alert? Would need to figure out how to get the window.location to work with that.
     }
+
+    private _isAttachmentValid = () => {
+        const maxFileSize = 6000000;  //6 MB
+        if (this.state.file && this.state.file.name && this.state.file.size > maxFileSize) {
+            return false;
+        }
+        return true;
+    };
+
+    private _validateState = () => {
+        
+        let valid = true;
+        let errList = [];
+
+        const isValid = this._formRef.checkValidity();
+        if (!isValid) {
+            valid = false;
+            errList.push("One or more fields are invalid");
+        }
+
+        if (!this.state.message || !this.state.message.trim()) {
+            valid = false;
+            errList.push("Message is required.");
+        }
+
+        if (!this.state.subject || !this.state.subject.trim()) {
+            valid = false;
+            errList.push("Subject is required.");
+        }
+
+        let emails = this.state.emailInputs.filter(function(cc) {
+            return cc.isValid === false;
+        });
+        if (emails.length > 0) {
+            valid = false;
+            errList.push(`${emails.length} Carbon Copy ${emails.length <= 1 ? "Email is" :"Emails are"} invalid.`);
+        }
+
+        if (!this._isAttachmentValid()) {
+            valid = false;
+            errList.push("Your attachment is too big.");
+        }
+
+
+        switch (this.state.supportDepartment) {
+            case "Computer Support":
+                break;
+            case "Web Site Support":
+                if (!this.state.forWebSite || !this.state.forWebSite.trim()) {
+                    valid = false;
+                    errList.push("You must specify the URL for the website.");
+                }
+                if (this.state.forWebSite &&
+                    this.state.forWebSite.toLowerCase().indexOf("registration.ucdavis.edu") >= 0) {
+                    valid = false;
+                    errList.push("The registration.ucdavis.edu website is managed by Programming Support. Please change the Support Department.");
+                }
+                break;
+            case "Programming Support":
+                if (!this.state.forApplication || !this.state.forApplication) {
+                    valid = false;
+                    errList.push("For Programming support, you must select an application for this list.");
+                }
+                break;
+            default:
+                valid = false;
+                errList.push("You must select a Support Department.");
+                break;
+        }
+
+        this.setState((state => ({
+            validState: valid,
+            errorArray: errList
+        })) as any);
+
+
+    };
+
+    private _makeClassName = (prefix, postfix) => {
+        return `${prefix}-${postfix.toLowerCase().replace(" ", "-")}`;
+    };
+
+    
     public render() {
         const programmingSupportTitle = "<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
         const webSupportTitle = "<b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/>";
@@ -280,111 +289,124 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <option value="Programming Support">Programming Support</option>
                         </select>
                     </div>
-                    {!!this.state.supportDepartment &&
-                        <div>
-                        {this.state.supportDepartment === "Computer Support" &&
-                            <div>
-                            <div className="form-group">
-                                    <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
-                                    <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange} />
+                    {this._renderDepartmentSelected()}
 
-
-                            </div>
-                            <div className="form-group">
-                                    <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
-                                    <input type="text" name="location" className="form-control" value={this.state.location} onChange={this.handleInputChange}/>
-                            </div>
-                            </div>
-                        }
-                        {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
-                            <div className="form-group">
-                                <label className="control-label">Available Dates and Times</label>
-                                <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange}/>
-                            </div>
-                        }
-
-                        {this.state.supportDepartment === "Web Site Support" &&
-                            <div className="form-group">
-                                <label className="control-label">For Website <i className="far fa-question-circle"  data-toggle="tooltip" data-html="true" data-placement="auto" title="Copy the URL of the site and paste here. For example:<br/><u>https://www.ucdavis.edu/index.html</u>"/></label>
-                                <input required={true} type="text" name="forWebSite" className="form-control" placeholder="https://somesite.example.com" value={this.state.forWebSite} onChange={this.handleInputChange}/>
-                            </div>
-                        }
-                        {this.state.supportDepartment === "Programming Support" &&
-                            <div className="form-group">
-                            <label className="control-label">For Application</label>
-                            <select name="forApplication" className="form-control" value={this.state.forApplication} onChange={this.handleInputChange}>
-                                <option value="">--Select a Program--</option>
-                                <option value="Academic Course Evaluations">Academic Course Evaluations</option>
-                                <option value="AD419">AD419</option>
-                                <option value="CatBert">CatBert</option>
-                                <option value="Commencement">Commencement</option>
-                                <option value="Registration">Registration</option>
-                                <option value="Dogbert">Dogbert</option>
-                                <option value="Eat Fit">Eat Fit</option>
-                                <option value="Eligibility List">Eligibility List</option>
-                                <option value="Employee Salary Review Analysis">Employee Salary Review Analysis</option>
-                                <option value="FSNEP Records">FSNEP Records</option>
-                                <option value="Grants Management">Grants Management</option>
-                                <option value="Messaging and Appointment System">Messaging and Appointment System</option>
-                                <option value="Payments">Payments</option>
-                                <option value="Peaks">Peaks</option>
-                                <option value="PrePurchasing">PrePurchasing</option>
-                                <option value="PTF">PTF</option>
-                                <option value="Recruitment">Recruitment</option>
-                                <option value="Student Information Management System">Student Information Management System</option>
-                                <option value="Subject To Dismissal">Subject To Dismissal</option>
-                                <option value="TPS3">TPS3</option>
-                                <option value="Tacos">Tacos</option>
-                            </select>
-                            </div>
-                        }
-                        <div className="form-group">
-                            <label className="control-label">Should anyone else know?</label>
-                            <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange}/>
-                        </div>
-
-
-                        <div className="form-group">
-                            <label className="control-label">Attachment</label>
-                            <Dropzone onDrop={acceptedFiles => this.handleFileUpload(acceptedFiles)}>
-                                {({ getRootProps, getInputProps }) => (
-                                <div className="border border-secondary">
-                                    <div {...getRootProps()}>
-                                        <input {...getInputProps()} className="form-control" name="files"/>
-                                            <div className='d-flex justify-content-center align-items-center'>
-                                                <i className='fas fa-upload fa-2x mr-4' />
-                                                <div className='d-flex flex-column align-items-center'>
-                                                    <span>Drop file to attach, or click to Browse.</span>
-
-                                                    <span>(Individual file upload size limit 5 MB)</span>
-                                                </div>
-                                            </div>
-                                    </div>
-                                </div>
-                            )}
-                            </Dropzone>
-                            {this.state.file.name &&
-                                <small className="form-text">File Name: {this.state.file.name}</small>
-                            }
-                        </div>
-                        <div className="form-group">
-                            <label className="control-label">Subject</label>
-                            <input required={true} type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange}/>
-                        </div>
-                        <div className="form-group">
-                            <label className="control-label">Message</label>
-                            <textarea required={true} name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange}/>
-                        </div>
-
-                        {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}
-                        <div className="form-group">
-                            <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control"/>
-                            {this.state.submitting && <div className="text-center"><i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.</div>}
-                        </div>
-                    </div>
-                    }
 
                 </form>
+            </div>
+        );
+    }
+
+    private _renderDepartmentSelected() {
+        if (!this.state.supportDepartment) {
+            return null;
+        }
+        return (
+            <div>
+                {this.state.supportDepartment === "Computer Support" &&
+                    <div>
+                        <div className="form-group">
+                            <label className="control-label">Your Phone Number <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="Call back phone number so we can contact you directly." /></label>
+                            <input type="text" name="phone" className="form-control" value={this.state.phone} onChange={this.handleInputChange} />
+
+
+                        </div>
+                        <div className="form-group">
+                            <label className="control-label">Location <i className="far fa-question-circle" data-toggle="tooltip" data-placement="auto" title="The location of the problem in case we need to physically investigate." /></label>
+                            <input type="text" name="location" className="form-control" value={this.state.location} onChange={this.handleInputChange} />
+                        </div>
+                    </div>
+                }
+                {this.state.supportDepartment === "Web Site Support" || this.state.supportDepartment === "Computer Support" &&
+                    <div className="form-group">
+                        <label className="control-label">Available Dates and Times</label>
+                        <InputArray name="available" placeholder="" addButtonName="Add Additional Dates/Times" inputs={this.state.availableInputs} handleAddInput={this.handleAddAvailableInput} handleRemoveInput={this.handleRemoveAvailableInput} handleChange={this.handleAvailableChange} />
+                    </div>
+                }
+
+                {this.state.supportDepartment === "Web Site Support" &&
+                    <div className="form-group">
+                        <label className="control-label">For Website <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title="Copy the URL of the site and paste here. For example:<br/><u>https://www.ucdavis.edu/index.html</u>" /></label>
+                        <input required={true} type="text" name="forWebSite" className="form-control" placeholder="https://somesite.example.com" value={this.state.forWebSite} onChange={this.handleInputChange} />
+                    </div>
+                }
+                {this.state.supportDepartment === "Programming Support" &&
+                    <div className="form-group">
+                        <label className="control-label">For Application</label>
+                        <select name="forApplication" className="form-control" value={this.state.forApplication} onChange={this.handleInputChange}>
+                            <option value="">--Select a Program--</option>
+                            <option value="Academic Course Evaluations">Academic Course Evaluations</option>
+                            <option value="AD419">AD419</option>
+                            <option value="CatBert">CatBert</option>
+                            <option value="Commencement">Commencement</option>
+                            <option value="Registration">Registration</option>
+                            <option value="Dogbert">Dogbert</option>
+                            <option value="Eat Fit">Eat Fit</option>
+                            <option value="Eligibility List">Eligibility List</option>
+                            <option value="Employee Salary Review Analysis">Employee Salary Review Analysis</option>
+                            <option value="FSNEP Records">FSNEP Records</option>
+                            <option value="Grants Management">Grants Management</option>
+                            <option value="Messaging and Appointment System">Messaging and Appointment System</option>
+                            <option value="Payments">Payments</option>
+                            <option value="Peaks">Peaks</option>
+                            <option value="PrePurchasing">PrePurchasing</option>
+                            <option value="PTF">PTF</option>
+                            <option value="Recruitment">Recruitment</option>
+                            <option value="Student Information Management System">Student Information Management System</option>
+                            <option value="Subject To Dismissal">Subject To Dismissal</option>
+                            <option value="TPS3">TPS3</option>
+                            <option value="Tacos">Tacos</option>
+                        </select>
+                    </div>
+                }
+                <div className="form-group">
+                    <label className="control-label">Should anyone else know?</label>
+                    <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange} />
+                </div>
+
+
+                <div className="form-group" >
+                    <label className="control-label">Attachment</label>
+                    <Dropzone onDrop={acceptedFiles => this.handleFileUpload(acceptedFiles)}>
+                        {({ getRootProps, getInputProps }) => (
+                            <div className={`border border-secondary ${!this._isAttachmentValid() ? "alert-danger" : ""}`}>
+                                <div {...getRootProps()}>
+                                    <input {...getInputProps()} className="form-control" name="files" />
+                                    <div className='d-flex justify-content-center align-items-center'>
+                                        <i className='fas fa-upload fa-2x mr-4' />
+                                        <div className='d-flex flex-column align-items-center'>
+                                            <span>Drop file to attach, or click to Browse.</span>
+
+                                            <span>(Individual file upload size limit 5 MB)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </Dropzone>
+                    {this.state.file.name &&
+                        <div>
+                            <small className="form-text">File Name: {this.state.file.name}</small>
+                            {!this._isAttachmentValid() &&
+                            <div className="form-text">The attachment is too big</div>
+                            }
+                        </div>
+                }
+                </div>
+                <div className="form-group">
+                    <label className="control-label">Subject</label>
+                    <input required={true} type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange} />
+                </div>
+                <div className="form-group">
+                    <label className="control-label">Message</label>
+                    <textarea required={true} name="message" className="form-control" value={this.state.message} onChange={this.handleInputChange} />
+                </div>
+
+                {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}
+                <div className="form-group">
+                    <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control" />
+                    {this.state.submitting && <div className="text-center"><i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.</div>}
+                </div>
             </div>
         );
     }
