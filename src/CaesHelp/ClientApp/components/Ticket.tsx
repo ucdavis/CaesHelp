@@ -178,7 +178,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
     };
 
     private _validateState = () => {
-        
+
         let valid = true;
         let errList = [];
 
@@ -250,7 +250,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         return `${prefix}-${postfix.toLowerCase().replace(" ", "-")}`;
     };
 
-    
+
     public render() {
         const programmingSupportTitle = "<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
         const webSupportTitle = "<b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/>";
@@ -258,7 +258,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const everyoneTitle = computerSupportTitle + webSupportTitle + programmingSupportTitle;
         const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return (
-            <div>
+            <div className={`${this._makeClassName("color",this.state.urgencyLevel)}`}>
               <h3>Ticket Information</h3>
               <p>Hail friend, please use the below forms to seek help with your College of Agricultural and Environmental Sciences Dean’s Office Computer Resources Unit question. </p>
 
@@ -272,7 +272,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     }
                     <div className="form-group">
                         <label className="control-label">Urgency <i className="far fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="auto" title="<b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person."/></label>
-                        <select name="urgencyLevel" className={`form-control ${this._makeClassName("color",this.state.urgencyLevel)}`} value={this.state.urgencyLevel} onChange={this.handleInputChange}>
+                        <select name="urgencyLevel" id="urgency-input" className={`form-control ${this._makeClassName("color",this.state.urgencyLevel)}`} value={this.state.urgencyLevel} onChange={this.handleInputChange}>
                             <option className="noncrit" value="Non-Critical Issue">Non-Critical Issue</option>
                             <option value="Scheduled Requests">Scheduled Requests</option>
                             <option value="Workaround Available">Workaround Available</option>
@@ -303,6 +303,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         }
         return (
             <div>
+              <hr/>
                 {this.state.supportDepartment === "Computer Support" &&
                     <div>
                         <div className="form-group">
@@ -369,7 +370,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                     <label className="control-label">Attachment</label>
                     <Dropzone onDrop={acceptedFiles => this.handleFileUpload(acceptedFiles)}>
                         {({ getRootProps, getInputProps }) => (
-                            <div className={`border border-secondary ${!this._isAttachmentValid() ? "alert-danger" : ""}`}>
+                            <div className={`upload-file ${!this._isAttachmentValid() ? "alert-danger" : ""}`}>
                                 <div {...getRootProps()}>
                                     <input {...getInputProps()} className="form-control" name="files" />
                                     <div className='d-flex justify-content-center align-items-center'>
@@ -388,7 +389,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                         <div>
                             <small className="form-text">File Name: {this.state.file.name}</small>
                             {!this._isAttachmentValid() &&
-                            <div className="form-text">The attachment is too big</div>
+                            <div className="form-text color-unitrans-red">The attachment is too big</div>
                             }
                         </div>
                 }
@@ -404,7 +405,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
                 {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}
                 <div className="form-group">
-                    <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control" />
+                    <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control btn-primary" />
                     {this.state.submitting && <div className="text-center"><i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.</div>}
                 </div>
             </div>

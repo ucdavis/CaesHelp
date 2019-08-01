@@ -9,5 +9,5 @@ export default function ErrorList(props: IProps) {
     const errorList = errors.map((error) =>
         <li key={error}>{error}</li>
     );
-    return (<ul className="validation-summary-errors">{errorList}</ul>);
+    return (<div className="alert alert-danger"><ul>{errorList}</ul></div>);
 }
