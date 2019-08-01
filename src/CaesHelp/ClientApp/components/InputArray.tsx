@@ -24,9 +24,10 @@ export default class InputArray extends React.Component<IInputArrayProps, any> {
 public render() {
         return (
             <div>
+              <div className="form-group">
                 {this.props.inputs.map((input, idx) => (
-                    <div className="form-group " key={idx}>
-                        <div className="input-group" >
+
+                        <div className="input-group" key={idx} >
                             <input className={`form-control ${input.isValid === false && "is-invalid" }`}
                                 type="text"
                                 placeholder={this.props.placeholder}
@@ -40,15 +41,16 @@ public render() {
                             <div className="invalid-feedback">This value is invalid</div>
                         </div>
 
-                    </div>
+                  
                 ))}
-                <br/>
+
                 <button
                     type="button"
                     onClick={() => this.props.handleAddInput()}
                     className="btn btn-primary">
                     <i className="fa fa-plus"/> {this.props.addButtonName}
                 </button>
+                  </div>
             </div>
 );
 }
