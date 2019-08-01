@@ -308,3 +308,13 @@
 .was-validated .form-control:invalid, .form-control.is-invalid {
   border-color:$unitrans-red;
 }
+.form-control:disabled {
+  background-color:$bg-color;
+  color:$tertiary-font;
+  border:1px solid $borders;
+  &:hover {
+    background-color:$bg-color;
+    color:$tertiary-font;
+    border:1px solid $borders;
+  }
+}
