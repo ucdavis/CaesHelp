@@ -160,7 +160,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             }
 
         } else {
-            alert("There was an error, please try again.");
+            alert("There was an error, please try again. If the problem persists, please email apprequests@caes.ucdavis.edu");
             this.setState(state => ({
                 submitting: false
             }));
