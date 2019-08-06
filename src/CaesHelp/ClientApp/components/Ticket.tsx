@@ -288,6 +288,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                             <option value="Web Site Support">Web Site Support</option>
                             <option value="Programming Support">Programming Support</option>
                         </select>
+                        {this.props.onlyShowAppSupport && <input type="hidden" name="supportDepartment" value={this.state.supportDepartment}/>}
                     </div>
                     {this._renderDepartmentSelected()}
 
