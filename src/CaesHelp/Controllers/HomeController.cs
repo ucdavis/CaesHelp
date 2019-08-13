@@ -84,7 +84,7 @@ namespace CaesHelp.Controllers
             }
             catch (Exception e)
             {
-                message = "There was an unexpected error. Please try again.";
+                message = "There was an unexpected error. Please try again. If the problem persists, please email apprequests@caes.ucdavis.edu";
             }
 
             return Json(new { success, message });
