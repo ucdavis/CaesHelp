@@ -304,7 +304,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         }
         return (
             <div>
-              <hr/>
+                <hr/>
                 {this.state.supportDepartment === "Computer Support" &&
                     <div>
                         <div className="form-group">
@@ -363,11 +363,11 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                 }
                 <div className="form-group">
                     <label className="control-label">Should anyone else know?</label>
-                    <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange} />
+                    <InputArray name="carbonCopies" placeholder="some@email.com" addButtonName="Add Email" inputs={this.state.emailInputs} handleAddInput={this.handleAddEmailInput} handleRemoveInput={this.handleRemoveEmailInput} handleChange={this.handleEmailChange}/>
                 </div>
 
 
-                <div className="form-group" >
+                <div className="form-group">
                     <label className="control-label">Attachment</label>
                     <Dropzone onDrop={acceptedFiles => this.handleFileUpload(acceptedFiles)}>
                         {({ getRootProps, getInputProps }) => (
@@ -397,7 +397,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
                 </div>
                 <div className="form-group">
                     <label className="control-label">Subject</label>
-                    <input required={true} type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange} />
+                    <input required={true} type="text" name="subject" className="form-control" value={this.state.subject} onChange={this.handleInputChange}/>
                 </div>
                 <div className="form-group">
                     <label className="control-label">Message</label>
@@ -406,8 +406,15 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
                 {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}
                 <div className="form-group">
-                    <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control btn-primary" />
-                    {this.state.submitting && <div className="text-center"><i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.</div>}
+                    <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control btn-primary"/>
+                    {
+                        this.state.submitting &&
+                        <div className="text-center">
+                            <i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.
+                            <div>If this gets stuck here, consider emailing directly: <a href="\Error" target="_blank" className="btn btn-info">Info</a></div>
+                            
+                        </div>
+                    }
                 </div>
             </div>
         );
