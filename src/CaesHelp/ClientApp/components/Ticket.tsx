@@ -258,7 +258,8 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const everyoneTitle = computerSupportTitle + webSupportTitle + programmingSupportTitle;
         const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return (
-            <div className={`${this._makeClassName("color",this.state.urgencyLevel)}`}>
+            <div className={`${this._makeClassName("color", this.state.urgencyLevel)}`}>
+                <div className="alert-danger ">If you are using Internet Explorer to submit this ticket, please use Chrome or FireFox until we can fix a problem.</div>
               <h3>Ticket Information</h3>
               <p>Hail friend, please use the below forms to seek help with your College of Agricultural and Environmental Sciences Dean’s Office Computer Resources Unit question. </p>
 
@@ -406,7 +407,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
                 {this.state.showErrors && !this.state.validState && <ErrorList errorArray={this.state.errorArray} />}
                 <div className="form-group">
-                    <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control btn-primary" />
+                    <input disabled={(this.state.showErrors && !this.state.validState) || this.state.submitting} type="submit" name="Submit" className="form-control btn-primary" value="Submit" />
                     {this.state.submitting && <div className="text-center"><i className="fas fa-sync fa-spin"></i> Submitting... Please wait. If you have uploaded an attachment, this may take a minute.</div>}
                 </div>
             </div>
