@@ -119,9 +119,10 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
     handleFileUpload = (acceptedFiles: File[]) => {
         this.setState(({ file: { name: acceptedFiles[0].name, size: acceptedFiles[0].size } }), this._validateState);
+        alert(`File: ${acceptedFiles[0].name} Size: ${acceptedFiles[0].size}`);
     };
 
-    handleSubmit = async (event) => {
+    handleSubmit = (event) => {
         this.setState({
             showErrors: true
         });
@@ -228,8 +229,7 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return (
             <div className={`${this._makeClassName("color", this.state.urgencyLevel)}`}>
-                <div className="alert-danger ">If you are using Internet Explorer to submit this ticket, please use Chrome or FireFox until we can fix a problem.</div>
-              <h3>Ticket Information</h3>
+                <h3>Ticket Information</h3>
               <p>Hail friend, please use the below forms to seek help with your College of Agricultural and Environmental Sciences Dean’s Office Computer Resources Unit question. </p>
 
                 <form onSubmit={this.handleSubmit} action="/Home/Index" method="post" ref={r => this._formRef = r} encType="multipart/form-data">
