@@ -119,9 +119,10 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
 
     handleFileUpload = (acceptedFiles: File[]) => {
         this.setState(({ file: { name: acceptedFiles[0].name, size: acceptedFiles[0].size } }), this._validateState);
+        alert(`File: ${acceptedFiles[0].name} Size: ${acceptedFiles[0].size}`);
     };
 
-    handleSubmit = async (event) => {
+    handleSubmit = (event) => {
         this.setState({
             showErrors: true
         });
@@ -136,37 +137,6 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
             submitting: true
         }));
 
-        event.preventDefault();
-        const data = new FormData(event.target);
-        data.append("files", event.target.files[0]);
-
-        var response = await fetch('/home/index', {
-            method: 'POST',
-            body: data,
-            headers: [["RequestVerificationToken", this.props.antiForgeryToken]]
-        });
-        var result = await response.json();
-
-        if (response.ok) {
-            if (result.success) {
-                alert(result.message);
-                window.location.href = "/";
-                return;
-            } else {
-                alert(result.message);
-                this.setState(state => ({
-                    submitting: false
-                }));
-            }
-
-        } else {
-            alert("There was an error, please try again. If the problem persists, please email apprequests@caes.ucdavis.edu");
-            this.setState(state => ({
-                submitting: false
-            }));
-        }
-
-        //TODO: Dialog instead of Alert? Would need to figure out how to get the window.location to work with that.
     }
 
     private _isAttachmentValid = () => {
@@ -259,11 +229,11 @@ export default class Ticket extends React.Component<ITicketProps, ITicketState> 
         const titleToUse = this.props.onlyShowAppSupport ? programmingSupportTitle : everyoneTitle;
         return (
             <div className={`${this._makeClassName("color", this.state.urgencyLevel)}`}>
-                <div className="alert-danger ">If you are using Internet Explorer to submit this ticket, please use Chrome or FireFox until we can fix a problem.</div>
-              <h3>Ticket Information</h3>
+                <h3>Ticket Information</h3>
               <p>Hail friend, please use the below forms to seek help with your College of Agricultural and Environmental Sciences Dean’s Office Computer Resources Unit question. </p>
 
-                <form onSubmit={this.handleSubmit} action="Submit" method="post" ref={r => this._formRef = r}>
+                <form onSubmit={this.handleSubmit} action="/Home/Index" method="post" ref={r => this._formRef = r} encType="multipart/form-data">
+                    <input name="__RequestVerificationToken" type="hidden" value={this.props.antiForgeryToken} />
                     <div className="form-group">
                         <label className="control-label">Submitter Email</label>
                         <input type="text" name="submitter-email" className="form-control" value={this.props.submitterEmail} disabled={true}/>
