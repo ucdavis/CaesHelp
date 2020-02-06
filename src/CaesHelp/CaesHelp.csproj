@@ -6,6 +6,14 @@
     <UserSecretsId>fa104b80-5c3e-4de4-aae5-5a62b055321a</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove=".prettierrc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include=".prettierrc" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Security.CAS" Version="2.0.5" />
