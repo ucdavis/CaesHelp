@@ -8,6 +8,7 @@ namespace CaesHelp.Models
     public class TicketDefaultsModel
     {
         public string AppName { get; set; }
+        public string TeamName { get; set; }
         public string Subject { get; set; }
         public bool OnlyShowAppSupport { get; set; } = false;
 

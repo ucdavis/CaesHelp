@@ -24,7 +24,7 @@ namespace CaesHelp.Controllers
         }
 
         [Authorize]
-        public IActionResult Index(string appName, string subject)
+        public IActionResult Index(string appName, string subject, string team)
         {
             var user = new User();
             try
@@ -43,7 +43,8 @@ namespace CaesHelp.Controllers
                 return RedirectToAction("Index", "Error");
             }
 
-            var model = new TicketDefaultsModel { AppName = appName, Subject = subject, SubmitterEmail = user.Email };
+            var model = new TicketDefaultsModel { AppName = appName, Subject = subject, SubmitterEmail = user.Email};
+
 
             if (!string.IsNullOrWhiteSpace(model.AppName))
             {
@@ -62,6 +63,7 @@ namespace CaesHelp.Controllers
                         break;
                 }
 
+                model.TeamName = team;
                 model.OnlyShowAppSupport = true;
             }
 

@@ -226,6 +226,10 @@ namespace CaesHelp.Services
             if (!string.IsNullOrWhiteSpace(model.ForApplication) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.ProgrammingSupport, StringComparison.OrdinalIgnoreCase))
             {
                 body.AppendLine($"For Application: {model.ForApplication}");
+                if (!string.IsNullOrWhiteSpace(model.Team))
+                {
+                    body.AppendLine($"For Team: {model.Team}");
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(model.ForWebSite) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.WebSiteSupport, StringComparison.OrdinalIgnoreCase))
