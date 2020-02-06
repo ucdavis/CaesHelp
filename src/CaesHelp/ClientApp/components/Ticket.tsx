@@ -20,6 +20,7 @@ interface ITicketState {
   availableInputs: [{ value: string; isValid: boolean }];
   emailInputs: [{ value: string; isValid: boolean }];
   file: { name: string; size: number };
+  team: string;
 }
 
 export interface ITicketProps {
@@ -28,6 +29,7 @@ export interface ITicketProps {
   onlyShowAppSupport: boolean;
   submitterEmail: string;
   antiForgeryToken: string;
+  teamName: string;
 }
 
 export default class Ticket extends React.Component<
@@ -56,7 +58,8 @@ export default class Ticket extends React.Component<
       errorArray: [""],
       availableInputs: [{ value: "", isValid: true }],
       emailInputs: [{ value: "", isValid: true }],
-      file: { name: "", size: 0 }
+      file: { name: "", size: 0 },
+      team: this.props.teamName != null ? this.props.teamName : ""
     };
 
     this.state = { ...initialState };
@@ -445,46 +448,64 @@ export default class Ticket extends React.Component<
           </div>
         )}
         {this.state.supportDepartment === "Programming Support" && (
-          <div className="form-group">
-            <label className="control-label">For Application</label>
-            <select
-              name="forApplication"
-              className="form-control"
-              value={this.state.forApplication}
-              onChange={this.handleInputChange}
-            >
-              <option value="">--Select a Program--</option>
-              <option value="Academic Course Evaluations">
-                Academic Course Evaluations
-              </option>
-              <option value="AD419">AD419</option>
-              <option value="Anlab">Anlab (TOPS)</option>
-              <option value="CatBert">CatBert</option>
-              <option value="Commencement">Commencement</option>
-              <option value="Registration">Registration</option>
-              <option value="Dogbert">Dogbert</option>
-              <option value="Eat Fit">Eat Fit</option>
-              <option value="Eligibility List">Eligibility List</option>
-              <option value="Employee Salary Review Analysis">
-                Employee Salary Review Analysis
-              </option>
-              <option value="FSNEP Records">FSNEP Records</option>
-              <option value="Grants Management">Grants Management</option>
-              <option value="Messaging and Appointment System">
-                Messaging and Appointment System
-              </option>
-              <option value="Payments">Payments</option>
-              <option value="Peaks">Peaks</option>
-              <option value="PrePurchasing">PrePurchasing</option>
-              <option value="PTF">PTF</option>
-              <option value="Recruitment">Recruitment</option>
-              <option value="Student Information Management System">
-                Student Information Management System
-              </option>
-              <option value="Subject To Dismissal">Subject To Dismissal</option>
-              <option value="TPS3">TPS3</option>
-              <option value="Tacos">Tacos</option>
-            </select>
+          <div>
+            <div className="form-group">
+              <label className="control-label">For Application</label>
+              <select
+                name="forApplication"
+                className="form-control"
+                value={this.state.forApplication}
+                onChange={this.handleInputChange}
+              >
+                <option value="">--Select a Program--</option>
+                <option value="Academic Course Evaluations">
+                  Academic Course Evaluations
+                </option>
+                <option value="AD419">AD419</option>
+                <option value="Anlab">Anlab (TOPS)</option>
+                <option value="CatBert">CatBert</option>
+                <option value="Commencement">Commencement</option>
+                <option value="Registration">Registration</option>
+                <option value="Dogbert">Dogbert</option>
+                <option value="Eat Fit">Eat Fit</option>
+                <option value="Eligibility List">Eligibility List</option>
+                <option value="Employee Salary Review Analysis">
+                  Employee Salary Review Analysis
+                </option>
+                <option value="FSNEP Records">FSNEP Records</option>
+                <option value="Grants Management">Grants Management</option>
+                <option value="Messaging and Appointment System">
+                  Messaging and Appointment System
+                </option>
+                <option value="Payments">Payments</option>
+                <option value="Peaks">Peaks</option>
+                <option value="PrePurchasing">PrePurchasing</option>
+                <option value="PTF">PTF</option>
+                <option value="Recruitment">Recruitment</option>
+                <option value="Student Information Management System">
+                  Student Information Management System
+                </option>
+                <option value="Subject To Dismissal">
+                  Subject To Dismissal
+                </option>
+                <option value="TPS3">TPS3</option>
+                <option value="Tacos">Tacos</option>
+              </select>
+            </div>
+            {(this.state.forApplication === "Peaks" ||
+              this.state.forApplication === "Payments") && (
+              <div className="form-group">
+                <label className="control-label">What team is this for?</label>
+                <input
+                  required={false}
+                  type="text"
+                  name="team"
+                  className="form-control"
+                  value={this.state.team}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+            )}
           </div>
         )}
         <div className="form-group">
