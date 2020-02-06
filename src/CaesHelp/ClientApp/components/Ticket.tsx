@@ -495,7 +495,7 @@ export default class Ticket extends React.Component<
               <div className="form-group">
                 <label className="control-label">What team is this for?</label>
                 <input
-                  required={true}
+                  required={false}
                   type="text"
                   name="team"
                   className="form-control"
