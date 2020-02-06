@@ -1,8 +1,8 @@
-﻿import * as React from "react";
-import ErrorList from "../components/ErrorList";
-import InputArray from "../components/InputArray";
-import validateEmail from "../util/email";
-import Dropzone from "react-dropzone";
+﻿import * as React from 'react';
+import ErrorList from '../components/ErrorList';
+import InputArray from '../components/InputArray';
+import validateEmail from '../util/email';
+import Dropzone from 'react-dropzone';
 
 interface ITicketState {
   urgencyLevel: string;
@@ -42,24 +42,24 @@ export default class Ticket extends React.Component<
     super(props);
 
     const initialState: ITicketState = {
-      urgencyLevel: "Non-Critical Issue",
+      urgencyLevel: 'Non-Critical Issue',
       supportDepartment: this.props.onlyShowAppSupport
-        ? "Programming Support"
-        : "",
-      phone: "",
-      location: "",
-      forWebSite: "",
-      forApplication: this.props.appName != null ? this.props.appName : "",
-      subject: this.props.subject != null ? this.props.subject : "",
-      message: "",
+        ? 'Programming Support'
+        : '',
+      phone: '',
+      location: '',
+      forWebSite: '',
+      forApplication: this.props.appName != null ? this.props.appName : '',
+      subject: this.props.subject != null ? this.props.subject : '',
+      message: '',
       submitting: false,
       validState: false,
       showErrors: false,
-      errorArray: [""],
-      availableInputs: [{ value: "", isValid: true }],
-      emailInputs: [{ value: "", isValid: true }],
-      file: { name: "", size: 0 },
-      team: this.props.teamName != null ? this.props.teamName : ""
+      errorArray: [''],
+      availableInputs: [{ value: '', isValid: true }],
+      emailInputs: [{ value: '', isValid: true }],
+      file: { name: '', size: 0 },
+      team: this.props.teamName != null ? this.props.teamName : ''
     };
 
     this.state = { ...initialState };
@@ -67,7 +67,7 @@ export default class Ticket extends React.Component<
 
   handleInputChange = event => {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
     this.setState(
@@ -81,7 +81,7 @@ export default class Ticket extends React.Component<
   handleAddAvailableInput = () => {
     this.setState({
       availableInputs: this.state.availableInputs.concat([
-        { value: "", isValid: true }
+        { value: '', isValid: true }
       ])
     } as any);
   };
@@ -105,7 +105,7 @@ export default class Ticket extends React.Component<
 
   handleAddEmailInput = () => {
     this.setState({
-      emailInputs: this.state.emailInputs.concat([{ value: "", isValid: true }])
+      emailInputs: this.state.emailInputs.concat([{ value: '', isValid: true }])
     } as any);
   };
 
@@ -174,17 +174,17 @@ export default class Ticket extends React.Component<
     const isValid = this._formRef.checkValidity();
     if (!isValid) {
       valid = false;
-      errList.push("One or more fields are invalid");
+      errList.push('One or more fields are invalid');
     }
 
     if (!this.state.message || !this.state.message.trim()) {
       valid = false;
-      errList.push("Message is required.");
+      errList.push('Message is required.');
     }
 
     if (!this.state.subject || !this.state.subject.trim()) {
       valid = false;
-      errList.push("Subject is required.");
+      errList.push('Subject is required.');
     }
 
     let emails = this.state.emailInputs.filter(function(cc) {
@@ -194,47 +194,47 @@ export default class Ticket extends React.Component<
       valid = false;
       errList.push(
         `${emails.length} Carbon Copy ${
-          emails.length <= 1 ? "Email is" : "Emails are"
+          emails.length <= 1 ? 'Email is' : 'Emails are'
         } invalid.`
       );
     }
 
     if (!this._isAttachmentValid()) {
       valid = false;
-      errList.push("Your attachment is too big.");
+      errList.push('Your attachment is too big.');
     }
 
     switch (this.state.supportDepartment) {
-      case "Computer Support":
+      case 'Computer Support':
         break;
-      case "Web Site Support":
+      case 'Web Site Support':
         if (!this.state.forWebSite || !this.state.forWebSite.trim()) {
           valid = false;
-          errList.push("You must specify the URL for the website.");
+          errList.push('You must specify the URL for the website.');
         }
         if (
           this.state.forWebSite &&
           this.state.forWebSite
             .toLowerCase()
-            .indexOf("registration.ucdavis.edu") >= 0
+            .indexOf('registration.ucdavis.edu') >= 0
         ) {
           valid = false;
           errList.push(
-            "The registration.ucdavis.edu website is managed by Programming Support. Please change the Support Department."
+            'The registration.ucdavis.edu website is managed by Programming Support. Please change the Support Department.'
           );
         }
         break;
-      case "Programming Support":
+      case 'Programming Support':
         if (!this.state.forApplication || !this.state.forApplication) {
           valid = false;
           errList.push(
-            "For Programming support, you must select an application for this list."
+            'For Programming support, you must select an application for this list.'
           );
         }
         break;
       default:
         valid = false;
-        errList.push("You must select a Support Department.");
+        errList.push('You must select a Support Department.');
         break;
     }
 
@@ -245,16 +245,16 @@ export default class Ticket extends React.Component<
   };
 
   private _makeClassName = (prefix, postfix) => {
-    return `${prefix}-${postfix.toLowerCase().replace(" ", "-")}`;
+    return `${prefix}-${postfix.toLowerCase().replace(' ', '-')}`;
   };
 
   public render() {
     const programmingSupportTitle =
-      "<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)";
+      '<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)';
     const webSupportTitle =
-      "<b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/>";
+      '<b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/>';
     const computerSupportTitle =
-      "<b>Computer Support:</b> (Shuka Smith, Steven Barkey, Jacqueline Emerson, Darrell Joe, Student Assistants)<br/>";
+      '<b>Computer Support:</b> (Shuka Smith, Steven Barkey, Jacqueline Emerson, Darrell Joe, Student Assistants)<br/>';
     const everyoneTitle =
       computerSupportTitle + webSupportTitle + programmingSupportTitle;
     const titleToUse = this.props.onlyShowAppSupport
@@ -262,13 +262,13 @@ export default class Ticket extends React.Component<
       : everyoneTitle;
     return (
       <div
-        className={`${this._makeClassName("color", this.state.urgencyLevel)}`}
+        className={`${this._makeClassName('color', this.state.urgencyLevel)}`}
       >
         <h3>Ticket Information</h3>
         <p>
           Hail friend, please use the below forms to seek help with your College
           of Agricultural and Environmental Sciences Dean’s Office Computer
-          Resources Unit question.{" "}
+          Resources Unit question.{' '}
         </p>
 
         <form
@@ -296,7 +296,7 @@ export default class Ticket extends React.Component<
           {this.props.onlyShowAppSupport && <div>{this.props.appName}</div>}
           <div className="form-group">
             <label className="control-label">
-              Urgency{" "}
+              Urgency{' '}
               <i
                 className="far fa-question-circle"
                 data-toggle="tooltip"
@@ -309,7 +309,7 @@ export default class Ticket extends React.Component<
               name="urgencyLevel"
               id="urgency-input"
               className={`form-control ${this._makeClassName(
-                "color",
+                'color',
                 this.state.urgencyLevel
               )}`}
               value={this.state.urgencyLevel}
@@ -326,7 +326,7 @@ export default class Ticket extends React.Component<
           </div>
           <div className="form-group">
             <label className="control-label">
-              Support Department{" "}
+              Support Department{' '}
               <i
                 className="far fa-question-circle"
                 data-toggle="tooltip"
@@ -368,11 +368,11 @@ export default class Ticket extends React.Component<
     return (
       <div>
         <hr />
-        {this.state.supportDepartment === "Computer Support" && (
+        {this.state.supportDepartment === 'Computer Support' && (
           <div>
             <div className="form-group">
               <label className="control-label">
-                Your Phone Number{" "}
+                Your Phone Number{' '}
                 <i
                   className="far fa-question-circle"
                   data-toggle="tooltip"
@@ -390,7 +390,7 @@ export default class Ticket extends React.Component<
             </div>
             <div className="form-group">
               <label className="control-label">
-                Location{" "}
+                Location{' '}
                 <i
                   className="far fa-question-circle"
                   data-toggle="tooltip"
@@ -408,8 +408,8 @@ export default class Ticket extends React.Component<
             </div>
           </div>
         )}
-        {this.state.supportDepartment === "Web Site Support" ||
-          (this.state.supportDepartment === "Computer Support" && (
+        {this.state.supportDepartment === 'Web Site Support' ||
+          (this.state.supportDepartment === 'Computer Support' && (
             <div className="form-group">
               <label className="control-label">Available Dates and Times</label>
               <InputArray
@@ -424,10 +424,10 @@ export default class Ticket extends React.Component<
             </div>
           ))}
 
-        {this.state.supportDepartment === "Web Site Support" && (
+        {this.state.supportDepartment === 'Web Site Support' && (
           <div className="form-group">
             <label className="control-label">
-              For Website{" "}
+              For Website{' '}
               <i
                 className="far fa-question-circle"
                 data-toggle="tooltip"
@@ -447,7 +447,7 @@ export default class Ticket extends React.Component<
             />
           </div>
         )}
-        {this.state.supportDepartment === "Programming Support" && (
+        {this.state.supportDepartment === 'Programming Support' && (
           <div>
             <div className="form-group">
               <label className="control-label">For Application</label>
@@ -492,8 +492,8 @@ export default class Ticket extends React.Component<
                 <option value="Tacos">Tacos</option>
               </select>
             </div>
-            {(this.state.forApplication === "Peaks" ||
-              this.state.forApplication === "Payments") && (
+            {(this.state.forApplication === 'Peaks' ||
+              this.state.forApplication === 'Payments') && (
               <div className="form-group">
                 <label className="control-label">What team is this for?</label>
                 <input
@@ -529,7 +529,7 @@ export default class Ticket extends React.Component<
             {({ getRootProps, getInputProps }) => (
               <div
                 className={`upload-file ${
-                  !this._isAttachmentValid() ? "alert-danger" : ""
+                  !this._isAttachmentValid() ? 'alert-danger' : ''
                 }`}
               >
                 <div {...getRootProps()}>
