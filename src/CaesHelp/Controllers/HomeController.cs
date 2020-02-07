@@ -24,7 +24,7 @@ namespace CaesHelp.Controllers
         }
 
         [Authorize]
-        public IActionResult Index(string appName, string subject)
+        public IActionResult Index(string appName, string subject, string team)
         {
             var user = new User();
             try
@@ -61,7 +61,7 @@ namespace CaesHelp.Controllers
                     default:
                         break;
                 }
-
+                model.TeamName = team;
                 model.OnlyShowAppSupport = true;
             }
 
