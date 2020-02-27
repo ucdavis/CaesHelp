@@ -472,6 +472,7 @@ export default class Ticket extends React.Component<
                 <option value="Employee Salary Review Analysis">
                   Employee Salary Review Analysis
                 </option>
+                <option value="Fleece">Fleece (Faculty Directory)</option>
                 <option value="FSNEP Records">FSNEP Records</option>
                 <option value="Grants Management">Grants Management</option>
                 <option value="Messaging and Appointment System">
