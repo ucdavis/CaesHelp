@@ -16,5 +16,9 @@ namespace CaesHelp.Controllers
 
             return View(model); 
         }
+
+        public IActionResult Gone() {
+            return Content("Not Found");
+        }
     }
 }

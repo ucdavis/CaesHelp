@@ -56,21 +56,30 @@ namespace CaesHelp31
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                // endpoints.MapControllerRoute(
+                //     name: "catch-all",
+                //     pattern: "{*url}",
+                //     defaults: new { controller = "Home", action = "Gone" });
             });
 
             // SRK: want to 404 and not fallback to spa somehow
-            app.UseSpa(spa =>
+            app.Map("/spa", app =>
             {
-                // SRK: Do i need to wwwroot?
-                spa.Options.SourcePath = "wwwroot/dist";
-
-                if (env.IsDevelopment())
+                app.UseSpa(spa =>
                 {
-                    // SRK: Changed to just run the webpack dev build script
-                    spa.UseReactDevelopmentServer(npmScript: "webpack");
-                    // spa.UseProxyToSpaDevelopmentServer("http://localhost:8083");
-                }
+                    // SRK: Do i need to wwwroot?
+                    spa.Options.SourcePath = "wwwroot/dist";
+
+                    if (env.IsDevelopment())
+                    {
+                        // SRK: Changed to just run the webpack dev build script
+                        spa.UseReactDevelopmentServer(npmScript: "webpack");
+                        // spa.UseProxyToSpaDevelopmentServer("http://localhost:8083");
+                    }
+                });
             });
+
         }
     }
 }
