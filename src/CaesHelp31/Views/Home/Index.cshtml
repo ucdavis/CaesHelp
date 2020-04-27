@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "CAES Help";
+}
+@Html.AntiForgeryToken()
+
+<div id="react-app"></div>
+
+@section Styles
+{
+    <style>
+        .tooltip-inner {
+            max-width: 550px;
+            text-align: left;
+        }
+    </style>
+
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $('body').tooltip({
+            selector: '[data-toggle="tooltip"]'
+        });
+    </script>
+}
