@@ -5,6 +5,7 @@
   "scripts": {
     "start": "ASPNETCORE_ENVIRONMENT=Development dotnet watch run",
     "debug": "ASPNETCORE_ENVIRONMENT=Development dotnet watch run",
+    "devpack": "webpack-dev-server --config webpack.config.js --hot --inline",
     "webpack": "node node_modules/webpack/bin/webpack.js --env.dev --watch",
     "test": "karma start"
   },
@@ -28,7 +29,7 @@
     "@types/react": "^16.4.1",
     "@types/react-dom": "^16.0.6",
     "@types/react-hot-loader": "^4.1.0",
-    "@types/webpack-env": "1.13.9",
+    "@types/webpack-env": "^1.15.2",
     "aspnet-webpack": "^3.0.0",
     "aspnet-webpack-react": "^4.0.0",
     "awesome-typescript-loader": "^5.2.1",
@@ -52,6 +53,7 @@
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.2.1",
     "webpack-dev-middleware": "^3.5.1",
+    "webpack-dev-server": "^3.10.3",
     "webpack-hot-middleware": "^2.24.3"
   }
 }
