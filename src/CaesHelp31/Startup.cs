@@ -54,7 +54,7 @@ namespace CaesHelp31
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
             // SRK: want to 404 and not fallback to spa somehow
@@ -66,7 +66,8 @@ namespace CaesHelp31
                 if (env.IsDevelopment())
                 {
                     // SRK: Changed to just run the webpack dev build script
-                    spa.UseReactDevelopmentServer(npmScript: "devpack");
+                    // spa.UseReactDevelopmentServer(npmScript: "devpack");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8083");
                 }
             });
         }
