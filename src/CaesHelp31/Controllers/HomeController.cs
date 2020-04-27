@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CaesHelp.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CaesHelp.Controllers
 {
@@ -11,7 +12,9 @@ namespace CaesHelp.Controllers
         
         public IActionResult Index()
         {
-            return View(); 
+            var model = new TicketDefaultsModel { AppName = null, Subject = null, SubmitterEmail = "srkirkland@ucdavis.edu" };
+
+            return View(model); 
         }
     }
 }

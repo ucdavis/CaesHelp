@@ -42,9 +42,10 @@ namespace CaesHelp31
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -66,8 +67,8 @@ namespace CaesHelp31
                 if (env.IsDevelopment())
                 {
                     // SRK: Changed to just run the webpack dev build script
-                    // spa.UseReactDevelopmentServer(npmScript: "devpack");
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8083");
+                    spa.UseReactDevelopmentServer(npmScript: "webpack");
+                    // spa.UseProxyToSpaDevelopmentServer("http://localhost:8083");
                 }
             });
         }

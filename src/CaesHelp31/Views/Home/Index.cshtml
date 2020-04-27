@@ -1,7 +1,15 @@
-﻿@{
+﻿@model TicketDefaultsModel
+
+@{
     ViewData["Title"] = "CAES Help";
 }
 @Html.AntiForgeryToken()
+<script>
+    window.App = {};
+    window.App.model = @Json.Serialize(Model);
+    window.App.antiForgeryToken = document.getElementsByName('__RequestVerificationToken')[0].value;
+</script>
+
 
 <div id="react-app"></div>
 
