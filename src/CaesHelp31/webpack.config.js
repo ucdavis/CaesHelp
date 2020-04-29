@@ -35,6 +35,7 @@ module.exports = env => {
       devServer: {
         compress: true,
         port: 8083,
+        sockPort: 5001,
         contentBase: path.resolve(__dirname,"wwwroot"),
       },
       mode: isDevBuild ? 'development' : 'production',
