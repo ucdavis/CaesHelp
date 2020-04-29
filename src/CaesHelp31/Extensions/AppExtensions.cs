@@ -112,7 +112,7 @@ namespace CaesHelp.Extensions
 
             var envVars = new Dictionary<string, string>
             {
-                { "PORT", portNumber.ToString() },
+                { "WEBPACKPORT", portNumber.ToString() }, // optionally set webpack to run on different port (use portfinder?)
                 { "BROWSER", "none" }, // We don't want create-react-app to open its own extra browser window pointing to the internal dev server port
             };
             var scriptRunner = new NodeScriptRunner(

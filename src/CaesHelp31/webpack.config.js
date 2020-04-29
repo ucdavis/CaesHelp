@@ -34,8 +34,8 @@ module.exports = env => {
       // devtool: 'inline-source-map',
       devServer: {
         compress: true,
-        port: 8083,
-        sockPort: 5001,
+        port: process.env.WEBPACKPORT || 8083,
+        sockPort: 5001, // local ssl for dev
         contentBase: path.resolve(__dirname,"wwwroot"),
       },
       mode: isDevBuild ? 'development' : 'production',
