@@ -1,3 +1,4 @@
+using CaesHelp.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,9 @@ namespace CaesHelp31
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                // SRK: For now, calls devpack and then listens on localhost:8083 to proxy requests back for a dev server
+                app.UseNpmScriptAndProxyDevelopmentServer(npmScript: "devpack");
             }
             else
             {
@@ -64,21 +68,21 @@ namespace CaesHelp31
             });
 
             // SRK: want to 404 and not fallback to spa somehow
-            app.Map("/spa", app =>
-            {
-                app.UseSpa(spa =>
-                {
-                    // SRK: Do i need to wwwroot?
-                    spa.Options.SourcePath = "wwwroot/dist";
+            // app.Map("/spa", app =>
+            // {
+            //     app.UseSpa(spa =>
+            //     {
+            //         // SRK: Do i need to wwwroot?
+            //         spa.Options.SourcePath = "wwwroot/dist";
 
-                    if (env.IsDevelopment())
-                    {
-                        // SRK: Changed to just run the webpack dev build script
-                        spa.UseReactDevelopmentServer(npmScript: "webpack");
-                        // spa.UseProxyToSpaDevelopmentServer("http://localhost:8083");
-                    }
-                });
-            });
+            //         if (env.IsDevelopment())
+            //         {
+            //             // SRK: Changed to just run the webpack dev build script
+            //             spa.UseReactDevelopmentServer(npmScript: "webpack");
+            //             // spa.UseProxyToSpaDevelopmentServer("http://localhost:8083");
+            //         }
+            //     });
+            // });
 
         }
     }
