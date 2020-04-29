@@ -70,21 +70,21 @@ namespace CaesHelp31
             }
 
             // SRK: want to 404 and not fallback to spa somehow
-            app.Map("/spa", app =>
-            {
-                app.UseSpa(spa =>
-                {
-                    // SRK: Do i need to wwwroot?
-                    spa.Options.SourcePath = "wwwroot/dist";
+            // app.Map("/spa", app =>
+            // {
+            //     app.UseSpa(spa =>
+            //     {
+            //         // SRK: Do i need to wwwroot?
+            //         spa.Options.SourcePath = "wwwroot/dist";
 
-                    if (env.IsDevelopment())
-                    {
-                        // SRK: Changed to just run the webpack dev build script
-                        // spa.UseReactDevelopmentServer(npmScript: "devpack");
-                        // spa.UseProxyToSpaDevelopmentServer("http://localhost:8083");
-                    }
-                });
-            });
+            //         if (env.IsDevelopment())
+            //         {
+            //             // SRK: Changed to just run the webpack dev build script
+            //             // spa.UseReactDevelopmentServer(npmScript: "devpack");
+            //             // spa.UseProxyToSpaDevelopmentServer("http://localhost:8083");
+            //         }
+            //     });
+            // });
 
         }
     }
