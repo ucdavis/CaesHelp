@@ -37,9 +37,6 @@ namespace CaesHelp31
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                // SRK: For now, calls devpack and then listens on localhost:8083 to proxy requests back for a dev server
-                app.UseNpmScriptAndProxyDevelopmentServer(npmScript: "devpack");
             }
             else
             {
@@ -67,22 +64,27 @@ namespace CaesHelp31
                 //     defaults: new { controller = "Home", action = "Gone" });
             });
 
-            // SRK: want to 404 and not fallback to spa somehow
-            // app.Map("/spa", app =>
-            // {
-            //     app.UseSpa(spa =>
-            //     {
-            //         // SRK: Do i need to wwwroot?
-            //         spa.Options.SourcePath = "wwwroot/dist";
+            if (env.IsDevelopment()) {
+                // SRK: For now, calls devpack and then listens on localhost:8083 to proxy requests back for a dev server
+                app.UseNpmScriptAndProxyDevelopmentServer(npmScript: "devpack");
+            }
 
-            //         if (env.IsDevelopment())
-            //         {
-            //             // SRK: Changed to just run the webpack dev build script
-            //             spa.UseReactDevelopmentServer(npmScript: "webpack");
-            //             // spa.UseProxyToSpaDevelopmentServer("http://localhost:8083");
-            //         }
-            //     });
-            // });
+            // SRK: want to 404 and not fallback to spa somehow
+            app.Map("/spa", app =>
+            {
+                app.UseSpa(spa =>
+                {
+                    // SRK: Do i need to wwwroot?
+                    spa.Options.SourcePath = "wwwroot/dist";
+
+                    if (env.IsDevelopment())
+                    {
+                        // SRK: Changed to just run the webpack dev build script
+                        // spa.UseReactDevelopmentServer(npmScript: "devpack");
+                        // spa.UseProxyToSpaDevelopmentServer("http://localhost:8083");
+                    }
+                });
+            });
 
         }
     }

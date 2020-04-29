@@ -266,7 +266,7 @@ export default class Ticket extends React.Component<
       >
         <h3>Ticket Information</h3>
         <p>
-          Hail friend pal! please use the below forms to seek help with your College
+          Hail friend old pal! please use the below forms to seek help with your College
           of Agricultural and Environmental Sciences Dean’s Office Computer
           Resources Unit question.{' '}
         </p>

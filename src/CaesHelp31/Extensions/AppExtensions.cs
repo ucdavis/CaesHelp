@@ -82,6 +82,7 @@ namespace CaesHelp.Extensions
             // otherwise if you have multiple UseSpa calls, their configurations would interfere with one another.
             var optionsProvider = appBuilder.ApplicationServices.GetService<IOptions<SpaOptions>>();
             var options = new SpaOptions();
+            options.SourcePath = "wwwroot/dist";
 
             var spaBuilder = new MySpaBuilder(appBuilder, options);
 
@@ -127,7 +128,7 @@ namespace CaesHelp.Extensions
                     // no compiler warnings. So instead of waiting for that, consider it ready as soon
                     // as it starts listening for requests.
                     await scriptRunner.StdOut.WaitForMatch(
-                        new Regex("Starting the development server", RegexOptions.None, RegexMatchTimeout));
+                        new Regex("Project is running", RegexOptions.None, RegexMatchTimeout));
                 }
                 catch (EndOfStreamException ex)
                 {

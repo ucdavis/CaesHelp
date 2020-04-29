@@ -31,7 +31,7 @@ module.exports = env => {
         devtoolModuleFilenameTemplate: info =>
           path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
       },
-      devtool: 'inline-source-map',
+      // devtool: 'inline-source-map',
       devServer: {
         compress: true,
         port: 8083,
