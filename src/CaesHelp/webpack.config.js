@@ -37,7 +37,7 @@ module.exports = env => {
       },
       devServer: {
         compress: true,
-        // port: process.env.DEV_SERVER_PORT || 8083,
+        port: process.env.DEV_SERVER_PORT || 8080,
         // sockPort: undefined, // local ssl for dev
         // sockHost: undefined,
         // sockPath: undefined,
