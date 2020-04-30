@@ -10,6 +10,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 
 const bundleOutputDir = './wwwroot/dist';
 
+// console.log('environment', process.env);
+
 module.exports = env => {
   const isDevBuild = !(env && env.prod);
   const isAnalyze = env && env.analyze;
@@ -18,9 +20,11 @@ module.exports = env => {
       stats: {
         modules: false
       },
-      entry: {
-        app: './ClientApp/app'
-      },
+      entry: [
+        isDevBuild && require.resolve('webpack-dev-server/client') + '?/',
+        './ClientApp/app',
+        // { app: './ClientApp/app' }
+      ].filter(Boolean),
       resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx']
       },
@@ -33,8 +37,15 @@ module.exports = env => {
       },
       devServer: {
         compress: true,
-        port: process.env.DEV_SERVER_PORT || 8083,
-        sockPort: 5001, // local ssl for dev
+        // port: process.env.DEV_SERVER_PORT || 8083,
+        // sockPort: undefined, // local ssl for dev
+        // sockHost: undefined,
+        // sockPath: undefined,
+        // host: '0.0.0.0',
+        injectClient: false,
+        // https: false,
+        // proxy: undefined,
+        // transportMode: 'ws',
         contentBase: path.resolve(__dirname, 'wwwroot')
       },
       mode: isDevBuild ? 'development' : 'production',
