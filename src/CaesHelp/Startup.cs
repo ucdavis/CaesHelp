@@ -12,9 +12,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SpaCliMiddleware;
 
 namespace CaesHelp
 {
@@ -122,6 +124,18 @@ namespace CaesHelp
                 routes.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                if (env.IsDevelopment()) {
+                    routes.MapToSpaCliProxy(
+                        "{*path}",
+                        new SpaOptions { SourcePath = "wwwroot/dist" },
+                        npmScript: "devpack",
+                        port: 8083,
+                        regex: "Project is running",
+                        forceKill: true, // kill anything running on our webpack port
+                        useProxy: true // proxy webpack requests back through our aspnet server
+                    );
+                }
             });
         }
     }

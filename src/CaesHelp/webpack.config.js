@@ -31,6 +31,12 @@ module.exports = env => {
         devtoolModuleFilenameTemplate: info =>
           path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')
       },
+      devServer: {
+        compress: true,
+        port: process.env.DEV_SERVER_PORT || 8083,
+        sockPort: 5001, // local ssl for dev
+        contentBase: path.resolve(__dirname, 'wwwroot')
+      },
       mode: isDevBuild ? 'development' : 'production',
       module: {
         rules: [
