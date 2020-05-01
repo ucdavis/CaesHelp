@@ -38,14 +38,8 @@ module.exports = env => {
       devServer: {
         compress: true,
         port: process.env.DEV_SERVER_PORT || 8080,
-        // sockPort: undefined, // local ssl for dev
-        // sockHost: undefined,
-        // sockPath: undefined,
-        // host: '0.0.0.0',
         injectClient: false,
-        // https: false,
-        // proxy: undefined,
-        // transportMode: 'ws',
+        // transportMode: 'ws',  // TODO: move to WS once it's no longer experimental
         contentBase: path.resolve(__dirname, 'wwwroot')
       },
       mode: isDevBuild ? 'development' : 'production',
