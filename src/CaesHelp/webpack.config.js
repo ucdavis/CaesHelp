@@ -22,10 +22,11 @@ module.exports = env => {
       },
       entry: [
         isDevBuild && require.resolve('webpack-dev-server/client') + '?/',
-        './ClientApp/app',
+        './ClientApp/app'
         // { app: './ClientApp/app' }
       ].filter(Boolean),
       resolve: {
+        alias: { 'react-dom': '@hot-loader/react-dom' },
         extensions: ['.js', '.jsx', '.ts', '.tsx']
       },
       output: {
