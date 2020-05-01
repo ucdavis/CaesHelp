@@ -56,10 +56,7 @@ module.exports = env => {
               !isDevBuild
                 ? MiniCssExtractPlugin.loader
                 : {
-                    loader: 'style-loader',
-                    options: {
-                      sourceMap: true
-                    }
+                    loader: 'style-loader'
                   },
               {
                 loader: 'css-loader',
@@ -75,10 +72,7 @@ module.exports = env => {
               !isDevBuild
                 ? MiniCssExtractPlugin.loader
                 : {
-                    loader: 'style-loader',
-                    options: {
-                      sourceMap: true
-                    }
+                    loader: 'style-loader'
                   },
               {
                 loader: 'css-loader',
