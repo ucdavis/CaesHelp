@@ -30,8 +30,6 @@
     "@types/react-dom": "^16.0.6",
     "@types/react-hot-loader": "^4.1.0",
     "@types/webpack-env": "1.13.9",
-    "aspnet-webpack": "^3.0.0",
-    "aspnet-webpack-react": "^4.0.0",
     "awesome-typescript-loader": "^5.2.1",
     "css-loader": "^3.0.0",
     "file-loader": "^4.0.0",
