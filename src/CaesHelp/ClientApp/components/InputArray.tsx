@@ -11,10 +11,6 @@ export interface IInputArrayProps {
 }
 
 export default class InputArray extends React.Component<IInputArrayProps, any> {
-  constructor(props) {
-    super(props);
-  }
-
   public render() {
     return (
       <div>
@@ -31,6 +27,7 @@ export default class InputArray extends React.Component<IInputArrayProps, any> {
                 name={`${this.props.name}[${idx}]`}
               />
               <div className="input-group-append">
+
                 <a
                   className="btn btn-danger"
                   type="button"

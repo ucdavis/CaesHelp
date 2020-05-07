@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Ticket, { ITicketProps } from './components/Ticket';
 
-declare var window: any;
+declare let window: any;
 
 const props = {
   appName: window.App.model.appName,

@@ -69,6 +69,8 @@
       "plugin:@typescript-eslint/recommended",
       "react-app"
     ],
-    "rules": {}
+    "rules": {
+      "@typescript-eslint/interface-name-prefix": 0
+    }
   }
 }

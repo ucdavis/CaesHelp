@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-var-requires: 0 */
 const path = require('path');
 const webpack = require('webpack');
 
@@ -6,7 +7,7 @@ const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+    .BundleAnalyzerPlugin;
 
 const bundleOutputDir = './wwwroot/dist';
 
