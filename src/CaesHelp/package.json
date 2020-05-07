@@ -7,7 +7,8 @@
     "debug": "ASPNETCORE_ENVIRONMENT=Development dotnet watch run",
     "devpack": "webpack-dev-server --config webpack.config.js --hot",
     "webpack": "node node_modules/webpack/bin/webpack.js --env.dev --watch",
-    "test": "karma start"
+    "test": "karma start",
+    "lint": "eslint ClientApp --ext .tsx,.ts,.js,.jsx"
   },
   "repository": {
     "type": "git",
@@ -25,13 +26,23 @@
     "react-dropzone": "^11.0.1"
   },
   "devDependencies": {
+    "@hot-loader/react-dom": "^16.8.6",
     "@types/jquery": "^3.3.36",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
     "@types/webpack-env": "^1.15.2",
-    "@hot-loader/react-dom": "^16.8.6",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
     "awesome-typescript-loader": "^5.2.1",
+    "babel-eslint": "^10.1.0",
     "css-loader": "^3.5.3",
+    "eslint": "^6.8.0",
+    "eslint-config-react-app": "^5.2.0",
+    "eslint-plugin-flowtype": "^4.6.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^4.0.0",
     "file-loader": "^6.0.0",
     "isomorphic-fetch": "2.2.1",
     "json-loader": "^0.5.7",
@@ -41,9 +52,6 @@
     "react-hot-loader": "^4.12.21",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
-    "tslint": "^6.1.2",
-    "tslint-config-prettier": "^1.17.0",
-    "tslint-react": "^5.0.0",
     "typescript": "^3.8.3",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^4.1.0",
@@ -53,5 +61,16 @@
     "webpack-dev-middleware": "^3.7.2",
     "webpack-dev-server": "^3.10.3",
     "webpack-hot-middleware": "^2.24.3"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "react-app"
+    ],
+    "rules": {
+      "@typescript-eslint/interface-name-prefix": 0
+    }
   }
 }

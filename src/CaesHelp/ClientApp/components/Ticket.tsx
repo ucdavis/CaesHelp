@@ -169,7 +169,7 @@ export default class Ticket extends React.Component<
 
   private _validateState = () => {
     let valid = true;
-    let errList = [];
+    const errList = [];
 
     const isValid = this._formRef.checkValidity();
     if (!isValid) {
@@ -187,7 +187,7 @@ export default class Ticket extends React.Component<
       errList.push('Subject is required.');
     }
 
-    let emails = this.state.emailInputs.filter(function(cc) {
+    const emails = this.state.emailInputs.filter(function(cc) {
       return cc.isValid === false;
     });
     if (emails.length > 0) {
