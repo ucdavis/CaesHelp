@@ -63,6 +63,12 @@
     "webpack-hot-middleware": "^2.24.3"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "react-app"
+    ],
+    "rules": {}
   }
 }
