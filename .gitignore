@@ -276,3 +276,5 @@ __pycache__/
 # ignore webpack builds
 **/wwwroot/dist/
 **/.vscode/
+/src/CaesHelp/Properties/serviceDependencies.json
+/src/CaesHelp/Properties/serviceDependencies.local.json
