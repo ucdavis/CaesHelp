@@ -130,7 +130,7 @@ namespace CaesHelp
                         "{*path}",
                         new SpaOptions { SourcePath = "wwwroot/dist" },
                         npmScript: "devpack",
-                        port: default(int), // Allow webpack to find own port
+                        port: 8080,
                         regex: "Project is running",
                         forceKill: true, // kill anything running on our webpack port
                         useProxy: true // proxy webpack requests back through our aspnet server
