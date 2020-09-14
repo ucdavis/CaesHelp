@@ -131,7 +131,7 @@ namespace CaesHelp.Services
                         client.EnableSsl = true;
                         if (_emailSettings.SendEmails.Equals("Yes", StringComparison.OrdinalIgnoreCase))
                         {
-                            client.Send(message);
+                            await client.SendMailAsync(message);
                         }
                     }
 
