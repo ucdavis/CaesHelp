@@ -493,6 +493,7 @@ export default class Ticket extends React.Component<
                 <option value="Tacos">Tacos</option>
                 <option value="WHO">Who.ucdavis.edu</option>
                 <option value="Download">download.ucdavis.edu</option>
+                <option value="Data Dictionary">Data Dictionary</option>
               </select>
             </div>
             {(this.state.forApplication === 'Peaks' ||
