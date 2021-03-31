@@ -527,45 +527,7 @@ export default class Ticket extends React.Component<
 
         <div className="form-group">
           <label className="control-label">Attachment</label>
-          <Dropzone
-            onDrop={acceptedFiles => this.handleFileUpload(acceptedFiles)}
-          >
-            {({ getRootProps, getInputProps }) => (
-              <div
-                className={`upload-file ${
-                  !this._isAttachmentValid() ? 'alert-danger' : ''
-                }`}
-              >
-                <div {...getRootProps()}>
-                  <input
-                    {...getInputProps()}
-                    className="form-control"
-                    name="files"
-                  />
-                  <div className="d-flex justify-content-center align-items-center">
-                    <i className="fas fa-upload fa-2x mr-4" />
-                    <div className="d-flex flex-column align-items-center">
-                      <span>Drop file to attach, or click to Browse.</span>
-
-                      <span>(Individual file upload size limit 5 MB)</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </Dropzone>
-          {this.state.file.name && (
-            <div>
-              <small className="form-text">
-                File Name: {this.state.file.name}
-              </small>
-              {!this._isAttachmentValid() && (
-                <div className="form-text color-unitrans-red">
-                  The attachment is too big
-                </div>
-              )}
-            </div>
-          )}
+            <input type="file" name="jcs" id="jcs"/>
         </div>
         <div className="form-group">
           <label className="control-label">Subject</label>
