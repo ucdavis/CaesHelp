@@ -83,10 +83,9 @@ namespace CaesHelp.Services
 
         public async Task<User> GetByKerberos(string kerb)
         {
-            kerb = "jsylvest@UCDAVIS.EDU";
             if (kerb != null && kerb.Contains("@"))
             {
-                //Strip off any non kerb info that may have slipped in. While debugging a lodash change, this happened.
+                //Strip off any non kerb info that may have slipped in. This was from a CAS issues, but it doesn't hurt checking this.
                 kerb = kerb.Split('@').FirstOrDefault();
             }
             var clientws = new IetClient(_authSettings.IamKey);
