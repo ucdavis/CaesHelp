@@ -83,6 +83,11 @@ namespace CaesHelp.Services
 
         public async Task<User> GetByKerberos(string kerb)
         {
+            if (kerb != null && kerb.Contains("@"))
+            {
+                //Strip off any non kerb info that may have slipped in. This was from a CAS issues, but it doesn't hurt checking this.
+                kerb = kerb.Split('@').FirstOrDefault();
+            }
             var clientws = new IetClient(_authSettings.IamKey);
             var ucdKerbResult = await clientws.Kerberos.Search(KerberosSearchField.userId, kerb);
 
