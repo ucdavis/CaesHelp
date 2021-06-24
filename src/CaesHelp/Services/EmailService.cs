@@ -107,14 +107,8 @@ namespace CaesHelp.Services
                             memoryStream.Seek(0, SeekOrigin.Begin);
 
                             var attach = new Attachment(memoryStream, file.FileName);
-                            try
-                            {
-                                attach.ContentType = new ContentType(file.ContentType);
-                            }
-                            catch (Exception)
-                            {
-                                //Nothing
-                            }
+                            attach.ContentType = new ContentType(file.ContentType);
+
                             message.Attachments.Add(attach);
 
                         }
