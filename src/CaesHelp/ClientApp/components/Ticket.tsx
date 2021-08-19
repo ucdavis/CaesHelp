@@ -367,8 +367,8 @@ export default class Ticket extends React.Component<
     }
     return (
       <div>
-        <hr />
-        {this.state.supportDepartment === 'Computer Support' && (
+          <hr/>
+          {this.state.supportDepartment === 'Computer Support' && (
           <div>
             <div className="form-group">
               <label className="control-label">
@@ -408,7 +408,7 @@ export default class Ticket extends React.Component<
             </div>
           </div>
         )}
-        {this.state.supportDepartment === 'Web Site Support' ||
+          {this.state.supportDepartment === 'Web Site Support' ||
           (this.state.supportDepartment === 'Computer Support' && (
             <div className="form-group">
               <label className="control-label">Available Dates and Times</label>
@@ -424,7 +424,7 @@ export default class Ticket extends React.Component<
             </div>
           ))}
 
-        {this.state.supportDepartment === 'Web Site Support' && (
+          {this.state.supportDepartment === 'Web Site Support' && (
           <div className="form-group">
             <label className="control-label">
               For Website{' '}
@@ -447,7 +447,7 @@ export default class Ticket extends React.Component<
             />
           </div>
         )}
-        {this.state.supportDepartment === 'Programming Support' && (
+          {this.state.supportDepartment === 'Programming Support' && (
           <div>
             <div className="form-group">
               <label className="control-label">For Application</label>
@@ -494,6 +494,7 @@ export default class Ticket extends React.Component<
                 <option value="WHO">Who.ucdavis.edu</option>
                 <option value="Download">download.ucdavis.edu</option>
                 <option value="Data Dictionary">Data Dictionary</option>
+                <option value="Harvest">Harvest</option>
               </select>
             </div>
             {(this.state.forApplication === 'Peaks' ||
@@ -512,25 +513,25 @@ export default class Ticket extends React.Component<
             )}
           </div>
         )}
-        <div className="form-group">
-          <label className="control-label">Should anyone else know?</label>
-          <InputArray
-            name="carbonCopies"
-            placeholder="some@email.com"
-            addButtonName="Add Email"
-            inputs={this.state.emailInputs}
-            handleAddInput={this.handleAddEmailInput}
-            handleRemoveInput={this.handleRemoveEmailInput}
-            handleChange={this.handleEmailChange}
-          />
-        </div>
+          <div className="form-group">
+              <label className="control-label">Should anyone else know?</label>
+              <InputArray
+                  name="carbonCopies"
+                  placeholder="some@email.com"
+                  addButtonName="Add Email"
+                  inputs={this.state.emailInputs}
+                  handleAddInput={this.handleAddEmailInput}
+                  handleRemoveInput={this.handleRemoveEmailInput}
+                  handleChange={this.handleEmailChange}
+              />
+          </div>
 
-        <div className="form-group">
-          <label className="control-label">Attachment</label>
-          <Dropzone
-            onDrop={acceptedFiles => this.handleFileUpload(acceptedFiles)}
-          >
-            {({ getRootProps, getInputProps }) => (
+          <div className="form-group">
+              <label className="control-label">Attachment</label>
+              <Dropzone
+                  onDrop={acceptedFiles => this.handleFileUpload(acceptedFiles)}
+              >
+                  {({ getRootProps, getInputProps }) => (
               <div
                 className={`upload-file ${
                   !this._isAttachmentValid() ? 'alert-danger' : ''
@@ -553,8 +554,8 @@ export default class Ticket extends React.Component<
                 </div>
               </div>
             )}
-          </Dropzone>
-          {this.state.file.name && (
+              </Dropzone>
+              {this.state.file.name && (
             <div>
               <small className="form-text">
                 File Name: {this.state.file.name}
@@ -566,51 +567,51 @@ export default class Ticket extends React.Component<
               )}
             </div>
           )}
-        </div>
-        <div className="form-group">
-          <label className="control-label">Subject</label>
-          <input
-            required={true}
-            type="text"
-            name="subject"
-            className="form-control"
-            value={this.state.subject}
-            onChange={this.handleInputChange}
-          />
-        </div>
-        <div className="form-group">
-          <label className="control-label">Message</label>
-          <textarea
+          </div>
+          <div className="form-group">
+              <label className="control-label">Subject</label>
+              <input
+                  required={true}
+                  type="text"
+                  name="subject"
+                  className="form-control"
+                  value={this.state.subject}
+                  onChange={this.handleInputChange}
+              />
+          </div>
+          <div className="form-group">
+              <label className="control-label">Message</label>
+              <textarea
             required={true}
             name="message"
             className="form-control"
             value={this.state.message}
             onChange={this.handleInputChange}
           />
-        </div>
+          </div>
 
-        {this.state.showErrors &&
+          {this.state.showErrors &&
           !this.state.validState && (
             <ErrorList errorArray={this.state.errorArray} />
           )}
-        <div className="form-group">
-          <input
-            disabled={
+          <div className="form-group">
+              <input
+                  disabled={
               (this.state.showErrors && !this.state.validState) ||
               this.state.submitting
             }
-            type="submit"
-            name="Submit"
-            className="form-control btn-primary"
-            value="Submit"
-          />
-          {this.state.submitting && (
+                  type="submit"
+                  name="Submit"
+                  className="form-control btn-primary"
+                  value="Submit"
+              />
+              {this.state.submitting && (
             <div className="text-center">
               <i className="fas fa-sync fa-spin" /> Submitting... Please wait.
               If you have uploaded an attachment, this may take a minute.
             </div>
           )}
-        </div>
+          </div>
       </div>
     );
   }
