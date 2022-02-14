@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{72D07342-2E38-4DEF-836F-713A491FE2E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaesHelp", "src\CaesHelp\CaesHelp.csproj", "{C981898D-A882-4C40-BF59-9367EC20A017}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaesHelp", "src\CaesHelp\CaesHelp.csproj", "{C981898D-A882-4C40-BF59-9367EC20A017}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{62404D3B-302C-4F97-B543-118B0735A999}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +20,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C981898D-A882-4C40-BF59-9367EC20A017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -33,7 +35,13 @@ Global
 		{C981898D-A882-4C40-BF59-9367EC20A017}.Release|x86.ActiveCfg = Release|Any CPU
 		{C981898D-A882-4C40-BF59-9367EC20A017}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C981898D-A882-4C40-BF59-9367EC20A017} = {72D07342-2E38-4DEF-836F-713A491FE2E0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {35235B20-4300-4E46-B3D9-EAD496E3B27F}
 	EndGlobalSection
 EndGlobal
