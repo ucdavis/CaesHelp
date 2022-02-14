@@ -463,26 +463,17 @@ export default class Ticket extends React.Component<
                 </option>
                 <option value='AD419'>AD419</option>
                 <option value='Anlab'>Anlab (TOPS)</option>
-                {/*<option value='CatBert'>CatBert</option>*/}
-                {/*<option value='Commencement'>Commencement</option>*/}
                 <option value='Registration'>Registration</option>
-                {/*<option value='Dogbert'>Dogbert</option>*/}
                 <option value='Eat Fit'>Eat Fit</option>
                 <option value='Eligibility List'>Eligibility List</option>
                 <option value='Employee Salary Review Analysis'>
                   Employee Salary Review Analysis
                 </option>
                 <option value='Fleece'>Fleece (Faculty Directory)</option>
-                {/*<option value='FSNEP Records'>FSNEP Records</option>*/}
-                {/*<option value='Grants Management'>Grants Management</option>*/}
-                {/*<option value='Messaging and Appointment System'>*/}
-                {/*  Messaging and Appointment System*/}
-                {/*</option>*/}
                 <option value='Payments'>Payments</option>
                 <option value='Peaks'>Peaks</option>
                 <option value='PrePurchasing'>PrePurchasing</option>
                 <option value='PTF'>PTF</option>
-                {/*<option value='Recruitment'>Recruitment</option>*/}
                 <option value='Student Information Management System'>
                   Student Information Management System
                 </option>
