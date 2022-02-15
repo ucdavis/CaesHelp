@@ -477,9 +477,6 @@ export default class Ticket extends React.Component<
                 <option value='Student Information Management System'>
                   Student Information Management System
                 </option>
-                <option value='Subject To Dismissal'>
-                  Subject To Dismissal
-                </option>
                 <option value='TPS3'>TPS3</option>
                 <option value='Tacos'>Tacos</option>
                 <option value='WHO'>Who.ucdavis.edu</option>
