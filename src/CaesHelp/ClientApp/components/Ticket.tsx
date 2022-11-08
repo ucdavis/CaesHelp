@@ -250,7 +250,7 @@ export default class Ticket extends React.Component<
 
   public render() {
     const programmingSupportTitle =
-      '<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre)';
+      '<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre, Spruce Weber-Milne)';
     const webSupportTitle =
       '<b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/>';
     const computerSupportTitle =
@@ -488,6 +488,9 @@ export default class Ticket extends React.Component<
                 <option value='Harvest'>Harvest</option>
                 <option value='Hippo'>
                   Hippo - High Performance Personnel Onboarding
+                </option>
+                <option value='Finjector'>
+                    Finjector - Aggie Enterprise Financial Account Picker
                 </option>
               </select>
             </div>
