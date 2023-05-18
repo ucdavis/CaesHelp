@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ASPNETCORE_ENVIRONMENT=Development dotnet watch run",
     "debug": "ASPNETCORE_ENVIRONMENT=Development dotnet watch run",
-    "devpack": "webpack-dev-server --config webpack.config.js --hot",
+    "devpack": "set NODE_OPTIONS=--openssl-legacy-provider && webpack-dev-server --config webpack.config.js --hot",
     "webpack": "node node_modules/webpack/bin/webpack.js --env.dev --watch",
     "test": "karma start",
     "lint": "eslint ClientApp --ext .tsx,.ts,.js,.jsx"
@@ -47,7 +47,7 @@
     "isomorphic-fetch": "2.2.1",
     "json-loader": "^0.5.7",
     "mini-css-extract-plugin": "^0.9.0",
-    "node-sass": "^4.14.1",
+    "sass": "^1.62.1",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "react-hot-loader": "^4.12.21",
     "sass-loader": "^8.0.2",
