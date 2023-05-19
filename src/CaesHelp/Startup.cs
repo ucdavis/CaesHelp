@@ -12,11 +12,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SpaCliMiddleware;
 
 namespace CaesHelp
 {
@@ -57,7 +56,8 @@ namespace CaesHelp
             {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.CasServerUrlBase = Configuration["Authentication:CasBaseUrl"];
-                options.Events.OnTicketReceived = async context => {
+                options.Events.OnTicketReceived = async context =>
+                {
                     var c = context;
 
                     var identity = (ClaimsIdentity)context.Principal.Identity;
@@ -96,6 +96,11 @@ namespace CaesHelp
             services.AddTransient<IEmailService, EmailService>();
 
             services.AddMvc();
+
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,6 +119,22 @@ namespace CaesHelp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = (context) =>
+                {
+                    // cache our static assest, i.e. CSS and JS, for a long time
+                    if (context.Context.Request.Path.Value.StartsWith("/static"))
+                    {
+                        var headers = context.Context.Response.GetTypedHeaders();
+                        headers.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
+                        {
+                            Public = true,
+                            MaxAge = TimeSpan.FromDays(365)
+                        };
+                    }
+                }
+            });
             app.UseCookiePolicy();
             app.UseRouting();
             app.UseAuthentication();
@@ -121,20 +142,33 @@ namespace CaesHelp
 
             app.UseEndpoints(routes =>
             {
-                routes.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                if (env.IsDevelopment())
+                {
+                    // Specific routes for HMR websocket and hot updates
+                    var spaHmrSocketRegex = "^(?!ws|.*?hot-update.js(on)?).*$";
 
-                if (env.IsDevelopment()) {
-                    routes.MapToSpaCliProxy(
-                        "{*path}",
-                        new SpaOptions { SourcePath = "wwwroot/dist" },
-                        npmScript: "devpack",
-                        port: 8080,
-                        regex: "Project is running",
-                        forceKill: true, // kill anything running on our webpack port
-                        useProxy: true // proxy webpack requests back through our aspnet server
-                    );
+                    routes.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}",
+                        constraints: new { controller = spaHmrSocketRegex });
+                }
+                else
+                {
+                    routes.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
+                }
+            });
+            
+            // SPA needs to kick in for all paths during development
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
                 }
             });
         }

@@ -273,7 +273,7 @@ __pycache__/
 # tools/**
 # !tools/packages.config
 
-# ignore webpack builds
-**/wwwroot/dist/
+# ignore CRA builds
+**/ClientApp/build/
 /src/CaesHelp/Properties/serviceDependencies.json
 /src/CaesHelp/Properties/serviceDependencies.local.json
