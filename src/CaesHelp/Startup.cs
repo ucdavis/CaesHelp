@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
 namespace CaesHelp
@@ -67,7 +69,7 @@ namespace CaesHelp
 
                     if (string.IsNullOrWhiteSpace(kerb)) return;
 
-                    var identityService = services.BuildServiceProvider().GetService<IIdentityService>();
+                    var identityService = context.HttpContext.RequestServices.GetRequiredService<IIdentityService>();
 
                     var user = await identityService.GetByKerberos(kerb);
 
@@ -100,7 +102,10 @@ namespace CaesHelp
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
-            });            
+            });
+
+            // Used by dynamic scripts/styles loader
+            services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Directory.GetCurrentDirectory())); // lgtm [cs/local-not-disposed] 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -159,7 +164,7 @@ namespace CaesHelp
                         pattern: "{controller=Home}/{action=Index}/{id?}");
                 }
             });
-            
+
             // SPA needs to kick in for all paths during development
             app.UseSpa(spa =>
             {
@@ -168,7 +173,6 @@ namespace CaesHelp
                 if (env.IsDevelopment())
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
                 }
             });
         }

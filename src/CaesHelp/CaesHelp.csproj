@@ -14,9 +14,8 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.Security.CAS" Version="2.0.5" />
     <PackageReference Include="ietws" Version="0.2.12" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.16" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
-    <PackageReference Include="Numind.AspNetCore.SpaServices.Extensions" Version="1.0.1" />
+    <PackageReference Include="SpaCliMiddleware" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
