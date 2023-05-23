@@ -31,7 +31,7 @@ namespace CaesHelp.Controllers
             {
                 user = User.GetUserInfo();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ErrorMessage = "There was an error getting your user information from IAM. Please email our Programming support directly to let us know.";
                 return RedirectToAction("Index", "Error");
@@ -73,16 +73,14 @@ namespace CaesHelp.Controllers
         [HttpPost]
         public async Task<IActionResult> Index([FromForm] TicketPostModel model)
         {
-            var success = false;
             var message = string.Empty;
             try
             {
                 model.UserInfo = User.GetUserInfo();
                 await _emailService.SendEmail(model);
-                success = true;
                 message = "Help ticket submitted. You should get a confirmation email within 5 or 10 minutes.";
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 message = "There was an unexpected error. Please try again. If the problem persists, please email apprequests@caes.ucdavis.edu";
                 return RedirectToAction("Error");
