@@ -18,6 +18,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using MvcReact;
 
 namespace CaesHelp
 {
@@ -99,17 +101,11 @@ namespace CaesHelp
 
             services.AddMvc();
 
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
-
-            // Used by dynamic scripts/styles loader
-            services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Directory.GetCurrentDirectory())); // lgtm [cs/local-not-disposed] 
+            services.AddMvcReact();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<MvcReactOptions> mvcReactOptions)
         {
             if (env.IsDevelopment())
             {
@@ -124,22 +120,7 @@ namespace CaesHelp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles(new StaticFileOptions()
-            {
-                OnPrepareResponse = (context) =>
-                {
-                    // cache our static assest, i.e. CSS and JS, for a long time
-                    if (context.Context.Request.Path.Value.StartsWith("/static"))
-                    {
-                        var headers = context.Context.Response.GetTypedHeaders();
-                        headers.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
-                        {
-                            Public = true,
-                            MaxAge = TimeSpan.FromDays(365)
-                        };
-                    }
-                }
-            });
+            app.UseMvcReactStaticFiles();
             app.UseCookiePolicy();
             app.UseRouting();
             app.UseAuthentication();
@@ -149,13 +130,10 @@ namespace CaesHelp
             {
                 if (env.IsDevelopment())
                 {
-                    // Specific routes for HMR websocket and hot updates
-                    var spaHmrSocketRegex = "^(?!ws|.*?hot-update.js(on)?).*$";
-
                     routes.MapControllerRoute(
                         name: "default",
                         pattern: "{controller=Home}/{action=Index}/{id?}",
-                        constraints: new { controller = spaHmrSocketRegex });
+                        constraints: new { controller = mvcReactOptions.Value.ExcludeHmrPathsRegex });
                 }
                 else
                 {
@@ -166,15 +144,7 @@ namespace CaesHelp
             });
 
             // SPA needs to kick in for all paths during development
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
+            app.UseMvcReact();
         }
     }
 }
