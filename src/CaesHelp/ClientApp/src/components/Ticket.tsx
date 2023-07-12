@@ -11,6 +11,7 @@ interface ITicketState {
   location: string;
   forWebSite: string;
   forApplication: string;
+  forService: string;
   subject: string;
   message: string;
   submitting: boolean;
@@ -50,6 +51,7 @@ export default class Ticket extends React.Component<
       location: '',
       forWebSite: '',
       forApplication: this.props.appName != null ? this.props.appName : '',
+      forService: '',
       subject: this.props.subject != null ? this.props.subject : '',
       message: '',
       submitting: false,
@@ -371,6 +373,24 @@ export default class Ticket extends React.Component<
         {this.state.supportDepartment === 'Computer Support' && (
           <div>
             <div className='form-group'>
+              <label className='control-label'>For Service</label>
+              <select
+                name='forService'
+                className='form-control'
+                value={this.state.forService}
+                onChange={this.handleInputChange}
+              >
+                <option value=''>--Select a Program--</option>
+                <option value='1Pass'>1Password</option>
+                <option value='HideBodies'>Hide the bodies</option>
+                <option value='Other'>Don't know or isn't listed</option>
+              </select>
+            </div>
+          </div>
+        )}
+        {this.state.supportDepartment === 'Computer Support' && (
+          <div>
+            <div className='form-group'>
               <label className='control-label'>
                 Your Phone Number{' '}
                 <i
@@ -510,6 +530,7 @@ export default class Ticket extends React.Component<
             )}
           </div>
         )}
+
         <div className='form-group'>
           <label className='control-label'>Should anyone else know?</label>
           <InputArray
