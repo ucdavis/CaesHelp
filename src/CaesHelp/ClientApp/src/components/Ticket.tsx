@@ -256,11 +256,11 @@ export default class Ticket extends React.Component<
 
   public render() {
     const programmingSupportTitle =
-      '<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre, Spruce Weber-Milne)';
+      '<b>Programming Support:</b> (Scott, Ken, Jason, Spruce)';
     const webSupportTitle =
-      '<b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/>';
+      '<b>Web Site Support:</b> (Calvin, Student Assistants)<br/>';
     const computerSupportTitle =
-      '<b>Computer Support:</b> (Shuka Smith, Steven Barkey, Jacqueline Emerson, Darrell Joe, Student Assistants)<br/>';
+      '<b>Computer Support:</b> (Shuka, Steven, Jacqueline, Darrell, Adam, Student Assistants)<br/>';
     const everyoneTitle =
       computerSupportTitle + webSupportTitle + programmingSupportTitle;
     const titleToUse = this.props.onlyShowAppSupport
