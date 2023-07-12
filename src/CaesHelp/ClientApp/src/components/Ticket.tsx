@@ -208,6 +208,10 @@ export default class Ticket extends React.Component<
 
     switch (this.state.supportDepartment) {
       case 'Computer Support':
+        if (!this.state.forService || !this.state.forService.trim()) {
+          valid = false;
+          errList.push('You must select a value for the service in question.');
+        }
         break;
       case 'Web Site Support':
         if (!this.state.forWebSite || !this.state.forWebSite.trim()) {
@@ -230,7 +234,7 @@ export default class Ticket extends React.Component<
         if (!this.state.forApplication || !this.state.forApplication) {
           valid = false;
           errList.push(
-            'For Programming support, you must select an application for this list.'
+            'For Programming support, you must select an application from the list.'
           );
         }
         break;
