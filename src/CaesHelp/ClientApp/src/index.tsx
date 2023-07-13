@@ -11,7 +11,8 @@ const props = {
   subject: window.App.model.subject,
   onlyShowAppSupport: window.App.model.onlyShowAppSupport,
   submitterEmail: window.App.model.submitterEmail,
-  antiForgeryToken: window.App.antiForgeryToken
+  antiForgeryToken: window.App.antiForgeryToken,
+  services: window.App.model.services
 } as ITicketProps;
 
 const root = ReactDOM.createRoot(

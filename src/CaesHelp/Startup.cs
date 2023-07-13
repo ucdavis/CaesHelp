@@ -96,6 +96,7 @@ namespace CaesHelp
             });
 
             services.Configure<EmailSettings>(Configuration.GetSection("Email"));
+            services.Configure<ComputerSupport>(Configuration.GetSection("ComputerSupport"));
 
             services.AddTransient<IEmailService, EmailService>();
 

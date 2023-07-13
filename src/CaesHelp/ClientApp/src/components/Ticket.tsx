@@ -22,6 +22,7 @@ interface ITicketState {
   emailInputs: [{ value: string; isValid: boolean }];
   file: { name: string; size: number };
   team: string;
+  services: string[];
 }
 
 export interface ITicketProps {
@@ -31,6 +32,7 @@ export interface ITicketProps {
   submitterEmail: string;
   antiForgeryToken: string;
   teamName: string;
+  services: string[];
 }
 
 export default class Ticket extends React.Component<
@@ -61,7 +63,8 @@ export default class Ticket extends React.Component<
       availableInputs: [{ value: '', isValid: true }],
       emailInputs: [{ value: '', isValid: true }],
       file: { name: '', size: 0 },
-      team: this.props.teamName != null ? this.props.teamName : ''
+      team: this.props.teamName != null ? this.props.teamName : '',
+      services: this.props.services != null ? this.props.services : []
     };
 
     this.state = { ...initialState };
@@ -208,7 +211,11 @@ export default class Ticket extends React.Component<
 
     switch (this.state.supportDepartment) {
       case 'Computer Support':
-        if (!this.state.forService || !this.state.forService.trim()) {
+        if (
+          this.props.services &&
+          this.props.services.length > 0 &&
+          (!this.state.forService || !this.state.forService.trim())
+        ) {
           valid = false;
           errList.push('You must select a value for the service in question.');
         }
@@ -374,24 +381,27 @@ export default class Ticket extends React.Component<
     return (
       <div>
         <hr />
-        {this.state.supportDepartment === 'Computer Support' && (
-          <div>
-            <div className='form-group'>
-              <label className='control-label'>For Service</label>
-              <select
-                name='forService'
-                className='form-control'
-                value={this.state.forService}
-                onChange={this.handleInputChange}
-              >
-                <option value=''>--Select a Program--</option>
-                <option value='1Pass'>1Password</option>
-                <option value='HideBodies'>Hide the bodies</option>
-                <option value='Other'>Don't know or isn't listed</option>
-              </select>
+        {this.state.supportDepartment === 'Computer Support' &&
+          this.state.services.length > 0 && (
+            <div>
+              <div className='form-group'>
+                <label className='control-label'>For Service</label>
+                <select
+                  name='forService'
+                  className='form-control'
+                  value={this.state.forService}
+                  onChange={this.handleInputChange}
+                >
+                  <option value=''>--Select a Service--</option>
+                  {this.state.services.map(service => (
+                    <option key={service} value={service}>
+                      {service}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
-        )}
+          )}
         {this.state.supportDepartment === 'Computer Support' && (
           <div>
             <div className='form-group'>

@@ -23,6 +23,7 @@ namespace CaesHelp.Services
     {
 
         private readonly EmailSettings _emailSettings;
+        private readonly ComputerSupport _computerSupport;
 
         private static readonly string[] SupportEmails = new string[] 
         {
@@ -47,9 +48,10 @@ namespace CaesHelp.Services
             "ssmith@caes.ucdavis.edu",
         };
 
-        public EmailService(IOptions<EmailSettings> emailSettings)
+        public EmailService(IOptions<EmailSettings> emailSettings, IOptions<ComputerSupport> computerSupport)
         {
             _emailSettings = emailSettings.Value;
+            _computerSupport = computerSupport.Value;
         }
 
         public async Task SendEmail(TicketPostModel model)
@@ -60,13 +62,35 @@ namespace CaesHelp.Services
                 //Log.Information("Email Sending Disabled");
                 //return;
             }
+            string overrideEmail = null;
+
+            try
+            {
+                if (model.SupportDepartment == StaticValues.SupportDepartment.ComputerSupport && !string.IsNullOrWhiteSpace(model.ForService))
+                {
+                    var dict = _computerSupport.Services.Split(',').Select(x => x.Split(':')).ToDictionary(x => x[0], x => x[1]);
+                    overrideEmail = dict[model.ForService];
+                }
+            }
+            catch (Exception)
+            {
+                //Swallow it.
+            }
+
 
             //TODO: Build email
             var message = new MailMessage { From = new MailAddress(model.UserInfo.Email) };
             switch (model.SupportDepartment)
             {
                 case StaticValues.SupportDepartment.ComputerSupport:
-                    message.To.Add(_emailSettings.ComputerSupportEmail);
+                    if(!string.IsNullOrWhiteSpace(overrideEmail))
+                    {
+                        message.To.Add(overrideEmail);
+                    }
+                    else
+                    {
+                        message.To.Add(_emailSettings.ComputerSupportEmail);
+                    }
                     break;
                 case StaticValues.SupportDepartment.WebSiteSupport:
                     message.To.Add(_emailSettings.WebSupportEmail);
@@ -232,6 +256,11 @@ namespace CaesHelp.Services
                 {
                     body.AppendLine($"For Team: {model.Team}");
                 }
+            }
+            if(!string.IsNullOrWhiteSpace(model.ForService) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.ComputerSupport, StringComparison.OrdinalIgnoreCase))
+            {
+                //TODO: Skip if they choose "Other/Don't know" for service
+                body.AppendLine($"For Service: {model.ForService}");
             }
 
             if (!string.IsNullOrWhiteSpace(model.ForWebSite) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.WebSiteSupport, StringComparison.OrdinalIgnoreCase))

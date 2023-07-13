@@ -13,5 +13,7 @@ namespace CaesHelp.Models
         public bool OnlyShowAppSupport { get; set; } = false;
 
         public string SubmitterEmail { get; set; }
+
+        public string[] Services { get; set; }
     }
 }
