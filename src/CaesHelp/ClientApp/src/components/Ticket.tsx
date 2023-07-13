@@ -11,6 +11,7 @@ interface ITicketState {
   location: string;
   forWebSite: string;
   forApplication: string;
+  forService: string;
   subject: string;
   message: string;
   submitting: boolean;
@@ -21,6 +22,7 @@ interface ITicketState {
   emailInputs: [{ value: string; isValid: boolean }];
   file: { name: string; size: number };
   team: string;
+  services: string[];
 }
 
 export interface ITicketProps {
@@ -30,6 +32,7 @@ export interface ITicketProps {
   submitterEmail: string;
   antiForgeryToken: string;
   teamName: string;
+  services: string[];
 }
 
 export default class Ticket extends React.Component<
@@ -50,6 +53,7 @@ export default class Ticket extends React.Component<
       location: '',
       forWebSite: '',
       forApplication: this.props.appName != null ? this.props.appName : '',
+      forService: '',
       subject: this.props.subject != null ? this.props.subject : '',
       message: '',
       submitting: false,
@@ -59,7 +63,8 @@ export default class Ticket extends React.Component<
       availableInputs: [{ value: '', isValid: true }],
       emailInputs: [{ value: '', isValid: true }],
       file: { name: '', size: 0 },
-      team: this.props.teamName != null ? this.props.teamName : ''
+      team: this.props.teamName != null ? this.props.teamName : '',
+      services: this.props.services != null ? this.props.services : []
     };
 
     this.state = { ...initialState };
@@ -206,6 +211,14 @@ export default class Ticket extends React.Component<
 
     switch (this.state.supportDepartment) {
       case 'Computer Support':
+        if (
+          this.props.services &&
+          this.props.services.length > 0 &&
+          (!this.state.forService || !this.state.forService.trim())
+        ) {
+          valid = false;
+          errList.push('You must select a value for the service in question.');
+        }
         break;
       case 'Web Site Support':
         if (!this.state.forWebSite || !this.state.forWebSite.trim()) {
@@ -228,7 +241,7 @@ export default class Ticket extends React.Component<
         if (!this.state.forApplication || !this.state.forApplication) {
           valid = false;
           errList.push(
-            'For Programming support, you must select an application for this list.'
+            'For Programming support, you must select an application from the list.'
           );
         }
         break;
@@ -250,11 +263,11 @@ export default class Ticket extends React.Component<
 
   public render() {
     const programmingSupportTitle =
-      '<b>Programming Support:</b> (Scott Kirkland, Ken Taylor, Jason Sylvestre, Spruce Weber-Milne)';
+      '<b>Programming Support:</b> (Scott, Ken, Jason, Spruce)';
     const webSupportTitle =
-      '<b>Web Site Support:</b> (Calvin Doval, Student Assistants)<br/>';
+      '<b>Web Site Support:</b> (Calvin, Student Assistants)<br/>';
     const computerSupportTitle =
-      '<b>Computer Support:</b> (Shuka Smith, Steven Barkey, Jacqueline Emerson, Darrell Joe, Student Assistants)<br/>';
+      '<b>Computer Support:</b> (Shuka, Steven, Jacqueline, Darrell, Adam, Student Assistants)<br/>';
     const everyoneTitle =
       computerSupportTitle + webSupportTitle + programmingSupportTitle;
     const titleToUse = this.props.onlyShowAppSupport
@@ -368,6 +381,27 @@ export default class Ticket extends React.Component<
     return (
       <div>
         <hr />
+        {this.state.supportDepartment === 'Computer Support' &&
+          this.state.services.length > 0 && (
+            <div>
+              <div className='form-group'>
+                <label className='control-label'>For Service</label>
+                <select
+                  name='forService'
+                  className='form-control'
+                  value={this.state.forService}
+                  onChange={this.handleInputChange}
+                >
+                  <option value=''>--Select a Service--</option>
+                  {this.state.services.map(service => (
+                    <option key={service} value={service}>
+                      {service}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
         {this.state.supportDepartment === 'Computer Support' && (
           <div>
             <div className='form-group'>
@@ -510,6 +544,7 @@ export default class Ticket extends React.Component<
             )}
           </div>
         )}
+
         <div className='form-group'>
           <label className='control-label'>Should anyone else know?</label>
           <InputArray

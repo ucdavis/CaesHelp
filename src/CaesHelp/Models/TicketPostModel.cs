@@ -14,6 +14,7 @@ namespace CaesHelp.Models
         public string Location { get; set; }
         public string[] Available { get; set; }
         public string ForWebSite { get; set; }
+        public string ForService { get; set; }
         public string ForApplication { get; set; }
         public string[] CarbonCopies { get; set; } 
         public string Subject { get; set; }

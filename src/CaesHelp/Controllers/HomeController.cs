@@ -9,6 +9,7 @@ using CaesHelp.Models;
 using CaesHelp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace CaesHelp.Controllers
 {
@@ -16,11 +17,13 @@ namespace CaesHelp.Controllers
     public class HomeController : SuperController
     {
         private readonly IEmailService _emailService;
+        private readonly ComputerSupport _computerSupport;
 
 
-        public HomeController(IEmailService emailService)
+        public HomeController(IEmailService emailService, IOptions<ComputerSupport> computerSupport)
         {
             _emailService = emailService;
+            _computerSupport = computerSupport.Value;
         }
 
         [Authorize]
@@ -64,6 +67,23 @@ namespace CaesHelp.Controllers
                 model.TeamName = team;
                 model.OnlyShowAppSupport = true;
             }
+
+           
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(_computerSupport.Services))
+                {
+                    //populate the model.Services with the key from the dictionary
+                    model.Services = _computerSupport.Services.Split(',').Select(x => x.Split(':')).Select(x => x[0]).ToArray();
+                }
+                
+            }
+            catch (Exception)
+            {
+                //Swallow it
+            }
+
 
 
             return View(model);
