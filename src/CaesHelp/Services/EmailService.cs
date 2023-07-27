@@ -260,7 +260,7 @@ namespace CaesHelp.Services
             if(!string.IsNullOrWhiteSpace(model.ForService) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.ComputerSupport, StringComparison.OrdinalIgnoreCase))
             {
                 //TODO: Skip if they choose "Other/Don't know" for service
-                body.AppendLine($"For Service: {model.ForService}");
+                body.AppendLine($"For Group: {model.ForService}");
             }
 
             if (!string.IsNullOrWhiteSpace(model.ForWebSite) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.WebSiteSupport, StringComparison.OrdinalIgnoreCase))

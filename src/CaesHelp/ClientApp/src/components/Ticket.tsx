@@ -217,7 +217,7 @@ export default class Ticket extends React.Component<
           (!this.state.forService || !this.state.forService.trim())
         ) {
           valid = false;
-          errList.push('You must select a value for the service in question.');
+          errList.push('You must select a value for the Group above.');
         }
         break;
       case 'Web Site Support':
@@ -385,14 +385,14 @@ export default class Ticket extends React.Component<
           this.state.services.length > 0 && (
             <div>
               <div className='form-group'>
-                <label className='control-label'>For Service</label>
+                <label className='control-label'>For Group</label>
                 <select
                   name='forService'
                   className='form-control'
                   value={this.state.forService}
                   onChange={this.handleInputChange}
                 >
-                  <option value=''>--Select a Service--</option>
+                  <option value=''>--Select a Group--</option>
                   {this.state.services.map(service => (
                     <option key={service} value={service}>
                       {service}
