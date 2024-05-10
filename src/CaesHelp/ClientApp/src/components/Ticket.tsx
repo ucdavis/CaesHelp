@@ -526,6 +526,9 @@ export default class Ticket extends React.Component<
                 <option value='Finjector'>
                   Finjector - Aggie Enterprise Financial Account Picker
                 </option>
+                <option value='PolicyWonk'>
+                    Policy Wonk - Your UC Policy Expert
+                </option>
               </select>
             </div>
             {(this.state.forApplication === 'Peaks' ||
