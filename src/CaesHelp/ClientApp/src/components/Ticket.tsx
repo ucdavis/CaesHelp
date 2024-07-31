@@ -529,10 +529,11 @@ export default class Ticket extends React.Component<
                 <option value='PolicyWonk'>
                     Policy Wonk - Your UC Policy Expert
                 </option>
+                <option value='Sloth'>Sloth</option>
               </select>
             </div>
             {(this.state.forApplication === 'Peaks' ||
-              this.state.forApplication === 'Payments') && (
+              this.state.forApplication === 'Payments' || this.state.forApplication === 'Sloth') && (
               <div className='form-group'>
                 <label className='control-label'>What team is this for?</label>
                 <input
