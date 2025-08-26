@@ -246,6 +246,8 @@ namespace CaesHelp.Services
                 body.AppendLine("");
             }
 
+            body.AppendLine($"ServiceOffering: CAES General Services");
+
             body.AppendLine($"Original Subject: {model.Subject}");
             body.AppendLine($"Urgency Level: {model.UrgencyLevel}");
             body.AppendLine($"Support Department: {model.SupportDepartment}");
