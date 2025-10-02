@@ -623,6 +623,7 @@ export default class Ticket extends React.Component<
             className='form-control'
             value={this.state.message}
             onChange={this.handleInputChange}
+            rows={10}
           />
         </div>
 
