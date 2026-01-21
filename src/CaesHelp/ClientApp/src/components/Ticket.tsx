@@ -530,6 +530,8 @@ export default class Ticket extends React.Component<
                     Policy Wonk - Your UC Policy Expert
                 </option>
                 <option value='Sloth'>Sloth</option>
+                <option value='Walter'>Walter - All your reporting needs
+                </option>
               </select>
             </div>
             {(this.state.forApplication === 'Peaks' ||
