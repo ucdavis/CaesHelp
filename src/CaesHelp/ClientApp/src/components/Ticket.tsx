@@ -3,6 +3,7 @@ import ErrorList from '../components/ErrorList';
 import InputArray from '../components/InputArray';
 import validateEmail from '../util/email';
 import Dropzone from 'react-dropzone';
+import { applications } from '../data/applications';
 
 interface ITicketState {
   urgencyLevel: string;
@@ -492,50 +493,18 @@ export default class Ticket extends React.Component<
                 onChange={this.handleInputChange}
               >
                 <option value=''>--Select a Program--</option>
-                <option value='Academic Course Evaluations'>
-                  Academic Course Evaluations
-                </option>
-                <option value='AD419'>AD419</option>
-                <option value='Anlab'>Anlab (TOPS)</option>
-                <option value='Registration'>Registration</option>
-                <option value='Eat Fit'>Eat Fit</option>
-                <option value='Eligibility List'>Eligibility List</option>
-                <option value='Employee Salary Review Analysis'>
-                  Employee Salary Review Analysis
-                </option>
-                <option value='Fleece'>Fleece (Faculty Directory)</option>
-                <option value='Payments'>Payments</option>
-                <option value='Peaks'>Peaks</option>
-                <option value='PrePurchasing'>PrePurchasing</option>
-                <option value='PTF'>PTF</option>
-                <option value='Student Information Management System'>
-                  Student Information Management System
-                </option>
-                <option value='Subject To Dismissal'>
-                  Subject To Dismissal
-                </option>
-                <option value='TPS3'>TPS3</option>
-                <option value='Tacos'>Tacos</option>
-                <option value='WHO'>Who.ucdavis.edu</option>
-                <option value='Download'>download.ucdavis.edu</option>
-                <option value='Data Dictionary'>Data Dictionary</option>
-                <option value='Harvest'>Harvest</option>
-                <option value='Hippo'>
-                  Hippo - High Performance Personnel Onboarding
-                </option>
-                <option value='Finjector'>
-                  Finjector - Aggie Enterprise Financial Account Picker
-                </option>
-                <option value='PolicyWonk'>
-                    Policy Wonk - Your UC Policy Expert
-                </option>
-                <option value='Sloth'>Sloth</option>
-                <option value='Walter'>Walter - All your reporting needs
-                </option>
+                {applications
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map(app => (
+                    <option key={app.value} value={app.value}>
+                      {app.name}
+                    </option>
+                  ))}
               </select>
             </div>
             {(this.state.forApplication === 'Peaks' ||
-              this.state.forApplication === 'Payments' || this.state.forApplication === 'Sloth') && (
+              this.state.forApplication === 'Payments' ||
+              this.state.forApplication === 'Sloth') && (
               <div className='form-group'>
                 <label className='control-label'>What team is this for?</label>
                 <input
