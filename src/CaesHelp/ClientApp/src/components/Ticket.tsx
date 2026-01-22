@@ -493,11 +493,13 @@ export default class Ticket extends React.Component<
                 onChange={this.handleInputChange}
               >
                 <option value=''>--Select a Program--</option>
-                {applications.map(app => (
-                  <option key={app.value} value={app.value}>
-                    {app.name}
-                  </option>
-                ))}
+                {applications
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map(app => (
+                    <option key={app.value} value={app.value}>
+                      {app.name}
+                    </option>
+                  ))}
               </select>
             </div>
             {(this.state.forApplication === 'Peaks' ||
