@@ -3,7 +3,7 @@ import ErrorList from '../components/ErrorList';
 import InputArray from '../components/InputArray';
 import validateEmail from '../util/email';
 import Dropzone from 'react-dropzone';
-import { applications, applicationDisplayNames } from '../data/applications';
+import { applications } from '../data/applications';
 
 interface ITicketState {
   urgencyLevel: string;
@@ -494,8 +494,8 @@ export default class Ticket extends React.Component<
               >
                 <option value=''>--Select a Program--</option>
                 {applications.map(app => (
-                  <option key={app} value={app}>
-                    {applicationDisplayNames[app] || app}
+                  <option key={app.value} value={app.value}>
+                    {app.name}
                   </option>
                 ))}
               </select>
