@@ -23,7 +23,8 @@ export const applications = [
   'Finjector',
   'PolicyWonk',
   'Sloth',
-  'Walter'
+  'Walter',
+  'Readable'
 ];
 
 // Application display names (if different from value)
@@ -35,5 +36,6 @@ export const applicationDisplayNames: { [key: string]: string } = {
   Hippo: 'Hippo - High Performance Personnel Onboarding',
   Finjector: 'Finjector - Aggie Enterprise Financial Account Picker',
   PolicyWonk: 'Policy Wonk - Your UC Policy Expert',
-  Walter: 'Walter - All your reporting needs'
+  Walter: 'Walter - All your reporting needs',
+  Readable: 'Readable - PDF Accessibility'
 };
