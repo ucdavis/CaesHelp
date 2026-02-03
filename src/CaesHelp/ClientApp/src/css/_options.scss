@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "dependencies";
+
 // Gradient Banner //
 .head_bleed {
   background: #1e3a5b;
@@ -15,306 +18,306 @@
 }
 .color-workaround-available {
   select#urgency-input {
-    background-color: transparentize($golden-lupine,0.75);
-    border:solid 2px $golden-lupine;
+    background-color: color.adjust(dependencies.$golden-lupine,$alpha: -0.75);
+    border:solid 2px dependencies.$golden-lupine;
   }
   .form-control:focus {
-    border-color: transparentize($golden-lupine,0.50);
-    box-shadow: 0 0 0 0.1rem transparentize($golden-lupine,0.50);
+    border-color: color.adjust(dependencies.$golden-lupine,$alpha: -0.50);
+    box-shadow: 0 0 0 0.1rem color.adjust(dependencies.$golden-lupine,$alpha: -0.50);
   }
   .btn-primary {
-    background-color:transparentize($golden-lupine,0.05);
-    border-color:$golden-lupine;
+    background-color:color.adjust(dependencies.$golden-lupine,$alpha: -0.05);
+    border-color:dependencies.$golden-lupine;
     &:hover {
-      background-color:transparentize($golden-lupine,0.02);
+      background-color:color.adjust(dependencies.$golden-lupine,$alpha: -0.02);
       }
     }
     .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
-      background-color: $golden-lupine;
-      border-color: $golden-lupine;
+      background-color: dependencies.$golden-lupine;
+      border-color: dependencies.$golden-lupine;
     }
     .input-group-append {
       .fa {
-        color:$golden-lupine;
+        color:dependencies.$golden-lupine;
       }
       .btn {
-        background-color: transparentize($golden-lupine,0.90);
+        background-color: color.adjust(dependencies.$golden-lupine,$alpha: -0.90);
       }
     }
     .upload-file div:focus {
-      outline-color: transparentize($golden-lupine,0.50);
+      outline-color: color.adjust(dependencies.$golden-lupine,$alpha: -0.50);
     }
 }
 .color-non-critical-issue {
   select#urgency-input {
-    background-color: transparentize($sky-blue,0.75);
-    border:solid 2px $sky-blue;
+    background-color: color.adjust(dependencies.$sky-blue,$alpha: -0.75);
+    border:solid 2px dependencies.$sky-blue;
   }
   .form-control:focus {
-    border-color: transparentize($sky-blue,0.50);
-    box-shadow: 0 0 0 0.1rem transparentize($sky-blue,0.50);
+    border-color: color.adjust(dependencies.$sky-blue,$alpha: -0.50);
+    box-shadow: 0 0 0 0.1rem color.adjust(dependencies.$sky-blue,$alpha: -0.50);
   }
   .btn-primary {
-    background-color:transparentize($sky-blue,0.15);
-    border-color:$sky-blue;
+    background-color:color.adjust(dependencies.$sky-blue,$alpha: -0.15);
+    border-color:dependencies.$sky-blue;
     &:hover {
-      background-color:transparentize($sky-blue,0.05);
+      background-color:color.adjust(dependencies.$sky-blue,$alpha: -0.05);
       }
     }
     .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
-      background-color: $sky-blue;
-      border-color: $sky-blue;
+      background-color: dependencies.$sky-blue;
+      border-color: dependencies.$sky-blue;
     }
     .input-group-append {
       .fa {
-        color:$sky-blue;
+        color:dependencies.$sky-blue;
       }
       .btn {
-        background-color: transparentize($sky-blue,0.90);
+        background-color: color.adjust(dependencies.$sky-blue,$alpha: -0.90);
       }
     }
     .upload-file div:focus {
-      outline-color: transparentize($sky-blue,0.50);
+      outline-color: color.adjust(dependencies.$sky-blue,$alpha: -0.50);
     }
 }
 .color-scheduled-requests {
   select#urgency-input {
-    background-color: transparentize($sunny-grass,0.75);
-    border:solid 2px $sunny-grass;
+    background-color: color.adjust(dependencies.$sunny-grass,$alpha: -0.75);
+    border:solid 2px dependencies.$sunny-grass;
   }
   .form-control:focus {
-    border-color: transparentize($sunny-grass,0.50);
-    box-shadow: 0 0 0 0.1rem transparentize($sunny-grass,0.50);
+    border-color: color.adjust(dependencies.$sunny-grass,$alpha: -0.50);
+    box-shadow: 0 0 0 0.1rem color.adjust(dependencies.$sunny-grass,$alpha: -0.50);
   }
   .btn-primary {
-    background-color:transparentize($sunny-grass,0.15);
-    border-color:$sunny-grass;
+    background-color:color.adjust(dependencies.$sunny-grass,$alpha: -0.15);
+    border-color:dependencies.$sunny-grass;
     &:hover {
-      background-color:transparentize($sunny-grass,0.05);
+      background-color:color.adjust(dependencies.$sunny-grass,$alpha: -0.05);
       }
     }
     .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
-      background-color: $sunny-grass;
-      border-color: $sunny-grass;
+      background-color: dependencies.$sunny-grass;
+      border-color: dependencies.$sunny-grass;
     }
     .input-group-append {
       .fa {
-        color:$sunny-grass;
+        color:dependencies.$sunny-grass;
       }
       .btn {
-        background-color: transparentize($sunny-grass,0.60);
+        background-color: color.adjust(dependencies.$sunny-grass,$alpha: -0.60);
       }
     }
     .upload-file div:focus {
-      outline-color: transparentize($sunny-grass,0.50);
+      outline-color: color.adjust(dependencies.$sunny-grass,$alpha: -0.50);
     }
 }
 .color-work-stoppage {
   select#urgency-input {
-    background-color: transparentize($california-poppy,0.75);
-    border:solid 2px $california-poppy;
+    background-color: color.adjust(dependencies.$california-poppy,$alpha: -0.75);
+    border:solid 2px dependencies.$california-poppy;
   }
   .form-control:focus {
-    border-color: transparentize($california-poppy,0.50);
-    box-shadow: 0 0 0 0.1rem transparentize($california-poppy,0.50);
+    border-color: color.adjust(dependencies.$california-poppy,$alpha: -0.50);
+    box-shadow: 0 0 0 0.1rem color.adjust(dependencies.$california-poppy,$alpha: -0.50);
   }
   .btn-primary {
-    background-color:transparentize($california-poppy,0.15);
-    border-color:$california-poppy;
+    background-color:color.adjust(dependencies.$california-poppy,$alpha: -0.15);
+    border-color:dependencies.$california-poppy;
     &:hover {
-      background-color:transparentize($california-poppy,0.05);
+      background-color:color.adjust(dependencies.$california-poppy,$alpha: -0.05);
       }
     }
     .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
-      background-color: $california-poppy;
-      border-color: $california-poppy;
+      background-color: dependencies.$california-poppy;
+      border-color: dependencies.$california-poppy;
     }
     .input-group-append {
       .fa {
-        color:$california-poppy;
+        color:dependencies.$california-poppy;
       }
       .btn {
-        background-color: transparentize($california-poppy,0.90);
+        background-color: color.adjust(dependencies.$california-poppy,$alpha: -0.90);
       }
     }
     .upload-file div:focus {
-      outline-color: transparentize($california-poppy,0.50);
+      outline-color: color.adjust(dependencies.$california-poppy,$alpha: -0.50);
     }
 }
 .color-critical {
   select#urgency-input {
-    background-color: transparentize($unitrans-red,0.75);
-    border:solid 2px $unitrans-red;
+    background-color: color.adjust(dependencies.$unitrans-red,$alpha: -0.75);
+    border:solid 2px dependencies.$unitrans-red;
   }
   .form-control:focus {
-    border-color: transparentize($unitrans-red,0.50);
-    box-shadow: 0 0 0 0.1rem transparentize($unitrans-red,0.50);
+    border-color: color.adjust(dependencies.$unitrans-red,$alpha: -0.50);
+    box-shadow: 0 0 0 0.1rem color.adjust(dependencies.$unitrans-red,$alpha: -0.50);
   }
   .btn-primary {
-    background-color:transparentize($unitrans-red,0.15);
-    border-color:$unitrans-red;
+    background-color:color.adjust(dependencies.$unitrans-red,$alpha: -0.15);
+    border-color:dependencies.$unitrans-red;
     &:hover {
-      background-color:transparentize($unitrans-red,0.05);
+      background-color:color.adjust(dependencies.$unitrans-red,$alpha: -0.05);
       }
     }
     .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
-      background-color: $unitrans-red;
-      border-color: $unitrans-red;
+      background-color: dependencies.$unitrans-red;
+      border-color: dependencies.$unitrans-red;
     }
     .input-group-append {
       .fa {
-        color:$unitrans-red;
+        color:dependencies.$unitrans-red;
       }
       .btn {
-        background-color: transparentize($unitrans-red,0.90);
+        background-color: color.adjust(dependencies.$unitrans-red,$alpha: -0.90);
       }
     }
     .upload-file div:focus {
-      outline-color: transparentize($unitrans-red,0.50);
+      outline-color: color.adjust(dependencies.$unitrans-red,$alpha: -0.50);
     }
 }
 // Backgrounds //
 .bg-ucd-blue {
-  background-color:$ucd-blue;
+  background-color:dependencies.$ucd-blue;
 }
 .bg-ucd-gold {
-  background-color:$ucd-gold;
+  background-color:dependencies.$ucd-gold;
 }
 .bg-unitrans-red {
-  background-color: $unitrans-red;
+  background-color: dependencies.$unitrans-red;
 }
 .bg-western-redbud {
-  background-color:$western-redbud;
+  background-color:dependencies.$western-redbud;
 }
 .bg-california-poppy{
-  background-color: $california-poppy;
+  background-color: dependencies.$california-poppy;
 }
 .bg-sunny-grass {
-  background-color: $sunny-grass;
+  background-color: dependencies.$sunny-grass;
 }
 .bg-golden-lupine {
-  background-color: $golden-lupine;
+  background-color: dependencies.$golden-lupine;
 }
 .bg-sky-blue {
-  background-color: $sky-blue;
+  background-color: dependencies.$sky-blue;
 }
 .bg-recpool-blue {
-  background-color: $recpool-blue;
+  background-color: dependencies.$recpool-blue;
 }
 .bg-wine-grape {
-  background-color: $wine-grape;
+  background-color: dependencies.$wine-grape;
 }
 
 // Colors //
 .color-ucd-blue {
-  color:$ucd-blue;
+  color:dependencies.$ucd-blue;
 }
 .color-ucd-gold {
-  color:$ucd-gold;
+  color:dependencies.$ucd-gold;
 }
 .color-unitrans-red {
-  color: $unitrans-red;
+  color: dependencies.$unitrans-red;
 }
 .color-western-redbud {
-  color:$western-redbud;
+  color:dependencies.$western-redbud;
 }
 .color-california-poppy{
-  color: $california-poppy;
+  color: dependencies.$california-poppy;
 }
 .color-sunny-grass {
-  color: $sunny-grass;
+  color: dependencies.$sunny-grass;
 }
 .color-golden-lupine {
-  color: $golden-lupine;
+  color: dependencies.$golden-lupine;
 }
 .color-sky-blue {
-  color: $sky-blue;
+  color: dependencies.$sky-blue;
 }
 .color-recpool-blue {
-  color: $recpool-blue;
+  color: dependencies.$recpool-blue;
 }
 .color-wine-grape {
-  color: $wine-grape;
+  color: dependencies.$wine-grape;
 }
 .primary-color {
-  color: $primary-color;
+  color: dependencies.$primary-color;
 }
 .secondary-color {
-  color: $secondary-color;
+  color: dependencies.$secondary-color;
 }
 .a-color {
-  color: $a-link;
+  color: dependencies.$a-link;
 }
 .primary-font {
-  color: $primary-font;
+  color: dependencies.$primary-font;
 }
 .secondary-font {
-  color: $secondary-font;
+  color: dependencies.$secondary-font;
 }
 .tertiary-font {
-  color: $tertiary-font;
+  color: dependencies.$tertiary-font;
 }
 
 // Border Colors //
 .border-ucd-blue {
-  border-color:$ucd-blue;
+  border-color:dependencies.$ucd-blue;
 }
 .border-ucd-gold {
-  border-color:$ucd-gold;
+  border-color:dependencies.$ucd-gold;
 }
 .border-unitrans-red {
-  border-color: $unitrans-red;
+  border-color: dependencies.$unitrans-red;
 }
 .border-western-redbud {
-  border-color:$western-redbud;
+  border-color:dependencies.$western-redbud;
 }
 .border-california-poppy{
-  border-color: $california-poppy;
+  border-color: dependencies.$california-poppy;
 }
 .border-sunny-grass {
-  border-color: $sunny-grass;
+  border-color: dependencies.$sunny-grass;
 }
 .border-golden-lupine {
-  border-color: $golden-lupine;
+  border-color: dependencies.$golden-lupine;
 }
 .border-sky-blue {
-  border-color: $sky-blue;
+  border-color: dependencies.$sky-blue;
 }
 .border-recpool-blue {
-  border-color: $recpool-blue;
+  border-color: dependencies.$recpool-blue;
 }
 .border-wine-grape {
-  border-color: $wine-grape;
+  border-color: dependencies.$wine-grape;
 }
 .color-unitrans-red {
-  color:$unitrans-red;
+  color:dependencies.$unitrans-red;
 }
 .btn-primary {
-  background-color:$ucd-blue;
-  border-color:$ucd-blue;
-  font-family: $sans-bold;
+  background-color:dependencies.$ucd-blue;
+  border-color:dependencies.$ucd-blue;
+  font-family: dependencies.$sans-bold;
   font-size:1.6rem;
 }
 // Font Families
 .sans-bold {
-  font-family: $sans-bold;
+  font-family: dependencies.$sans-bold;
 }
 .sans-reg {
-  font-family: $sans-reg;
+  font-family: dependencies.$sans-reg;
 }
 .was-validated .form-control:invalid, .form-control.is-invalid, .invalid-feedback {
-  color:$unitrans-red;
+  color:dependencies.$unitrans-red;
 }
 .was-validated .form-control:invalid, .form-control.is-invalid {
-  border-color:$unitrans-red;
+  border-color:dependencies.$unitrans-red;
 }
 .form-control:disabled {
-  background-color:$bg-color;
-  color:$tertiary-font;
-  border:1px solid $borders;
+  background-color:dependencies.$bg-color;
+  color:dependencies.$tertiary-font;
+  border:1px solid dependencies.$borders;
   &:hover {
-    background-color:$bg-color;
-    color:$tertiary-font;
-    border:1px solid $borders;
+    background-color:dependencies.$bg-color;
+    color:dependencies.$tertiary-font;
+    border:1px solid dependencies.$borders;
   }
 }
