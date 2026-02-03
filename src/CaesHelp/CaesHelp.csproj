@@ -15,7 +15,7 @@
     <PackageReference Include="AspNetCore.Security.CAS" Version="2.0.5" />
     <PackageReference Include="ietws" Version="0.2.12" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
-    <PackageReference Include="MvCReact" Version="1.0.1" />
+    <PackageReference Include="MvCReact" Version="2.4.10" />
   </ItemGroup>
 
   <ItemGroup>

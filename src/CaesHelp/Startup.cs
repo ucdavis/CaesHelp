@@ -102,7 +102,10 @@ namespace CaesHelp
 
             services.AddMvc();
 
-            services.AddMvcReact();
+            services.AddViteServices(options =>
+            {
+                options.DevServerScheme = "http";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
