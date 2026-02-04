@@ -5,7 +5,7 @@
   "scripts": {
     "start": "npx kill-port 5173 && echo Starting the development server && vite",
     "build": "vite build",
-    "postbuild": "cp build/assets/index-*.css ../wwwroot/css/mainjcs.css",
+    "postbuild": "cp build/assets/index-*.css ../wwwroot/css/mainjcs.css && cp -r build/assets ../wwwroot/",
     "lint": "eslint ClientApp --ext .tsx,.ts,.js,.jsx"
   },
   "repository": {
