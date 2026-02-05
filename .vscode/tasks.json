@@ -14,6 +14,24 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "build-client-app",
+      "type": "shell",
+      "command": "npm run build",
+      "options": {
+        "cwd": "${workspaceFolder}/src/CaesHelp/ClientApp"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build-with-client",
+      "dependsOn": [
+        "build-client-app",
+        "build"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
       "label": "publish",
       "command": "dotnet",
       "type": "process",
