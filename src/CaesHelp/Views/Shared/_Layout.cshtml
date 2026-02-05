@@ -19,6 +19,8 @@
         <!-- <link rel="stylesheet" href="https://ucdcdn.azureedge.net/public/ucdavis.1.0.7.css" /> -->
     </environment>
 
+    @* In a production deployment, we will use a dynamic view component to load the generated styles *@
+    <react-styles />
 
     @RenderSection("Styles", required: false)
 </head>
@@ -95,5 +97,8 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+
+    @* In a production deployment, we will use a dynamic view component to load the generated scripts *@
+    <react-scripts />
 </body>
 </html>

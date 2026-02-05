@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "dependencies";
+
 html {
   height:100%;
 
@@ -18,17 +21,17 @@ background: linear-gradient(180deg, rgba(248,249,251,1) 0%, rgba(255,255,255,1) 
 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f8f9fb",endColorstr="#ffffff",GradientType=1);
 }
 header {
-  background: url("/media/caes-circles.svg") center top/cover no-repeat;
+  background: url("../media/caes-circles.svg") center top/cover no-repeat;
   padding-top:10.5%;
   background-size:50%;
   padding-bottom:5%;
-@include breakpoint(xl) {
+@include dependencies.breakpoint(xl) {
   background-size: 70%;
 }
-@include breakpoint(lg) {
+@include dependencies.breakpoint(lg) {
   background-size:80%;
 }
-@include breakpoint(md) {
+@include dependencies.breakpoint(md) {
   background-size:95%;
 }
   margin-top:-1rem;
@@ -44,11 +47,11 @@ footer {
 .input-group-append {
   .fa {
     padding-top:1.3rem;
-    color:$sky-blue;
+    color:dependencies.$sky-blue;
   }
   .btn {
-    background-color:transparentize($sky-blue,0.95);
-    border-color:$borders;
+    background-color:color.adjust(dependencies.$sky-blue,$alpha: -0.95);
+    border-color:dependencies.$borders;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
   }
@@ -58,16 +61,16 @@ footer {
 }
 .upload-file {
   border-radius:2px;
-  border:1px solid $borders;
-  background-color:$bg-color;
+  border:1px solid dependencies.$borders;
+  background-color:dependencies.$bg-color;
   // div:focus {
   //   outline-width:2px;
   // }
   .d-flex {
     padding:4px 0px;
     &:focus {
-      border-color:$borders;
-      box-shadow: 0 0 0 0.1rem transparentize($unitrans-red,0.50);
+      border-color:dependencies.$borders;
+      box-shadow: 0 0 0 0.1rem color.adjust(dependencies.$unitrans-red,$alpha: -0.50);
     }
   }
 }

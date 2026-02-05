@@ -3,12 +3,9 @@
   "version": "2.0.0",
   "description": "CAES Help Requests",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "debug": "ASPNETCORE_ENVIRONMENT=Development dotnet watch run",
-    "devpack": "set NODE_OPTIONS=--openssl-legacy-provider && webpack-dev-server --config webpack.config.js --hot",
-    "webpack": "node node_modules/webpack/bin/webpack.js --env.dev --watch",
+    "start": "npx kill-port 5173 && echo Starting the development server && vite",
+    "build": "vite build",
+    "postbuild": "cp build/assets/index-*.css ../wwwroot/css/mainjcs.css && cp -r build/assets ../wwwroot/",
     "lint": "eslint ClientApp --ext .tsx,.ts,.js,.jsx"
   },
   "repository": {
@@ -23,28 +20,23 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-dropzone": "^11.0.1",
-    "react-scripts": "5.0.1"
+    "react-dropzone": "^11.0.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
     "@types/jquery": "^3.3.36",
-    "@types/node": "^16.18.31",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "@types/ws": "^8.5.4",
+    "@vitejs/plugin-react": "^5.1.2",
     "eslint-config-react-app": "^7.0.1",
     "file-loader": "^6.0.0",
-    "isomorphic-fetch": "2.2.1",
-    "sass": "^1.62.1"
+    "jsdom": "^25.0.0",
+    "sass": "^1.62.1",
+    "vite": "^7.3.1"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ],
     "rules": {
       "no-restricted-globals": "warn"
@@ -56,7 +48,7 @@
     "not op_mini all"
   ],
   "engines": {
-    "npm": ">=9.5.1",
-    "node": ">=18.16.0"
+    "npm": ">=10.9.3",
+    "node": ">=22.20.0"
   }
 }

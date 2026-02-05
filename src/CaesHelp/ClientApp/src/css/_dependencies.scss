@@ -1,19 +1,20 @@
+@use "sass:color";
 // fonts
 @font-face {
     font-family: 'proxima-nova-r';
-    src: url('/media/fonts/proximanova-regular-webfont.woff') format('woff');
+    src: url('../media/fonts/proximanova-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'proxima-nova-i';
-    src: url('/media/fonts/proximanova-regularit-webfont.woff') format('woff');
+    src: url('../media/fonts/proximanova-regularit-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'proxima-nova-b';
-    src: url('/media/fonts/proximanova-bold-webfont.woff') format('woff');
+    src: url('../media/fonts/proximanova-bold-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -25,7 +26,7 @@ $sans-reg:      "proxima-nova-r",sans-serif;
 $primary-color:     #1D3B5C;
 $secondary-color:   #004987;
 
-$a-link:            transparentize($primary-color, .2);
+$a-link:            color.adjust($primary-color, $alpha: -.2);
 
 $primary-font: rgba(31,31,31,.99); //
 $secondary-font: rgba(31,31,31,.66); //
@@ -124,13 +125,13 @@ $shingle-brown: #4f2c1d;
   font-family: $sans-bold;
   &:active,
   &:focus {
-    background-color: darken($primary-color, 5);
+    background-color: color.adjust($primary-color, $lightness: -5);
   }
   &:hover {
     color: #fff !important;
     transform: translateY(-1px);
     box-shadow: 0 -3px 0 rgba(0, 0, 0, 0.15) inset, 0 3px 6px rgba(0,0,0,.08);
-    background-color: lighten($primary-color, 5);
+    background-color: color.adjust($primary-color, $lightness: 5);
   }
 }
 
