@@ -298,8 +298,11 @@ export default class Ticket extends React.Component<
             value={this.props.antiForgeryToken}
           />
           <div className='form-group'>
-            <label className='control-label'>Submitter Email</label>
+            <label htmlFor='submitter-email' className='control-label'>
+              Submitter Email
+            </label>
             <input
+              id='submitter-email'
               type='text'
               name='submitter-email'
               className='form-control'
@@ -309,7 +312,7 @@ export default class Ticket extends React.Component<
           </div>
           {this.props.onlyShowAppSupport && <div>{this.props.appName}</div>}
           <div className='form-group'>
-            <label className='control-label'>
+            <label className='control-label' htmlFor='urgency-input'>
               Urgency{' '}
               <i
                 className='far fa-question-circle'
@@ -318,30 +321,28 @@ export default class Ticket extends React.Component<
                 data-placement='auto'
                 title='<b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person.'
               />
-              <select
-                name='urgencyLevel'
-                id='urgency-input'
-                className={`form-control ${this._makeClassName(
-                  'color',
-                  this.state.urgencyLevel
-                )}`}
-                value={this.state.urgencyLevel}
-                onChange={this.handleInputChange}
-              >
-                <option className='noncrit' value='Non-Critical Issue'>
-                  Non-Critical Issue
-                </option>
-                <option value='Scheduled Requests'>Scheduled Requests</option>
-                <option value='Workaround Available'>
-                  Workaround Available
-                </option>
-                <option value='Work Stoppage'>Work Stoppage</option>
-                <option value='Critical'>Critical</option>
-              </select>
             </label>
+            <select
+              name='urgencyLevel'
+              id='urgency-input'
+              className={`form-control ${this._makeClassName(
+                'color',
+                this.state.urgencyLevel
+              )}`}
+              value={this.state.urgencyLevel}
+              onChange={this.handleInputChange}
+            >
+              <option className='noncrit' value='Non-Critical Issue'>
+                Non-Critical Issue
+              </option>
+              <option value='Scheduled Requests'>Scheduled Requests</option>
+              <option value='Workaround Available'>Workaround Available</option>
+              <option value='Work Stoppage'>Work Stoppage</option>
+              <option value='Critical'>Critical</option>
+            </select>
           </div>
           <div className='form-group'>
-            <label className='control-label'>
+            <label className='control-label' htmlFor='support-department-input'>
               Support Department{' '}
               <i
                 className='far fa-question-circle'
@@ -350,19 +351,20 @@ export default class Ticket extends React.Component<
                 data-placement='auto'
                 title={titleToUse}
               />
-              <select
-                name='supportDepartment'
-                className='form-control'
-                value={this.state.supportDepartment}
-                onChange={this.handleInputChange}
-                disabled={this.props.onlyShowAppSupport}
-              >
-                <option value=''>--Select a Support Department--</option>
-                <option value='Computer Support'>Computer Support</option>
-                <option value='Web Site Support'>Web Site Support</option>
-                <option value='Programming Support'>Programming Support</option>
-              </select>
             </label>
+            <select
+              name='supportDepartment'
+              id='support-department-input'
+              className='form-control'
+              value={this.state.supportDepartment}
+              onChange={this.handleInputChange}
+              disabled={this.props.onlyShowAppSupport}
+            >
+              <option value=''>--Select a Support Department--</option>
+              <option value='Computer Support'>Computer Support</option>
+              <option value='Web Site Support'>Web Site Support</option>
+              <option value='Programming Support'>Programming Support</option>
+            </select>
 
             {this.props.onlyShowAppSupport && (
               <input
@@ -389,10 +391,13 @@ export default class Ticket extends React.Component<
           this.state.services.length > 0 && (
             <div>
               <div className='form-group'>
-                <label className='control-label'>For Group</label>
+                <label htmlFor='for-service-input' className='control-label'>
+                  For Group
+                </label>
                 <select
                   name='forService'
                   className='form-control'
+                  id='for-service-input'
                   value={this.state.forService}
                   onChange={this.handleInputChange}
                 >
@@ -409,7 +414,7 @@ export default class Ticket extends React.Component<
         {this.state.supportDepartment === 'Computer Support' && (
           <div>
             <div className='form-group'>
-              <label className='control-label'>
+              <label className='control-label' htmlFor='phone-input'>
                 Your Phone Number{' '}
                 <i
                   className='far fa-question-circle'
@@ -420,6 +425,7 @@ export default class Ticket extends React.Component<
               </label>
               <input
                 type='text'
+                id='phone-input'
                 name='phone'
                 className='form-control'
                 value={this.state.phone}
@@ -427,7 +433,7 @@ export default class Ticket extends React.Component<
               />
             </div>
             <div className='form-group'>
-              <label className='control-label'>
+              <label className='control-label' htmlFor='location-input'>
                 Location{' '}
                 <i
                   className='far fa-question-circle'
@@ -437,6 +443,7 @@ export default class Ticket extends React.Component<
                 />
               </label>
               <input
+                id='location-input'
                 type='text'
                 name='location'
                 className='form-control'
@@ -464,7 +471,7 @@ export default class Ticket extends React.Component<
 
         {this.state.supportDepartment === 'Web Site Support' && (
           <div className='form-group'>
-            <label className='control-label'>
+            <label htmlFor='for-website-input' className='control-label'>
               For Website{' '}
               <i
                 className='far fa-question-circle'
@@ -475,6 +482,7 @@ export default class Ticket extends React.Component<
               />
             </label>
             <input
+              id='for-website-input'
               required={true}
               type='text'
               name='forWebSite'
@@ -488,9 +496,12 @@ export default class Ticket extends React.Component<
         {this.state.supportDepartment === 'Programming Support' && (
           <div>
             <div className='form-group'>
-              <label className='control-label'>For Application</label>
+              <label htmlFor='for-app' className='control-label'>
+                For Application
+              </label>
               <select
                 name='forApplication'
+                id='for-app'
                 className='form-control'
                 value={this.state.forApplication}
                 onChange={this.handleInputChange}
@@ -579,30 +590,32 @@ export default class Ticket extends React.Component<
           )}
         </div>
         <div className='form-group'>
-          <label className='control-label'>
+          <label htmlFor='input-subject' className='control-label'>
             Subject
-            <input
-              required={true}
-              type='text'
-              name='subject'
-              className='form-control'
-              value={this.state.subject}
-              onChange={this.handleInputChange}
-            />
           </label>
+          <input
+            required={true}
+            type='text'
+            id='input-subject'
+            name='subject'
+            className='form-control'
+            value={this.state.subject}
+            onChange={this.handleInputChange}
+          />
         </div>
         <div className='form-group'>
-          <label className='control-label'>
+          <label htmlFor='input-message' className='control-label'>
             Message
-            <textarea
-              required={true}
-              name='message'
-              className='form-control'
-              value={this.state.message}
-              onChange={this.handleInputChange}
-              rows={10}
-            />
           </label>
+          <textarea
+            required={true}
+            id='input-message'
+            name='message'
+            className='form-control'
+            value={this.state.message}
+            onChange={this.handleInputChange}
+            rows={10}
+          />
         </div>
 
         {this.state.showErrors && !this.state.validState && (
