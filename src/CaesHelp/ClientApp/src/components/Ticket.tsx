@@ -280,8 +280,8 @@ export default class Ticket extends React.Component<
       >
         <h3>Ticket Information</h3>
         <p>
-          Hail friend, please use the below forms to seek help with your College
-          of Agricultural and Environmental Sciences Dean’s Office Computer
+          Hello, please use the below forms to seek help with your College of
+          Agricultural and Environmental Sciences Dean’s Office Computer
           Resources Unit question.{' '}
         </p>
 
@@ -318,25 +318,27 @@ export default class Ticket extends React.Component<
                 data-placement='auto'
                 title='<b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person.'
               />
+              <select
+                name='urgencyLevel'
+                id='urgency-input'
+                className={`form-control ${this._makeClassName(
+                  'color',
+                  this.state.urgencyLevel
+                )}`}
+                value={this.state.urgencyLevel}
+                onChange={this.handleInputChange}
+              >
+                <option className='noncrit' value='Non-Critical Issue'>
+                  Non-Critical Issue
+                </option>
+                <option value='Scheduled Requests'>Scheduled Requests</option>
+                <option value='Workaround Available'>
+                  Workaround Available
+                </option>
+                <option value='Work Stoppage'>Work Stoppage</option>
+                <option value='Critical'>Critical</option>
+              </select>
             </label>
-            <select
-              name='urgencyLevel'
-              id='urgency-input'
-              className={`form-control ${this._makeClassName(
-                'color',
-                this.state.urgencyLevel
-              )}`}
-              value={this.state.urgencyLevel}
-              onChange={this.handleInputChange}
-            >
-              <option className='noncrit' value='Non-Critical Issue'>
-                Non-Critical Issue
-              </option>
-              <option value='Scheduled Requests'>Scheduled Requests</option>
-              <option value='Workaround Available'>Workaround Available</option>
-              <option value='Work Stoppage'>Work Stoppage</option>
-              <option value='Critical'>Critical</option>
-            </select>
           </div>
           <div className='form-group'>
             <label className='control-label'>
@@ -348,19 +350,20 @@ export default class Ticket extends React.Component<
                 data-placement='auto'
                 title={titleToUse}
               />
+              <select
+                name='supportDepartment'
+                className='form-control'
+                value={this.state.supportDepartment}
+                onChange={this.handleInputChange}
+                disabled={this.props.onlyShowAppSupport}
+              >
+                <option value=''>--Select a Support Department--</option>
+                <option value='Computer Support'>Computer Support</option>
+                <option value='Web Site Support'>Web Site Support</option>
+                <option value='Programming Support'>Programming Support</option>
+              </select>
             </label>
-            <select
-              name='supportDepartment'
-              className='form-control'
-              value={this.state.supportDepartment}
-              onChange={this.handleInputChange}
-              disabled={this.props.onlyShowAppSupport}
-            >
-              <option value=''>--Select a Support Department--</option>
-              <option value='Computer Support'>Computer Support</option>
-              <option value='Web Site Support'>Web Site Support</option>
-              <option value='Programming Support'>Programming Support</option>
-            </select>
+
             {this.props.onlyShowAppSupport && (
               <input
                 type='hidden'
@@ -576,26 +579,30 @@ export default class Ticket extends React.Component<
           )}
         </div>
         <div className='form-group'>
-          <label className='control-label'>Subject</label>
-          <input
-            required={true}
-            type='text'
-            name='subject'
-            className='form-control'
-            value={this.state.subject}
-            onChange={this.handleInputChange}
-          />
+          <label className='control-label'>
+            Subject
+            <input
+              required={true}
+              type='text'
+              name='subject'
+              className='form-control'
+              value={this.state.subject}
+              onChange={this.handleInputChange}
+            />
+          </label>
         </div>
         <div className='form-group'>
-          <label className='control-label'>Message</label>
-          <textarea
-            required={true}
-            name='message'
-            className='form-control'
-            value={this.state.message}
-            onChange={this.handleInputChange}
-            rows={10}
-          />
+          <label className='control-label'>
+            Message
+            <textarea
+              required={true}
+              name='message'
+              className='form-control'
+              value={this.state.message}
+              onChange={this.handleInputChange}
+              rows={10}
+            />
+          </label>
         </div>
 
         {this.state.showErrors && !this.state.validState && (

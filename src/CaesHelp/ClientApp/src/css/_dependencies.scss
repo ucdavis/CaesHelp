@@ -1,51 +1,54 @@
-@use "sass:color";
+@use 'sass:color';
 // fonts
 @font-face {
-    font-family: 'proxima-nova-r';
-    src: url('../media/fonts/proximanova-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'proxima-nova-r';
+  src: url('../media/fonts/proximanova-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 @font-face {
-    font-family: 'proxima-nova-i';
-    src: url('../media/fonts/proximanova-regularit-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'proxima-nova-i';
+  src: url('../media/fonts/proximanova-regularit-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 @font-face {
-    font-family: 'proxima-nova-b';
-    src: url('../media/fonts/proximanova-bold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'proxima-nova-b';
+  src: url('../media/fonts/proximanova-bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
-$sans-italic:   "proxima-nova-i",sans-serif;
-$sans-bold:     "proxima-nova-b",sans-serif;
-$sans-reg:      "proxima-nova-r",sans-serif;
+$sans-italic: 'proxima-nova-i', sans-serif;
+$sans-bold: 'proxima-nova-b', sans-serif;
+$sans-reg: 'proxima-nova-r', sans-serif;
 
-$primary-color:     #1D3B5C;
-$secondary-color:   #004987;
+$primary-color: #1d3b5c;
+$secondary-color: #004987;
 
-$a-link:            color.adjust($primary-color, $alpha: -.2);
+$a-link: color.adjust($primary-color, $alpha: -0.2);
 
-$primary-font: rgba(31,31,31,.99); //
-$secondary-font: rgba(31,31,31,.66); //
-$tertiary-font: rgba(31,31,31,.40); //
+$primary-font: rgba(31, 31, 31, 0.99); //
+$secondary-font: rgba(31, 31, 31, 0.8); //
+$tertiary-font: rgba(31, 31, 31, 0.7); //
 
-$box-shadow: 0 0 0 1px rgba(49,49,93,.03), 0 2px 5px 0 rgba(49,49,93,.1), 0 1px 2px 0 rgba(0,0,0,.08);
+$box-shadow:
+  0 0 0 1px rgba(49, 49, 93, 0.03),
+  0 2px 5px 0 rgba(49, 49, 93, 0.1),
+  0 1px 2px 0 rgba(0, 0, 0, 0.08);
 
-$bg-color: #F8F9FB; // background
+$bg-color: #f8f9fb; // background
 $borders: #ced4da; // border color
 
 // UC Davis Colors
 // Supplemental bright color palette for UC Davis
 
-$ucd-blue:#1D4A83;
-$ucd-gold:#D2AC39;
+$ucd-blue: #1d4a83;
+$ucd-gold: #d2ac39;
 $unitrans-red: #ba0c2f;
 $western-redbud: #c6007e;
 $california-poppy: #ed8800;
-$golden-lupine: #ffcd00;
+$golden-lupine: #cd9400;
 $sunny-grass: #78be20;
 $sky-blue: #00b5e2;
 $recpool-blue: #008eaa;
@@ -62,40 +65,40 @@ $shingle-brown: #4f2c1d;
 
 // Layouts
 @mixin breakpoint($point) {
-    @if $point==sm {
-        @media (max-width: 576px) {
-            @content ;
-        }
+  @if $point==sm {
+    @media (max-width: 576px) {
+      @content;
     }
-    @if $point==xsm {
-        @media (max-width: 575px) {
-            @content ;
-        }
+  }
+  @if $point==xsm {
+    @media (max-width: 575px) {
+      @content;
     }
-    @if $point==md {
-        @media (max-width: 768px) {
-            @content ;
-        }
+  }
+  @if $point==md {
+    @media (max-width: 768px) {
+      @content;
     }
-    @if $point==lg {
-        @media (max-width: 992px) {
-            @content ;
-        }
+  }
+  @if $point==lg {
+    @media (max-width: 992px) {
+      @content;
     }
-    @if $point==xl {
-        @media (max-width: 1200px) {
-            @content ;
-        }
+  }
+  @if $point==xl {
+    @media (max-width: 1200px) {
+      @content;
     }
+  }
 }
 .container {
   padding: 0;
   width: 80%;
-  max-width:660px;
-  @include breakpoint (sm) {
+  max-width: 660px;
+  @include breakpoint(sm) {
     width: 95%;
   }
-  @include breakpoint (md) {
+  @include breakpoint(md) {
     width: 90%;
   }
   @include breakpoint(lg) {
@@ -104,17 +107,19 @@ $shingle-brown: #4f2c1d;
 }
 
 @mixin fader {
-  -o-transition:.25s;
-  -ms-transition:.25s;
-  -moz-transition:.25s;
-  -webkit-transition:.25s;
+  -o-transition: 0.25s;
+  -ms-transition: 0.25s;
+  -moz-transition: 0.25s;
+  -webkit-transition: 0.25s;
   /* ...and now for the proper property */
-  transition:.25s;
+  transition: 0.25s;
 }
 @mixin main-btn {
   white-space: nowrap;
   display: inline-block;
-  box-shadow: 0 -3px 0 rgba(0, 0, 0, 0.15) inset, 0 1px 3px rgba(0,0,0,.08);
+  box-shadow:
+    0 -3px 0 rgba(0, 0, 0, 0.15) inset,
+    0 1px 3px rgba(0, 0, 0, 0.08);
   background: $primary-color;
   border-radius: 2px;
   letter-spacing: 0.025em;
@@ -130,7 +135,9 @@ $shingle-brown: #4f2c1d;
   &:hover {
     color: #fff !important;
     transform: translateY(-1px);
-    box-shadow: 0 -3px 0 rgba(0, 0, 0, 0.15) inset, 0 3px 6px rgba(0,0,0,.08);
+    box-shadow:
+      0 -3px 0 rgba(0, 0, 0, 0.15) inset,
+      0 3px 6px rgba(0, 0, 0, 0.08);
     background-color: color.adjust($primary-color, $lightness: 5);
   }
 }
