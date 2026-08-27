@@ -33,5 +33,6 @@ export const applications = [
   { name: 'Policy Wonk - Your UC Policy Expert', value: 'PolicyWonk' },
   { name: 'Sloth', value: 'Sloth' },
   { name: 'Walter - All your reporting needs', value: 'Walter' },
-  { name: 'Readable - PDF Accessibility', value: 'Readable' }
+  { name: 'Readable - PDF Accessibility', value: 'Readable' },
+  { name: 'Leaves', value: 'Leaves' }
 ];
