@@ -1,4 +1,11 @@
-﻿@using CaesHelp.Extensions
+@using CaesHelp.Extensions
+@using System.Reflection
+@{
+    var applicationVersion = typeof(Program).Assembly
+        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+        .InformationalVersion?
+        .Split('+')[0];
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,13 +81,10 @@
         The Regents of the University of California, Davis campus. All rights reserved.
           <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </span>
-
-
-
-
-
-
-
+    @if (!string.IsNullOrWhiteSpace(applicationVersion))
+    {
+        <span class="discreet d-block mt-1" title="Application version">v@(applicationVersion)</span>
+    }
     </footer>
 
 
