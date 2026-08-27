@@ -28,7 +28,7 @@ steps:
     zipAfterPublish: false
     modifyOutputPath: false
     projects: './src/CaesHelp/CaesHelp.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory) -p:InformationalVersion=$(Build.BuildNumber)'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
