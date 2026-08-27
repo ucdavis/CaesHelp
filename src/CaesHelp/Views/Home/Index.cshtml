@@ -31,7 +31,9 @@
 
 @section Scripts
 {
-    <react-scripts />
+    <environment names="Staging,Production">
+        @await Component.InvokeAsync("DynamicScripts")
+    </environment>
     <script type="text/javascript">
         $('body').tooltip({
             selector: '[data-toggle="tooltip"]'

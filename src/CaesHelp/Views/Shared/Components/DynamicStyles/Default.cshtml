@@ -2,5 +2,6 @@
 
 @foreach (var style in Model)
 {
-    @Html.Raw(style)
+    var styleUrl = Url.Content($"~/{style}");
+    <link rel="stylesheet" href="@styleUrl" />
 }

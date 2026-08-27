@@ -10,6 +10,7 @@ export default defineConfig(async ({ mode }) => {
         publicDir: "public",
         build: {
             outDir: "build",
+            manifest: "vite-manifest.json",
             rollupOptions: {
                 input: "src/index.tsx",
             },

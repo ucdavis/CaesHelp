@@ -1,6 +1,7 @@
-@model CaesHelp.Views.Shared.Components.DynamicScripts.DynamicScriptModel
+@model string[]
 
-@foreach (var script in Model.Scripts)
+@foreach (var script in Model)
 {
-    @Html.Raw(script)
+    var scriptUrl = Url.Content($"~/{script}");
+    <script src="@scriptUrl" type="module"></script>
 }

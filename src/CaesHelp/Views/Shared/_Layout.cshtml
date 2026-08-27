@@ -1,4 +1,4 @@
-@using CaesHelp.Extensions
+﻿@using CaesHelp.Extensions
 @using System.Reflection
 @{
     var applicationVersion = typeof(Program).Assembly
@@ -26,8 +26,12 @@
         <!-- <link rel="stylesheet" href="https://ucdcdn.azureedge.net/public/ucdavis.1.0.7.css" /> -->
     </environment>
 
-    @* In a production deployment, we will use a dynamic view component to load the generated styles *@
-    <react-styles />
+    <environment names="Development">
+        <react-styles />
+    </environment>
+    <environment names="Staging,Production">
+        @await Component.InvokeAsync("DynamicStyles")
+    </environment>
 
     @RenderSection("Styles", required: false)
 </head>
@@ -102,7 +106,8 @@
 
     @RenderSection("Scripts", required: false)
 
-    @* In a production deployment, we will use a dynamic view component to load the generated scripts *@
-    <react-scripts />
+    <environment names="Development">
+        <react-scripts />
+    </environment>
 </body>
 </html>
