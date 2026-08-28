@@ -25,7 +25,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: True
-    zipAfterPublish: false
+    zipAfterPublish: true
     modifyOutputPath: false
     projects: './src/CaesHelp/CaesHelp.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
