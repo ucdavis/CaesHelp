@@ -4,9 +4,7 @@
   "description": "CAES Help Requests",
   "scripts": {
     "start": "npx kill-port 5173 && echo Starting the development server && vite",
-    "build": "vite build",
-    "postbuild": "cp build/assets/index-*.css ../wwwroot/css/mainjcs.css && cp -r build/assets ../wwwroot/",
-    "lint": "eslint ClientApp --ext .tsx,.ts,.js,.jsx"
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
@@ -28,19 +26,9 @@
     "@types/react-dom": "^18.2.4",
     "@types/ws": "^8.5.4",
     "@vitejs/plugin-react": "^5.1.2",
-    "eslint-config-react-app": "^7.0.1",
-    "file-loader": "^6.0.0",
     "jsdom": "^25.0.0",
     "sass": "^1.62.1",
     "vite": "^7.3.1"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ],
-    "rules": {
-      "no-restricted-globals": "warn"
-    }
   },
   "browserslist": [
     ">0.2%",

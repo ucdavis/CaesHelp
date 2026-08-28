@@ -19,7 +19,6 @@
         <!-- <link rel="stylesheet" href="https://ucdcdn.azureedge.net/public/ucdavis.1.0.7.css" /> -->
     </environment>
 
-    @* In a production deployment, we will use a dynamic view component to load the generated styles *@
     <react-styles />
 
     @RenderSection("Styles", required: false)
@@ -96,9 +95,8 @@
         <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </environment>
 
-    @RenderSection("Scripts", required: false)
-
-    @* In a production deployment, we will use a dynamic view component to load the generated scripts *@
     <react-scripts />
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
