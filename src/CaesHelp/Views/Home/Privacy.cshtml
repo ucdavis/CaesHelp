@@ -1,8 +1,24 @@
 ﻿@{
     ViewData["Title"] = "CAES Help - Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
+<section class="privacy-policy" aria-labelledby="privacy-policy-title">
+    <div class="privacy-policy__icon" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="36" height="36" fill="none" focusable="false">
+            <path d="M24 5 9 11v12c0 10 15 20 15 20s15-10 15-20V11L24 5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+            <path d="m17 23 5 5 9-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </div>
+    <h2 id="privacy-policy-title">Privacy policy</h2>
 
-<p>We lookup your information in the campus IAM service to email a support ticket on your behalf.</p>
+    <div class="privacy-policy__details">
+        <h3>How we use your information</h3>
+        <p>We look up your information in the campus IAM service to email a support ticket on your behalf.</p>
+    </div>
 
-<div class="text-center"> <a asp-action="Index" class="btn btn-primary">Back to the Help Page</a></div>
+    <a asp-action="Index" class="privacy-policy__action">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" focusable="false">
+            <path d="M19 12H5m6-6-6 6 6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Back to the help page
+    </a>
+</section>
