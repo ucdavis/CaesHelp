@@ -10,6 +10,8 @@ namespace CaesHelp.Models
         public static class SupportDepartment
         {
             public const string ComputerSupport = "Computer Support";
+            public const string AudiovisualSupport = "Audiovisual Support";
+            public const string ComputerLabSupport = "Computer Lab Support";
             public const string WebSiteSupport = "Web Site Support";
             public const string ProgrammingSupport = "Programming Support";
         }
