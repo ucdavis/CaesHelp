@@ -221,6 +221,9 @@ export default class Ticket extends React.Component<
           errList.push('You must select a value for the Group above.');
         }
         break;
+      case 'Audiovisual Support':
+      case 'Computer Lab Support':
+        break;
       case 'Web Site Support':
         if (!this.state.forWebSite || !this.state.forWebSite.trim()) {
           valid = false;
@@ -362,6 +365,8 @@ export default class Ticket extends React.Component<
             >
               <option value=''>--Select a Support Department--</option>
               <option value='Computer Support'>Computer Support</option>
+              <option value='Audiovisual Support'>Audiovisual Support</option>
+              <option value='Computer Lab Support'>Computer Lab Support</option>
               <option value='Web Site Support'>Web Site Support</option>
               <option value='Programming Support'>Programming Support</option>
             </select>
@@ -384,6 +389,11 @@ export default class Ticket extends React.Component<
     if (!this.state.supportDepartment) {
       return null;
     }
+    const showComputerSupportFields =
+      this.state.supportDepartment === 'Computer Support' ||
+      this.state.supportDepartment === 'Audiovisual Support' ||
+      this.state.supportDepartment === 'Computer Lab Support';
+
     return (
       <div>
         <hr />
@@ -411,7 +421,7 @@ export default class Ticket extends React.Component<
               </div>
             </div>
           )}
-        {this.state.supportDepartment === 'Computer Support' && (
+        {showComputerSupportFields && (
           <div>
             <div className='form-group'>
               <label className='control-label' htmlFor='phone-input'>
@@ -454,7 +464,7 @@ export default class Ticket extends React.Component<
           </div>
         )}
         {this.state.supportDepartment === 'Web Site Support' ||
-          (this.state.supportDepartment === 'Computer Support' && (
+          (showComputerSupportFields && (
             <div className='form-group'>
               <label className='control-label'>Available Dates and Times</label>
               <InputArray

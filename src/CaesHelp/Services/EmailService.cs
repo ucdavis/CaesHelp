@@ -38,14 +38,11 @@ namespace CaesHelp.Services
             "OGSWeb@caes.ucdavis.edu",
             "WebRequests@caes.ucdavis.edu",
             "support@caes.ucdavis.edu",
+            "avhelp@caes.ucdavis.edu",
             "lab-support@caes.ucdavis.edu",
+            "onepassword@ucdavis.edu",
             "lab-reservations@caes.ucdavis.edu",
             "ithelp@ucdavis.edu",
-            "shuka@ucdavis.edu",
-            "shuka@caes.ucdavis.edu",
-            "smith@caes.ucdavis.edu",
-            "ssmith@ucdavis.edu",
-            "ssmith@caes.ucdavis.edu",
         };
 
         public EmailService(IOptions<EmailSettings> emailSettings, IOptions<ComputerSupport> computerSupport)
@@ -91,6 +88,12 @@ namespace CaesHelp.Services
                     {
                         message.To.Add(_emailSettings.ComputerSupportEmail);
                     }
+                    break;
+                case StaticValues.SupportDepartment.AudiovisualSupport:
+                    message.To.Add(_emailSettings.AudiovisualSupportEmail);
+                    break;
+                case StaticValues.SupportDepartment.ComputerLabSupport:
+                    message.To.Add(_emailSettings.ComputerLabSupportEmail);
                     break;
                 case StaticValues.SupportDepartment.WebSiteSupport:
                     message.To.Add(_emailSettings.WebSupportEmail);
@@ -223,6 +226,10 @@ namespace CaesHelp.Services
         private string BuildBody(TicketPostModel model, bool unknownSupportDept)
         {
             var body = new StringBuilder();
+            var includeComputerSupportFields =
+                string.Equals(model.SupportDepartment, StaticValues.SupportDepartment.ComputerSupport, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(model.SupportDepartment, StaticValues.SupportDepartment.AudiovisualSupport, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(model.SupportDepartment, StaticValues.SupportDepartment.ComputerLabSupport, StringComparison.OrdinalIgnoreCase);
             if (unknownSupportDept)
             {
                 body.AppendLine("Unknown Support Department Detected!!!");
@@ -279,11 +286,11 @@ namespace CaesHelp.Services
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(model.Phone) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.ComputerSupport, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(model.Phone) && includeComputerSupportFields)
             {
                 body.AppendLine($"Contact Phone Number : {model.Phone}");
             }
-            if (!string.IsNullOrWhiteSpace(model.Location) && model.SupportDepartment.Equals(StaticValues.SupportDepartment.ComputerSupport, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(model.Location) && includeComputerSupportFields)
             {
                 body.AppendLine($"Location: {model.Location}");
             }

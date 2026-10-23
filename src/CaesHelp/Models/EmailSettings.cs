@@ -16,5 +16,7 @@ namespace CaesHelp.Models
         public string AppSupportEmail { get; set; }
         public string WebSupportEmail { get; set; }
         public string ComputerSupportEmail { get; set; }
+        public string AudiovisualSupportEmail { get; set; }
+        public string ComputerLabSupportEmail { get; set; }
     }
 }
